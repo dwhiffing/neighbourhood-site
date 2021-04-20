@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouteData } from 'react-static'
 //
-import { Link } from 'components/Router'
+import { Link } from '@reach/router'
 
 export default function Blog() {
-  const { posts } = useRouteData()
+  const [posts, setPosts] = useState([])
+  const { posts: routePosts } = useRouteData()
+  useEffect(() => {
+    if (routePosts?.length > 0) setPosts(routePosts)
+  }, [routePosts])
   return (
     <div>
       <h1>It's blog time.</h1>
@@ -16,7 +20,7 @@ export default function Blog() {
       <br />
       All Posts:
       <ul>
-        {posts.map(post => (
+        {posts?.map((post) => (
           <li key={post.id}>
             <Link to={`/blog/post/${post.id}/`}>{post.title}</Link>
           </li>

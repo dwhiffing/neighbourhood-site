@@ -4,7 +4,7 @@ import axios from 'axios'
 export default {
   getRoutes: async () => {
     const { data: posts } = await axios.get(
-      'https://jsonplaceholder.typicode.com/posts'
+      'https://jsonplaceholder.typicode.com/posts',
     )
 
     return [
@@ -13,7 +13,7 @@ export default {
         getData: () => ({
           posts,
         }),
-        children: posts.map(post => ({
+        children: posts.map((post) => ({
           path: `/post/${post.id}`,
           template: 'src/containers/Post',
           getData: () => ({

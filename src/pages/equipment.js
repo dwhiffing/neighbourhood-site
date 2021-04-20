@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default () => (
-  <div>
-    <h1>404</h1>
+  <div style={{ minHeight: 1000 }}>
+    <p>Equipment</p>
   </div>
 )
