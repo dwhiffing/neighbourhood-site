@@ -24,9 +24,9 @@ if (typeof document !== 'undefined') {
 
   render(App)
 
-  if (module && module.hot) {
-    module.hot.accept('./App', () => {
-      render(App)
-    })
-  }
+  // if (module && module.hot) {
+  //   module.hot.accept('./App', () => {
+  //     render(App)
+  //   })
+  // }
 }
