@@ -14,7 +14,7 @@ const AccordionItem = ({ children, route, routePath }) => (
   <>
     <Link to={route}>
       <motion.header initial={false}>
-        <span>{route}</span>
+        <h2>{route}</h2>
       </motion.header>
     </Link>
     <AnimatePresence initial={false}>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from '@reach/router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTES } from '../constants'
-import neighbourhoodLogo from '../assets/logo2.png'
+import neighbourhoodLogo from '../assets/logo.png'
 
 export const Grid = ({ routePath, children }) => {
   const routeIndex = APP_ROUTES.findIndex((r) => r === routePath)
@@ -14,7 +14,7 @@ export const Grid = ({ routePath, children }) => {
       <motion.div
         className="grid"
         initial={false}
-        animate={{ height: `${topSize}vh` }}
+        animate={{ height: `${topSize}vh`, minHeight: 90 }}
       >
         {APP_ROUTES.slice(0, 3).map((route) => (
           <GridItem routePath={routePath} route={route}>
@@ -25,7 +25,7 @@ export const Grid = ({ routePath, children }) => {
       <motion.div
         className="grid"
         initial={false}
-        animate={{ height: `${bottomSize}vh` }}
+        animate={{ height: `${bottomSize}vh`, minHeight: 90 }}
       >
         {APP_ROUTES.slice(3).map((route) => (
           <GridItem routePath={routePath} route={route}>
@@ -44,9 +44,10 @@ const GridItem = ({ children, route, routePath }) => {
 
   if (routeIndex === 0) size = '33.3333'
   const activeRoute = routeIndex === 0 || route === routePath
-  const linkStyle = activeRoute
-    ? {}
-    : { position: 'absolute', top: 8, left: 8, right: 8, bottom: 8 }
+  const linkStyle =
+    route === routePath
+      ? { pointerEvents: 'none' }
+      : { position: 'absolute', top: 8, left: 8, right: 8, bottom: 8 }
 
   const result = (
     <AnimatePresence initial={false}>
@@ -56,7 +57,9 @@ const GridItem = ({ children, route, routePath }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          {route !== routePath && <span>{route}</span>}
+          {route !== routePath && (
+            <h2>{route[0].toUpperCase() + route.slice(1)}</h2>
+          )}
           <AnimatePresence initial={false}>
             {route === routePath ? (
               <motion.div
@@ -79,7 +82,8 @@ const GridItem = ({ children, route, routePath }) => {
         className="grid-item"
         animate={{
           width: `${size}vw`,
-          height: `100%`,
+          minWidth: 90,
+          minHeight: 90,
           overflowY: route === routePath && route !== '/' ? 'scroll' : 'hidden',
           overflowX: 'hidden',
         }}
@@ -89,16 +93,12 @@ const GridItem = ({ children, route, routePath }) => {
           <img
             alt="Neighbourhood Studios"
             src={neighbourhoodLogo}
-            style={{ height: 60, maxWidth: 'none' }}
+            style={{ height: 46, maxWidth: 'none', position: 'absolute' }}
           />
         ) : null}
-        {route === routePath ? (
-          result
-        ) : (
-          <Link style={linkStyle} to={route}>
-            {result}
-          </Link>
-        )}
+
+        {result}
+        <Link style={linkStyle} to={route} />
       </motion.div>
     </>
   )

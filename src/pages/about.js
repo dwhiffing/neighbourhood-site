@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteData } from 'react-static'
 
-import { BLOCKS, MARKS } from '@contentful/rich-text-types'
+import { BLOCKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { BasePage } from '../components/BasePage'
 
 const About = () => {
   const [data, setData] = useState([])
@@ -12,9 +13,11 @@ const About = () => {
   }, [about])
 
   return (
-    <div style={{ minHeight: 1000 }}>
-      <AboutItem data={data} />
-    </div>
+    <BasePage links={[{ href: '#', label: 'About' }]}>
+      {data?.map((data) => {
+        return <AboutItem data={data} />
+      })}
+    </BasePage>
   )
 }
 

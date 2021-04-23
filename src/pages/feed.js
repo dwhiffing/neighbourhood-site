@@ -1,7 +1,4 @@
 import React from 'react'
+import { BasePage } from '../components/BasePage'
 
-export default () => (
-  <div style={{ minHeight: 1000 }}>
-    <p>Feed</p>
-  </div>
-)
+export default () => <BasePage heading="Feed"></BasePage>
