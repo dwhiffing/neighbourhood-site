@@ -13,6 +13,11 @@ const plugins = [{
         hooks: plugin0({})
       },
 {
+        location: "__react_static_root__/node_modules/react-static-plugin-tailwindcss",
+        plugins: [],
+        hooks: {}
+      },
+{
         location: "__react_static_root__/node_modules/react-static-plugin-sitemap/dist",
         plugins: [],
         hooks: {}
