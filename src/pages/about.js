@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteData } from 'react-static'
 
-import { BLOCKS } from '@contentful/rich-text-types'
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BasePage } from '../components/BasePage'
+import { RichTextItem } from '../components/RichTextItem'
 
 const About = () => {
   const [data, setData] = useState([])
@@ -22,18 +21,7 @@ const About = () => {
 }
 
 const AboutItem = ({ data }) => {
-  return documentToReactComponents(data?.content, dtrOptions)
+  return <RichTextItem content={data?.content} />
 }
 
 export default About
-
-const dtrOptions = {
-  renderNode: {
-    [BLOCKS.EMBEDDED_ASSET]: (node) => (
-      <img
-        src={node.data?.target?.fields?.file?.url}
-        alt={node.data?.target?.fields?.title}
-      />
-    ),
-  },
-}

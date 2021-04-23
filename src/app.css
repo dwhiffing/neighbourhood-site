@@ -6,7 +6,7 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 * {
@@ -30,7 +30,6 @@ a.link:hover {
 
 .grid-item {
   box-sizing: border-box;
-  padding: 20px 25px;
   border-right: 1px solid #004225;
   border-bottom: 1px solid #004225;
   position: relative;

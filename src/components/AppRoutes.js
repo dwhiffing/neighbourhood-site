@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Routes } from 'react-static'
 import { Router } from '@reach/router'
 import { Grid } from './Grid'
 import { Accordion } from './Accordion'
+import { useIsMobile } from '../useIsMobile'
 
 export const AppRoutes = () => {
-  const [width, setWidth] = useState(window ? window.innerWidth : 0)
-
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  const isMobile = useIsMobile()
 
   return (
     <Router>
@@ -20,10 +15,10 @@ export const AppRoutes = () => {
         render={({ routePath, getComponentForPath }) => {
           const element = getComponentForPath(routePath)
 
-          return width > 850 ? (
-            <Grid routePath={routePath}>{element}</Grid>
-          ) : (
+          return isMobile ? (
             <Accordion routePath={routePath}>{element}</Accordion>
+          ) : (
+            <Grid routePath={routePath}>{element}</Grid>
           )
         }}
       />

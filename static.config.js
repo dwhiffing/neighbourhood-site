@@ -1,10 +1,19 @@
 import path from 'path'
-import { getStudios, getAbout } from './src/contentful'
+import {
+  getStudios,
+  getAbout,
+  getFeed,
+  getEquipment,
+  getFaq,
+} from './src/contentful'
 
 const config = {
   getRoutes: async () => {
     const studios = await getStudios()
     const about = await getAbout()
+    const faq = await getFaq()
+    const feed = await getFeed()
+    const equipment = await getEquipment()
 
     return [
       {
@@ -14,6 +23,18 @@ const config = {
       {
         path: '/about',
         getData: () => ({ about }),
+      },
+      {
+        path: '/feed',
+        getData: () => ({ feed }),
+      },
+      {
+        path: '/equipment',
+        getData: () => ({ equipment }),
+      },
+      {
+        path: '/',
+        getData: () => ({ faq }),
       },
     ]
   },
