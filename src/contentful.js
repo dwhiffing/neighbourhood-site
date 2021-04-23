@@ -20,16 +20,79 @@ export const getAbout = () => getEntriesByType('about')
 export const getFaq = () => getEntriesByType('faq')
 
 export const getFeed = async () => {
-  const response = await fetch(
+  const _images = await fetch(
     'https://api.are.na/v2/channels/heat-iq9mikkaxpm?per=24',
   )
-  const response2 = await fetch(
+  const _posts = await fetch(
     'https://api.are.na/v2/channels/memory-dkh65nqsv8i?per=24',
   )
-  // console.log(response, response2)
-  return []
+  const images = await _images.json()
+  const posts = await _posts.json()
+
+  return [...images.contents, ...posts.contents]
 }
 
 export const getEquipment = () => {
-  return []
+  return [
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+    {
+      name: 'B10 PLUS',
+      brand: 'Profoto',
+      category: 'Lighting',
+      image: 'https://i.ibb.co/nRb2tks/placeholder.png',
+    },
+  ]
 }

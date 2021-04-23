@@ -25,7 +25,7 @@ function FAQBall(props) {
       transition={{
         repeat: Infinity,
         repeatType: 'reverse',
-        duration: 5,
+        duration: 10,
         type: 'tween',
         ease: 'linear',
       }}
