@@ -15,7 +15,12 @@ const AccordionItem = ({ children, route, routePath }) => {
   return (
     <>
       <Link to={route}>
-        <motion.h2 initial={false} className="p-5 border-b border-green">
+        <h2
+          initial={false}
+          className={`p-5 border-green ${
+            route === routePath && route !== '/' ? '' : 'border-b'
+          }`}
+        >
           {route !== '/' ? (
             route[0].toUpperCase() + route.slice(1)
           ) : (
@@ -25,27 +30,25 @@ const AccordionItem = ({ children, route, routePath }) => {
               style={{ height: 52, marginTop: 10 }}
             />
           )}
-        </motion.h2>
+        </h2>
       </Link>
 
-      <AnimatePresence>
-        {routePath === route && children && (
-          <motion.section
-            key="content"
-            className="px-5"
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            variants={{
-              open: { opacity: 1, height: 'auto' },
-              collapsed: { opacity: 0, height: 0 },
-            }}
-            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-          >
-            {children}
-          </motion.section>
-        )}
-      </AnimatePresence>
+      {routePath === route && children && (
+        <section
+          key="content"
+          className="px-5"
+          initial="collapsed"
+          animate="open"
+          exit="collapsed"
+          variants={{
+            open: { opacity: 1, height: 'auto' },
+            collapsed: { opacity: 0, height: 0 },
+          }}
+          transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+        >
+          {children}
+        </section>
+      )}
     </>
   )
 }

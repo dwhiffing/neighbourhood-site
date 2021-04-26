@@ -9,6 +9,21 @@ body {
   overflow-x: hidden;
 }
 
+@font-face {
+  font-family: GT Super Text;
+  src: url('./assets/fonts/GTSuperText.otf');
+}
+
+@font-face {
+  font-family: GT Super Display;
+  src: url('./assets/fonts/GTSuperDisplay.otf');
+}
+
+@font-face {
+  font-family: GT America;
+  src: url('./assets/fonts/GTAmerica.otf');
+}
+
 :root {
   --scrollbar-size: 0;
   --scrollbar-minlength: 1.5rem;

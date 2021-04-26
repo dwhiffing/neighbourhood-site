@@ -38,7 +38,7 @@ const Equipment = () => {
     <BasePage linkComponent={<EquipmentSidebar {...sidebarProps} />}>
       <div className="relative">
         <button
-          className="absolute top-0 right-0"
+          className="absolute top-0 right-0 mt-3"
           onClick={() => setCartOpen(true)}
         >
           {cart.length} Items
@@ -50,10 +50,11 @@ const Equipment = () => {
           setShowModal={setCartOpen}
           onRemove={(item) => setCart((c) => c.filter((i) => i !== item))}
         />
-        <div className="pt-14 flex flex-wrap">
-          {data?.map((item) => (
+        <div className="pt-14 flex flex-wrap justify-center">
+          {data?.map((item, index) => (
             <EquipmentItem
               item={item}
+              index={index}
               onAdd={() => setCart((c) => [...c, item])}
             />
           ))}
@@ -65,9 +66,12 @@ const Equipment = () => {
 
 export default Equipment
 
-const EquipmentItem = ({ item, onAdd }) => {
+const EquipmentItem = ({ item, index, onAdd }) => {
   return (
-    <div className="mr-4 mb-8" style={{ flex: '43% 0 1' }}>
+    <div
+      className={`${index % 2 === 0 ? 'mr-4' : ''} mb-8`}
+      style={{ flex: '43% 0 1' }}
+    >
       <img src={item.image} alt={item.name} />
       <p>{item.brand}</p>
       <h2>{item.name}</h2>
