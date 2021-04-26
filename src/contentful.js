@@ -14,6 +14,16 @@ export const getEntriesByType = async (type) => {
   return response.items.map((i) => i.fields)
 }
 
+// TODO: Loading should be static version of root
+// TODO: Prevent sections from scaling when animating
+// TODO: Clicking other sections when focused on a section should always take you home
+// TODO: max width 750px BasePage
+// TODO: hide all scroll bars
+// TODO: close modals when clicking background
+// TODO: remove scale animation for main content
+// TODO: Studio tags needs to be links
+// TODO: FAQ needs to embed anchor tags and have fixed sidebar
+
 export const getStudios = () => getEntriesByType('studio')
 
 export const getAbout = () => getEntriesByType('about')
