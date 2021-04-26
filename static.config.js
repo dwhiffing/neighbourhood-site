@@ -11,7 +11,6 @@ const config = {
   getRoutes: async () => {
     const studios = await getStudios()
     const about = await getAbout()
-    const faq = await getFaq()
     const feed = await getFeed()
     const equipment = await getEquipment()
 
@@ -32,11 +31,11 @@ const config = {
         path: '/equipment',
         getData: () => ({ equipment }),
       },
-      {
-        path: '/',
-        getData: () => ({ faq }),
-      },
     ]
+  },
+  getSiteData: async () => {
+    const faq = await getFaq()
+    return faq
   },
   plugins: [
     [

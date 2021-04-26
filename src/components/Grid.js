@@ -62,38 +62,29 @@ const GridItem = ({ children, route, routePath }) => {
     route === routePath || (route === '/' && routePath === 'faq')
 
   const result = (
-    <AnimatePresence initial={false}>
-      {activeRoute && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {!renderChildren && (
-            <h2>{route[0].toUpperCase() + route.slice(1)}</h2>
-          )}
-          <AnimatePresence initial={false}>
-            {renderChildren ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                {children}
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </motion.div>
-      )}
+    <AnimatePresence>
+      {activeRoute ? (
+        renderChildren ? (
+          <motion.div
+            style={{ minWidth: renderChildren ? '80vw' : '' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {children}
+          </motion.div>
+        ) : (
+          <h2>{route[0].toUpperCase() + route.slice(1)}</h2>
+        )
+      ) : null}
     </AnimatePresence>
   )
 
   return (
     <>
       <motion.div
-        className="grid-item"
+        className="grid-item layout-scrollbar"
         animate={{
-          padding: route === '/' ? 0 : '14px 25px',
           width: `${size}vw`,
           minWidth: 90,
           minHeight: 90,
@@ -118,7 +109,7 @@ const GridItem = ({ children, route, routePath }) => {
         ) : null}
 
         {result}
-        <Link style={linkStyle} to={route} />
+        <Link style={linkStyle} to={routePath === '/' ? route : '/'} />
       </motion.div>
     </>
   )

@@ -9,5 +9,5 @@ export const useIsMobile = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  return width <= 850
+  return width <= 900
 }

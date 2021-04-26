@@ -9,6 +9,53 @@ body {
   overflow-x: hidden;
 }
 
+:root {
+  --scrollbar-size: 0;
+  --scrollbar-minlength: 1.5rem;
+  --scrollbar-ff-width: thin;
+  --scrollbar-track-color: transparent;
+  --scrollbar-color: transparent;
+  --scrollbar-color-hover: transparent;
+  --scrollbar-color-active: transparent;
+}
+
+.layout-scrollbar {
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  scrollbar-width: var(--scrollbar-ff-width);
+  scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
+}
+
+.layout-scrollbar::-webkit-scrollbar {
+  height: var(--scrollbar-size);
+  width: var(--scrollbar-size);
+}
+
+.layout-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+}
+
+.layout-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+  border-radius: 3px;
+}
+
+.layout-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-color-hover);
+}
+
+.layout-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-color-active);
+}
+
+.layout-scrollbar::-webkit-scrollbar-thumb:vertical {
+  min-height: var(--scrollbar-minlength);
+}
+
+.layout-scrollbar::-webkit-scrollbar-thumb:horizontal {
+  min-width: var(--scrollbar-minlength);
+}
+
 * {
   scroll-behavior: smooth;
 }
@@ -30,6 +77,7 @@ a.link:hover {
 }
 
 .grid-item {
+  padding: 14px 25px;
   box-sizing: border-box;
   border-right: 1px solid #004225;
   border-bottom: 1px solid #004225;

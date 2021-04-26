@@ -1,13 +1,15 @@
 import React from 'react'
-import { Routes } from 'react-static'
+import { Routes, useSiteData } from 'react-static'
 import { Router } from '@reach/router'
 import { Grid } from './Grid'
 import { Accordion } from './Accordion'
 import { useIsMobile } from '../useIsMobile'
 import Index from '../pages/index'
+import { FAQContainer } from './FAQContainer'
 
 export const AppRoutes = () => {
   const isMobile = useIsMobile()
+  const data = useSiteData()
 
   return (
     <Router>
@@ -16,10 +18,15 @@ export const AppRoutes = () => {
         render={({ routePath, getComponentForPath }) => {
           const element = getComponentForPath(routePath)
 
-          return isMobile ? (
-            <Accordion routePath={routePath}>{element}</Accordion>
-          ) : (
-            <Grid routePath={routePath}>{element}</Grid>
+          return (
+            <div>
+              {isMobile ? (
+                <Accordion routePath={routePath}>{element}</Accordion>
+              ) : (
+                <Grid routePath={routePath}>{element}</Grid>
+              )}
+              <FAQContainer data={data} />
+            </div>
           )
         }}
       />

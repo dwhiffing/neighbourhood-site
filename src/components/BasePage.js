@@ -27,14 +27,10 @@ export const BasePage = ({
           </div>
         ))}
 
-      <div
-        className="flex-1"
-        style={{
-          paddingLeft: isMobile ? 20 : 230,
-          paddingRight: isMobile ? 20 : 230,
-        }}
-      >
-        {children}
+      <div className="flex flex-1 justify-center">
+        <div className="layout-scrollbar max-w-3xl lg:ml-40  xl:ml-0">
+          {children}
+        </div>
       </div>
     </div>
   )

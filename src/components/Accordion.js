@@ -23,6 +23,7 @@ const AccordionItem = ({ children, route, routePath }) => {
         {routePath === route && (
           <motion.section
             key="content"
+            className="px-5"
             initial="collapsed"
             animate="open"
             exit="collapsed"
