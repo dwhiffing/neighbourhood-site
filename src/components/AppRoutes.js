@@ -25,7 +25,7 @@ export const AppRoutes = () => {
               ) : (
                 <Grid routePath={routePath}>{element}</Grid>
               )}
-              <FAQContainer data={data} />
+              <FAQContainer data={data} showBall={routePath === '/'} />
             </div>
           )
         }}
@@ -38,7 +38,7 @@ export const Loading = () => {
   const isMobile = useIsMobile()
 
   return isMobile ? (
-    <Accordion routePath="/">{Index}</Accordion>
+    <Accordion routePath="/">{<Index />}</Accordion>
   ) : (
     <Grid routePath="/">{Index}</Grid>
   )

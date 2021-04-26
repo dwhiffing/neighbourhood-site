@@ -2,10 +2,11 @@ import React from 'react'
 import { Link } from '@reach/router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTE_TILES } from '../constants'
+import logo from '../assets/logo2.png'
 
 export const Accordion = ({ routePath, children }) =>
-  APP_ROUTE_TILES.map((route) => (
-    <AccordionItem routePath={routePath} route={route}>
+  APP_ROUTE_TILES.map((route, index) => (
+    <AccordionItem key={`route-${index}`} routePath={routePath} route={route}>
       {children}
     </AccordionItem>
   ))
@@ -15,12 +16,20 @@ const AccordionItem = ({ children, route, routePath }) => {
     <>
       <Link to={route}>
         <motion.h2 initial={false} className="p-5 border-b border-green">
-          {route[0].toUpperCase() + route.slice(1)}
+          {route !== '/' ? (
+            route[0].toUpperCase() + route.slice(1)
+          ) : (
+            <img
+              alt="Neighbourhood Studios"
+              src={logo}
+              style={{ height: 52, marginTop: 10 }}
+            />
+          )}
         </motion.h2>
       </Link>
 
-      <AnimatePresence initial={false}>
-        {routePath === route && (
+      <AnimatePresence>
+        {routePath === route && children && (
           <motion.section
             key="content"
             className="px-5"

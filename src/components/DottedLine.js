@@ -3,7 +3,7 @@ import React from 'react'
 export const DottedLine = ({ style = {}, ...props }) => (
   <div
     {...props}
-    className="w-full"
+    className={`w-full ${props.className}`}
     style={{
       height: 1,
       backgroundImage:

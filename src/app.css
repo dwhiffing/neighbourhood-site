@@ -187,32 +187,35 @@ input {
   border: 1px solid #004225;
 }
 
-.faq-modal h2 {
+.rich-content h2 {
   font-family: GT Super Text;
 }
 
-.faq-modal h1,
-.faq-modal h2,
-.faq-modal p {
+.rich-content h1,
+.rich-content h2,
+.rich-content p {
   margin: 20px 0;
 }
 
-.faq-modal li {
+li {
   list-style-type: disc;
-}
-
-.faq-modal li p {
   margin-bottom: 5px;
 }
 
-.faq-modal ul {
+ul {
   margin-left: 20px;
 }
 
-.faq-modal h5 {
+.rich-content h5 {
   margin-top: 40px;
+  line-height: 1.5;
 }
 
 .keep-all {
   word-break: keep-all;
+}
+
+form label {
+  color: white;
+  margin-top: 12px;
 }

@@ -104,7 +104,7 @@ const GridItem = ({ children, route, routePath }) => {
             alt="Neighbourhood Studios"
             src={neighbourhoodLogo}
             className="absolute inset-0 m-5 max-w-none"
-            style={{ height: 46 }}
+            style={{ height: 46, paddingLeft: 5, paddingTop: 5 }}
           />
         ) : null}
 

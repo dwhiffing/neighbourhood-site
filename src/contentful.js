@@ -14,14 +14,13 @@ export const getEntriesByType = async (type) => {
   return response.items.map((i) => i.fields)
 }
 
-// TODO: FAQ needs to embed anchor tags and have fixed sidebar
-// TODO: carousel for studios
-// TODO: match designs
-// TODO: improve equipment page
-// TODO: Studio tags needs to be links
-// TODO: Feed images/articles need to be links
-// TODO: FAQ ball shouldn't reset when navigating
+// TODO: Mobile
+// TODO: Feed images need to be aligned correctly
 // TODO: deploy
+// TODO: Feed images/articles need to be links
+// TODO: Studio tags needs to be links
+// TODO: FAQ needs to embed anchor tags
+// TODO: improve equipment page
 
 export const getStudios = () => getEntriesByType('studio')
 export const getAbout = () => getEntriesByType('about')
