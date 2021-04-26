@@ -137,7 +137,7 @@ h1 {
   font-family: GT Super Display;
   font-size: 30px;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 500;
   line-height: 39px;
   letter-spacing: 0em;
   text-align: left;
@@ -233,4 +233,8 @@ ul {
 form label {
   color: white;
   margin-top: 12px;
+}
+
+p.small {
+  font-size: 12px;
 }
