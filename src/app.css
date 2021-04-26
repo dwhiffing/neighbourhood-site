@@ -38,8 +38,19 @@ a.link:hover {
 
 li,
 p {
-  /* font-family: GT America; */
+  font-family: GT America;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #004225;
+}
+
+h5 {
+  font-family: GT America;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
@@ -71,8 +82,19 @@ h1 {
   color: #004225;
 }
 
+h1.font-sans {
+  font-family: GT America;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: #004225;
+}
+
 h2 {
-  /* font-family: GT America; */
+  font-family: GT America;
   font-size: 21px;
   font-style: normal;
   font-weight: 400;
@@ -104,7 +126,7 @@ button {
 }
 
 span.small {
-  /* font-family: GT America; */
+  font-family: GT America;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -116,4 +138,30 @@ span.small {
 
 input {
   border: 1px solid #004225;
+}
+
+.faq-modal h2 {
+  font-family: GT Super Text;
+}
+
+.faq-modal h1,
+h2,
+p {
+  margin: 20px 0;
+}
+
+.faq-modal li {
+  list-style-type: disc;
+}
+
+.faq-modal li p {
+  margin-bottom: 5px;
+}
+
+.faq-modal ul {
+  margin-left: 20px;
+}
+
+.faq-modal h5 {
+  margin-top: 40px;
 }
