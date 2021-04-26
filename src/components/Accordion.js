@@ -14,10 +14,7 @@ const AccordionItem = ({ children, route, routePath }) => {
   return (
     <>
       <Link to={route}>
-        <motion.h2
-          initial={false}
-          style={{ padding: 20, borderBottom: '1px solid #004225' }}
-        >
+        <motion.h2 initial={false} className="p-5 border-b border-green">
           {route[0].toUpperCase() + route.slice(1)}
         </motion.h2>
       </Link>

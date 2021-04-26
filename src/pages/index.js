@@ -9,6 +9,7 @@ const Index = () => {
   const [showBall, setShowBall] = useState(false)
   const [data, setData] = useState([])
   const { faq } = useRouteData()
+
   useEffect(() => {
     setShowBall(true)
   }, [])
@@ -20,12 +21,14 @@ const Index = () => {
     <div>
       <FAQBall setShowModal={setShowModal} showBall={showBall} />
 
-      <div style={{ overflow: 'hidden', padding: '25px 20px' }}>
+      <div className="overflow-hidden px-5 py-5">
         <img alt="Neighbourhood Studios" src={logo} style={{ height: 60 }} />
-        <p style={{ wordBreak: 'keep-all', whiteSpace: 'nowrap' }}>
-          24 McGee Street Toronto,
+        <p className="font-serif whitespace-nowrap keep-all mt-4">
+          24 McGee Street
           <br />
-          ON M4M 2K9 +1 647 748 0155
+          Toronto, ON M4M 2K9
+          <br />
+          +1 647 748 0155
           <br />
           contact@neighbourhoodstudios.com
         </p>
@@ -45,42 +48,22 @@ export default Index
 const FAQModal = ({ showModal, setShowModal, content }) => {
   return (
     <motion.div
-      className="faq-modal"
+      className="faq-modal inset-0 flex justify-center items-center fixed z-20"
       onClick={() => setShowModal(false)}
       animate={{ opacity: showModal ? 1 : 0 }}
       transition={{ duration: 0.3 }}
       style={{
         pointerEvents: showModal ? 'auto' : 'none',
         opacity: showModal ? 1 : 0,
-        zIndex: 100,
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         background: 'rgba(0, 66, 37, 0.8)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
       }}
     >
       <motion.div
         animate={{ opacity: showModal ? 1 : 0, y: showModal ? 0 : 150 }}
         onClick={(e) => e.stopPropagation()}
         transition={{ duration: 0.3 }}
-        style={{
-          background: 'white',
-          minHeight: '90vh',
-          maxHeight: '90vh',
-          width: '100%',
-          maxWidth: 1100,
-          display: 'flex',
-          margin: '0 20px',
-          padding: '50px 35px',
-          paddingRight: 8,
-          borderRadius: 12,
-          position: 'relative',
-        }}
+        className="bg-white w-full flex mx-5 py-9 px-7 pr-4 relative rounded-xl"
+        style={{ minHeight: '90vh', maxHeight: '90vh', maxWidth: 1100 }}
       >
         <button
           className="absolute top-0 right-0 mr-3 mt-3 bg-white"
@@ -102,13 +85,8 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
           </svg>
         </button>
         <div
-          style={{
-            flex: 1,
-            width: '100%',
-            maxHeight: '80vh',
-            overflowY: 'scroll',
-            paddingRight: 35,
-          }}
+          className="flex-1 w-full overflow-y-scroll pr-6"
+          style={{ maxHeight: '80vh' }}
         >
           <div className="flex">
             <div
@@ -153,27 +131,10 @@ function FAQBall(props) {
         type: 'tween',
         ease: 'linear',
       }}
-      style={{
-        position: 'absolute',
-        width: 222,
-        height: 222,
-        background: '#004225',
-        borderRadius: 300,
-        zIndex: 99,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        cursor: 'pointer',
-      }}
+      className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10"
+      style={{ width: 222, height: 222 }}
     >
-      <h1
-        style={{
-          color: '#fff',
-          textAlign: 'center',
-        }}
-      >
-        COVID-19 Protocols
-      </h1>
+      <h1 className="text-white text-center">COVID-19 Protocols</h1>
     </motion.div>
   )
 }

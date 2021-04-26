@@ -18,7 +18,7 @@ export const Grid = ({ routePath, children }) => {
     : '5'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div className="flex flex-col h-screen">
       <motion.div
         className="grid"
         initial={false}
@@ -93,7 +93,7 @@ const GridItem = ({ children, route, routePath }) => {
       <motion.div
         className="grid-item"
         animate={{
-          padding: route === '/' ? 0 : '20px 25px',
+          padding: route === '/' ? 0 : '14px 25px',
           width: `${size}vw`,
           minWidth: 90,
           minHeight: 90,
@@ -112,13 +112,8 @@ const GridItem = ({ children, route, routePath }) => {
           <img
             alt="Neighbourhood Studios"
             src={neighbourhoodLogo}
-            style={{
-              height: 46,
-              maxWidth: 'none',
-              position: 'absolute',
-              top: 20,
-              left: 20,
-            }}
+            className="absolute inset-0 m-5 max-w-none"
+            style={{ height: 46 }}
           />
         ) : null}
 

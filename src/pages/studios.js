@@ -45,10 +45,7 @@ const StudioItem = ({ studio, index }) => {
 
         <div className="flex">
           {studio.images.map((image) => (
-            <div
-              className="flex-1"
-              style={{ height: 3, background: '#004225' }}
-            />
+            <div className="flex-1 bg-green" style={{ height: 3 }} />
           ))}
         </div>
       </div>

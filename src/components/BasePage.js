@@ -10,7 +10,7 @@ export const BasePage = ({
   const isMobile = useIsMobile()
 
   return (
-    <div className="flex" style={{ minHeight: 1000 }}>
+    <div className="flex">
       {!isMobile &&
         (linkComponent || (
           <div

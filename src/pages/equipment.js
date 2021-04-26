@@ -89,9 +89,8 @@ function EquipmentSidebar({
         {categories.map((c) => (
           <a
             href="#/"
-            className="link"
             onClick={() => setCategory(c)}
-            style={{ borderBottom: category === c ? '1px solid green' : null }}
+            className={`link ${category === c ? 'border-b border-green' : ''}`}
           >
             {c}
           </a>
@@ -100,9 +99,8 @@ function EquipmentSidebar({
         {brands.map((b) => (
           <a
             href="#/"
-            className="link"
             onClick={() => setBrand(b)}
-            style={{ borderBottom: brand === b ? '1px solid green' : null }}
+            className={`link ${brand === b ? 'border-b border-green' : ''}`}
           >
             {b}
           </a>
@@ -119,34 +117,21 @@ const CartModal = ({ showModal, setShowModal, items = [], onRemove }) => {
     <motion.div
       animate={{ opacity: showModal ? 1 : 0 }}
       transition={{ duration: 0.3 }}
+      className="flex fixed justify-center items-center z-20"
       style={{
         pointerEvents: showModal ? 'auto' : 'none',
         opacity: showModal ? 1 : 0,
-        zIndex: 100,
-        position: 'fixed',
         top: 0,
         right: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
       }}
     >
       <motion.div
         animate={{ opacity: showModal ? 1 : 0 }}
         transition={{ duration: 0.3 }}
-        style={{
-          background: '#004225',
-          maxHeight: '90vh',
-          width: '100%',
-          maxWidth: 1100,
-          display: 'flex',
-          margin: '0 20px',
-          padding: '50px 35px',
-          borderRadius: 12,
-          flexDirection: 'column',
-        }}
+        className="bg-green w-full flex mx-4 rounded flex-col py-9 px-7"
+        style={{ maxHeight: '90vh', maxWidth: 1100 }}
       >
-        <p onClick={() => setShowModal(false)} style={{ color: '#fff' }}>
+        <p className="text-white" onClick={() => setShowModal(false)}>
           Close
         </p>
 
@@ -182,8 +167,8 @@ const Input = ({ label, source }) => (
 
 const CartItem = ({ item, onRemove }) => (
   <div>
-    <p style={{ color: '#fff' }}>{item.brand}</p>
-    <p style={{ color: '#fff' }}>{item.name}</p>
+    <p className="text-white">{item.brand}</p>
+    <p className="text-white">{item.name}</p>
     <button onClick={() => onRemove(item)}>Remove</button>
   </div>
 )

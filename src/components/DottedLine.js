@@ -3,8 +3,8 @@ import React from 'react'
 export const DottedLine = ({ style = {}, ...props }) => (
   <div
     {...props}
+    className="w-full"
     style={{
-      width: '100%',
       height: 1,
       backgroundImage:
         'linear-gradient(to right, #004225 30%, rgba(255, 255, 255, 0) 0%)',
