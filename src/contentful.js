@@ -14,7 +14,7 @@ export const getEntriesByType = async (type) => {
   return response.items.map((i) => i.fields)
 }
 
-// FAQ ball stop on hover
+// TODO: FAQ ball stop on hover
 // TODO: Studio tags needs to be links
 // TODO: FAQ needs to embed anchor tags
 // TODO: improve equipment page

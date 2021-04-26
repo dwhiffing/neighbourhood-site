@@ -13,7 +13,7 @@ const About = () => {
 
   return (
     <BasePage links={[{ href: '#', label: 'About' }]}>
-      <div className="rich-content">
+      <div className="about rich-content">
         {data?.map((data, i) => {
           return <AboutItem key={'about' + i} data={data} />
         })}

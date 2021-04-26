@@ -17,7 +17,7 @@ const Feed = () => {
 
   return (
     <BasePage
-      className="max-w-4xl flex-1"
+      className="flex-1"
       heading="Feed"
       linkComponent={
         <div className="flex flex-col items-start fixed" style={{ width: 230 }}>

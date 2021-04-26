@@ -202,6 +202,11 @@ input {
   border: 1px solid #004225;
 }
 
+.about.rich-content ul {
+  float: left;
+  width: calc(50% - 20px);
+}
+
 .rich-content h2 {
   font-family: GT Super Text;
 }
