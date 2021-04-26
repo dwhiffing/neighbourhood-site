@@ -11,13 +11,15 @@ export const client = contentful.createClient({
 
 export const getEntriesByType = async (type) => {
   const response = await client.getEntries({ content_type: type })
-  return response.items.map((i) => i.fields)
+  return response.items
+    .map((i) => i.fields)
+    .sort(({ index: aIndex = 99 }, { index: bIndex = 99 }) => aIndex - bIndex)
 }
 
 // TODO: FAQ ball stop on hover
-// TODO: Studio tags needs to be links
-// TODO: FAQ needs to embed anchor tags
 // TODO: improve equipment page
+// TODO: Highlight active section in sidebars
+// TODO: Contentful webhook
 
 export const getStudios = () => getEntriesByType('studio')
 export const getAbout = () => getEntriesByType('about')

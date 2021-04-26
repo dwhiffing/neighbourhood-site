@@ -53,6 +53,7 @@ const Equipment = () => {
         <div className="pt-14 flex flex-wrap justify-center">
           {data?.map((item, index) => (
             <EquipmentItem
+              key={item.name + index}
               item={item}
               index={index}
               onAdd={() => setCart((c) => [...c, item])}
@@ -97,6 +98,7 @@ function EquipmentSidebar({
         <p>Categories</p>
         {categories.map((c) => (
           <a
+            key={c}
             href="#/"
             onClick={() => setCategory(c)}
             className={`link ${category === c ? 'border-b border-green' : ''}`}
@@ -108,6 +110,7 @@ function EquipmentSidebar({
         {brands.map((b) => (
           <a
             href="#/"
+            key={b}
             onClick={() => setBrand(b)}
             className={`link ${brand === b ? 'border-b border-green' : ''}`}
           >
@@ -146,7 +149,7 @@ const CartModal = ({ showModal, setShowModal, items = [], onRemove }) => {
 
         <div>
           {items.map((item) => (
-            <CartItem onRemove={onRemove} item={item} />
+            <CartItem key={item.name} onRemove={onRemove} item={item} />
           ))}
         </div>
 

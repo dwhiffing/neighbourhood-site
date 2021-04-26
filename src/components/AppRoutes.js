@@ -40,6 +40,6 @@ export const Loading = () => {
   return isMobile ? (
     <Accordion routePath="/">{<Index />}</Accordion>
   ) : (
-    <Grid routePath="/">{Index}</Grid>
+    <Grid routePath="/">{<Index />}</Grid>
   )
 }

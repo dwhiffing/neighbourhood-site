@@ -45,9 +45,13 @@ const StudioItem = ({ studio, index }) => {
       <h1 className="mt-8 mb-5">{studio.name}</h1>
 
       <div className="flex mb-8">
-        {studio.tags.map((tag, i) => (
-          <button key={'tag' + i} className="mr-2">
-            {tag}
+        {studio.links?.map((link, i) => (
+          <button
+            key={'tag' + i}
+            className="mr-2"
+            onClick={() => window.open(link.fields.url, '_blank')}
+          >
+            {link.fields.label}
           </button>
         ))}
       </div>

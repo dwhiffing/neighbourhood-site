@@ -166,7 +166,8 @@ h2 {
   color: #004225;
 }
 
-h2.font-serif {
+h2.font-serif,
+h6 {
   font-family: GT Super Text;
   font-size: 21px;
   font-style: normal;
@@ -211,10 +212,15 @@ input {
   font-family: GT Super Text;
 }
 
-.rich-content h1,
+.rich-content h1 {
+  margin: 10px 0 30px;
+}
 .rich-content h2,
 .rich-content p {
   margin: 20px 0;
+}
+.rich-content h6 {
+  margin: 10px 0;
 }
 
 li {

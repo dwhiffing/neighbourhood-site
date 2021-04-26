@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from '@reach/router'
-import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTE_TILES } from '../constants'
 import logo from '../assets/logo2.png'
 

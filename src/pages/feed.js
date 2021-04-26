@@ -27,7 +27,12 @@ const Feed = () => {
             { label: 'Images', onClick: () => setFilter('images') },
             { label: 'Posts', onClick: () => setFilter('posts') },
           ].map((link, index) => (
-            <a className="link" href={link.href} onClick={link.onClick}>
+            <a
+              key={link.label}
+              className="link"
+              href={link.href}
+              onClick={link.onClick}
+            >
               {link.label}
             </a>
           ))}
@@ -54,6 +59,7 @@ const Feed = () => {
         <div className="flex flex-wrap">
           {images.map((i) => (
             <a
+              key={i.id}
               target="_blank"
               rel="noreferrer"
               className="flex justify-center items-center mb-40"
@@ -69,7 +75,7 @@ const Feed = () => {
           {texts
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((i) => (
-              <div className="mb-12">
+              <div key={i.id} className="mb-12">
                 <span className="small">
                   {format(new Date(i.created_at), 'MMMM d yyyy')}
                 </span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { RichTextItem } from '../components/RichTextItem'
+import { kebabCase } from 'lodash'
 
 export const FAQContainer = ({ data, showBall }) => {
   const [showModal, setShowModal] = useState(false)
@@ -18,6 +19,9 @@ export const FAQContainer = ({ data, showBall }) => {
 }
 
 const FAQModal = ({ showModal, setShowModal, content }) => {
+  const links = content.content
+    .filter((c) => c.nodeType === 'heading-2')
+    .map((c) => c.content[0].value)
   return (
     <motion.div
       className="rich-content inset-0 flex justify-center items-center fixed z-20"
@@ -66,12 +70,15 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
               style={{ maxWidth: 260 }}
             >
               <h1 className="mr-4 font-sans">Our COVID-19 Protocols</h1>
-              <a className="link" href="/#safeguards">
-                Safeguards
-              </a>
-              <a className="link" href="/#production">
-                Your Production In Studio
-              </a>
+              {links.map((link, i) => (
+                <a
+                  key={link + i}
+                  className="link"
+                  href={`/#${kebabCase(link)}`}
+                >
+                  {link}
+                </a>
+              ))}
             </div>
 
             <div className="flex-1 pl-0 md:pl-60">

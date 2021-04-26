@@ -19,7 +19,12 @@ export const BasePage = forwardRef(
               {heading ? <h2 className="mb-4">{heading}</h2> : null}
 
               {links.map((link, index) => (
-                <a className="link" href={link.href} onClick={link.onClick}>
+                <a
+                  key={link.label}
+                  className="link"
+                  href={link.href}
+                  onClick={link.onClick}
+                >
                   {link.label}
                 </a>
               ))}

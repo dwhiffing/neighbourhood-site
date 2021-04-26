@@ -25,7 +25,7 @@ export const Grid = ({ routePath, children }) => {
         animate={{ height: `${topSize}vh`, minHeight: 90 }}
       >
         {APP_ROUTE_TILES.slice(0, 3).map((route) => (
-          <GridItem routePath={routePath} route={route}>
+          <GridItem key={route} routePath={routePath} route={route}>
             {children}
           </GridItem>
         ))}
@@ -36,7 +36,7 @@ export const Grid = ({ routePath, children }) => {
         animate={{ height: `${bottomSize}vh`, minHeight: 90 }}
       >
         {APP_ROUTE_TILES.slice(3).map((route) => (
-          <GridItem routePath={routePath} route={route}>
+          <GridItem key={route} routePath={routePath} route={route}>
             {children}
           </GridItem>
         ))}
