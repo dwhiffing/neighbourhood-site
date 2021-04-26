@@ -18,8 +18,8 @@ const Equipment = () => {
     setData(equipment)
   }, [equipment])
 
-  const categories = uniq(data.map((d) => d.category))
-  const brands = uniq(data.map((d) => d.brand))
+  const categories = uniq(data?.map((d) => d.category) || [])
+  const brands = uniq(data?.map((d) => d.brand) || [])
 
   const sidebarProps = {
     categories,
@@ -31,6 +31,8 @@ const Equipment = () => {
     query,
     setQuery,
   }
+
+  if (!data) return null
 
   return (
     <BasePage linkComponent={<EquipmentSidebar {...sidebarProps} />}>
