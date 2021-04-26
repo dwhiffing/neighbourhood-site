@@ -4,6 +4,7 @@ import { Router } from '@reach/router'
 import { Grid } from './Grid'
 import { Accordion } from './Accordion'
 import { useIsMobile } from '../useIsMobile'
+import Index from '../pages/index'
 
 export const AppRoutes = () => {
   const isMobile = useIsMobile()
@@ -23,5 +24,15 @@ export const AppRoutes = () => {
         }}
       />
     </Router>
+  )
+}
+
+export const Loading = () => {
+  const isMobile = useIsMobile()
+
+  return isMobile ? (
+    <Accordion routePath="/">{Index}</Accordion>
+  ) : (
+    <Grid routePath="/">{Index}</Grid>
   )
 }
