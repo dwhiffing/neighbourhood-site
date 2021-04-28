@@ -1,27 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useRouteData } from 'react-static'
+import { useSiteData } from 'react-static'
 import { DottedLine } from '../components/DottedLine'
 import { BasePage } from '../components/BasePage'
 import { motion } from 'framer-motion'
 
 const Studios = () => {
-  const [studios, setStudios] = useState([])
-  const { studios: studiosData } = useRouteData()
+  const { studios } = useSiteData()
   const ref = useRef()
-
-  // useEffect(() => {
-  //   let div = ref.current
-  //   const onScroll = (e) => {
-  //     console.log(e.target.documentElement.scrollTop)
-  //   }
-  //   div.addEventListener('scroll', onScroll, true)
-
-  //   return () => div.removeEventListener('scroll', onScroll)
-  // }, [])
-
-  useEffect(() => {
-    setStudios(studiosData)
-  }, [studiosData])
 
   return (
     <BasePage
@@ -108,9 +93,7 @@ const StudioCarousel = ({ images }) => {
     <div className="flex flex-col mb-8 overflow-hidden">
       <motion.div
         onClick={() => setIndex((i) => (i === images.length - 1 ? 0 : i + 1))}
-        animate={{
-          x: `-${index * 100}%`,
-        }}
+        animate={{ x: `-${index * 100}%` }}
         className="flex flex-1 mb-5"
       >
         {images.map((image, i) => (

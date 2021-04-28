@@ -25,7 +25,7 @@ export const AppRoutes = () => {
               ) : (
                 <Grid routePath={routePath}>{element}</Grid>
               )}
-              <FAQContainer data={data} showBall={routePath === '/'} />
+              <FAQContainer data={data.faq} showBall={routePath === '/'} />
             </div>
           )
         }}

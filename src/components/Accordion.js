@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from '@reach/router'
 import { APP_ROUTE_TILES } from '../constants'
-import logo from '../assets/logo2.png'
+import { Logo } from './Logo'
 
 export const Accordion = ({ routePath, children }) =>
   APP_ROUTE_TILES.map((route, index) => (
@@ -23,11 +23,7 @@ const AccordionItem = ({ children, route, routePath }) => {
           {route !== '/' ? (
             route[0].toUpperCase() + route.slice(1)
           ) : (
-            <img
-              alt="Neighbourhood Studios"
-              src={logo}
-              style={{ height: 52, marginTop: 10 }}
-            />
+            <Logo style={{ marginTop: 10 }} />
           )}
         </h2>
       </Link>
@@ -43,7 +39,6 @@ const AccordionItem = ({ children, route, routePath }) => {
             open: { opacity: 1, height: 'auto' },
             collapsed: { opacity: 0, height: 0 },
           }}
-          transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
         >
           {children}
         </section>

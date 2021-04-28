@@ -27,7 +27,6 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
       className="rich-content inset-0 flex justify-center items-center fixed z-20"
       onClick={() => setShowModal(false)}
       animate={{ opacity: showModal ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
       style={{
         pointerEvents: showModal ? 'auto' : 'none',
         opacity: showModal ? 1 : 0,
@@ -37,7 +36,6 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
       <motion.div
         animate={{ opacity: showModal ? 1 : 0, y: showModal ? 0 : 150 }}
         onClick={(e) => e.stopPropagation()}
-        transition={{ duration: 0.3 }}
         className="bg-white w-full flex mx-5 py-9 px-7 pr-4 relative rounded-xl"
         style={{ minHeight: '90vh', maxHeight: '90vh', maxWidth: 1100 }}
       >
@@ -94,27 +92,32 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
 function FAQBall(props) {
   return (
     <motion.div
-      onClick={() => props.setShowModal(true)}
       animate={{
-        x: COORDS.map((c) => c.x),
-        y: COORDS.map((c) => c.y),
-      }}
-      transition={{
-        repeat: Infinity,
-        repeatType: 'reverse',
-        duration: 10,
-        type: 'tween',
-        ease: 'linear',
-      }}
-      style={{
         opacity: props.showBall ? 1 : 0,
-        pointerEvents: props.showBall ? 'auto' : 'none',
-        width: 222,
-        height: 222,
       }}
-      className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto"
     >
-      <h1 className="text-white text-center">COVID-19 Protocols</h1>
+      <motion.div
+        onClick={() => props.setShowModal(true)}
+        animate={{
+          x: COORDS.map((c) => c.x),
+          y: COORDS.map((c) => c.y),
+        }}
+        transition={{
+          repeat: Infinity,
+          repeatType: 'reverse',
+          duration: 10,
+          type: 'tween',
+          ease: 'linear',
+        }}
+        style={{
+          pointerEvents: props.showBall ? 'auto' : 'none',
+          width: 222,
+          height: 222,
+        }}
+        className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto"
+      >
+        <h1 className="text-white text-center">COVID-19 Protocols</h1>
+      </motion.div>
     </motion.div>
   )
 }

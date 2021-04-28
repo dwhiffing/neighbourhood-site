@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { useRouteData } from 'react-static'
+import React, { useState } from 'react'
+import { useSiteData } from 'react-static'
 import { BasePage } from '../components/BasePage'
 import { motion } from 'framer-motion'
 import uniq from 'lodash/uniq'
 
 const Equipment = () => {
-  const [data, setData] = useState([])
+  const { equipment } = useSiteData()
   const [category, setCategory] = useState('')
   const [brand, setBrand] = useState('')
   const [query, setQuery] = useState('')
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
 
-  const { equipment } = useRouteData()
-
-  useEffect(() => {
-    setData(equipment)
-  }, [equipment])
-
-  const categories = uniq(data?.map((d) => d.category) || [])
-  const brands = uniq(data?.map((d) => d.brand) || [])
+  const categories = uniq(equipment?.map((d) => d.category) || [])
+  const brands = uniq(equipment?.map((d) => d.brand) || [])
 
   const sidebarProps = {
     categories,
@@ -32,7 +26,7 @@ const Equipment = () => {
     setQuery,
   }
 
-  if (!data) return null
+  if (!equipment) return null
 
   return (
     <BasePage linkComponent={<EquipmentSidebar {...sidebarProps} />}>
@@ -51,7 +45,7 @@ const Equipment = () => {
           onRemove={(item) => setCart((c) => c.filter((i) => i !== item))}
         />
         <div className="pt-14 flex flex-wrap justify-center">
-          {data?.map((item, index) => (
+          {equipment?.map((item, index) => (
             <EquipmentItem
               key={item.name + index}
               item={item}
@@ -128,7 +122,6 @@ const CartModal = ({ showModal, setShowModal, items = [], onRemove }) => {
   return (
     <motion.div
       animate={{ opacity: showModal ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
       className="flex fixed justify-center items-center z-20"
       style={{
         pointerEvents: showModal ? 'auto' : 'none',
@@ -139,7 +132,6 @@ const CartModal = ({ showModal, setShowModal, items = [], onRemove }) => {
     >
       <motion.div
         animate={{ opacity: showModal ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
         className="bg-green w-full flex mx-4 rounded flex-col py-9 px-7"
         style={{ maxHeight: '90vh', maxWidth: 1100 }}
       >

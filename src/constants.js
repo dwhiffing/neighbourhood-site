@@ -8,6 +8,6 @@ export const APP_ROUTE_TILES = [
 ]
 export const DEFAULT_TRANSITION = {
   type: 'tween',
-  duration: 0.7,
+  duration: 0.5,
   ease: 'easeOut',
 }

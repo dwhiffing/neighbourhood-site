@@ -2,8 +2,23 @@ import React from 'react'
 import { Link } from '@reach/router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTE_TILES } from '../constants'
-import neighbourhoodLogo from '../assets/logo.png'
+import Studios from '../pages/studios'
+import Index from '../pages/index'
+import About from '../pages/about'
+import Equipment from '../pages/equipment'
+import Feed from '../pages/feed'
+import { Logo } from './Logo'
 
+const COMPONENTS = {
+  studios: Studios,
+  '/': Index,
+  about: About,
+  feed: Feed,
+  equipment: Equipment,
+  shop: () => null,
+}
+
+const capitalize = (route) => route[0].toUpperCase() + route.slice(1)
 export const Grid = ({ routePath, children }) => {
   const routeIndex = APP_ROUTE_TILES.findIndex((r) => r === routePath)
   const topSize = STATIC_ROUTES.includes(routePath)
@@ -17,6 +32,22 @@ export const Grid = ({ routePath, children }) => {
     ? '95'
     : '5'
 
+  const renderer = (route) => (
+    <GridItem key={route} routePath={routePath} route={route}>
+      {route === routePath ? (
+        React.createElement(COMPONENTS[route])
+      ) : route === '/' ? (
+        <Logo
+          showName={false}
+          className="mt-2 max-w-none"
+          style={{ width: 300 }}
+        />
+      ) : (
+        <h2>{capitalize(route)}</h2>
+      )}
+    </GridItem>
+  )
+
   return (
     <div className="flex flex-col h-screen">
       <motion.div
@@ -24,22 +55,14 @@ export const Grid = ({ routePath, children }) => {
         initial={false}
         animate={{ height: `${topSize}vh`, minHeight: 90 }}
       >
-        {APP_ROUTE_TILES.slice(0, 3).map((route) => (
-          <GridItem key={route} routePath={routePath} route={route}>
-            {children}
-          </GridItem>
-        ))}
+        {APP_ROUTE_TILES.slice(0, 3).map(renderer)}
       </motion.div>
       <motion.div
         className="grid"
         initial={false}
         animate={{ height: `${bottomSize}vh`, minHeight: 90 }}
       >
-        {APP_ROUTE_TILES.slice(3).map((route) => (
-          <GridItem key={route} routePath={routePath} route={route}>
-            {children}
-          </GridItem>
-        ))}
+        {APP_ROUTE_TILES.slice(3).map(renderer)}
       </motion.div>
     </div>
   )
@@ -63,20 +86,16 @@ const GridItem = ({ children, route, routePath }) => {
 
   const result = (
     <AnimatePresence>
-      {activeRoute ? (
-        renderChildren ? (
-          <motion.div
-            style={{ minWidth: renderChildren ? '80vw' : '' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {children}
-          </motion.div>
-        ) : (
-          <h2>{route[0].toUpperCase() + route.slice(1)}</h2>
-        )
-      ) : null}
+      <motion.div
+        className="absolute"
+        key={renderChildren ? 'children' : 'h2'}
+        style={{ minWidth: renderChildren ? '80vw' : '' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: route === '/' || activeRoute ? 1 : 0 }}
+        exit={{ opacity: 0 }}
+      >
+        {children}
+      </motion.div>
     </AnimatePresence>
   )
 
@@ -97,17 +116,6 @@ const GridItem = ({ children, route, routePath }) => {
         }}
         initial={false}
       >
-        {routePath !== route &&
-        !(route === '/' && routePath === 'faq') &&
-        STATIC_ROUTES.includes(route) ? (
-          <img
-            alt="Neighbourhood Studios"
-            src={neighbourhoodLogo}
-            className="absolute inset-0 m-5 max-w-none"
-            style={{ height: 46, paddingLeft: 5, paddingTop: 5 }}
-          />
-        ) : null}
-
         {result}
         <Link style={linkStyle} to={routePath === '/' ? route : '/'} />
       </motion.div>

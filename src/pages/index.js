@@ -1,11 +1,11 @@
 import React from 'react'
-import logo from '../assets/logo2.png'
+import { Logo } from '../components/Logo'
 
 const Index = () => {
   return (
     <div className="overflow-hidden">
       <div className="hidden lg:block py-1">
-        <img alt="Neighbourhood Studios" src={logo} style={{ height: 60 }} />
+        <Logo style={{ height: 52 }} />
         <p className="font-serif whitespace-nowrap keep-all mt-4">
           24 McGee Street
           <br />

@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useRouteData } from 'react-static'
+import React, { useState } from 'react'
+import { useSiteData } from 'react-static'
 import { BasePage } from '../components/BasePage'
 import { format } from 'date-fns'
 
 const Feed = () => {
-  const [data, setData] = useState([])
+  const { feed } = useSiteData()
   const [filter, setFilter] = useState('images')
-  const { feed } = useRouteData()
 
-  useEffect(() => {
-    setData(feed)
-  }, [feed])
-
-  const images = data?.filter((i) => i.class === 'Image') || []
-  const texts = data?.filter((i) => i.class === 'Text') || []
+  const images = feed?.filter((i) => i.class === 'Image') || []
+  const texts = feed?.filter((i) => i.class === 'Text') || []
 
   return (
     <BasePage

@@ -8,34 +8,13 @@ import {
 } from './src/contentful'
 
 const config = {
-  getRoutes: async () => {
+  getSiteData: async () => {
     const studios = await getStudios()
     const about = await getAbout()
     const feed = await getFeed()
     const equipment = await getEquipment()
-
-    return [
-      {
-        path: '/studios',
-        getData: () => ({ studios }),
-      },
-      {
-        path: '/about',
-        getData: () => ({ about }),
-      },
-      {
-        path: '/feed',
-        getData: () => ({ feed }),
-      },
-      {
-        path: '/equipment',
-        getData: () => ({ equipment }),
-      },
-    ]
-  },
-  getSiteData: async () => {
     const faq = await getFaq()
-    return faq
+    return { studios, about, feed, equipment, faq }
   },
   plugins: [
     [
