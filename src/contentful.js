@@ -16,7 +16,6 @@ export const getEntriesByType = async (type) => {
     .sort(({ index: aIndex = 99 }, { index: bIndex = 99 }) => aIndex - bIndex)
 }
 
-// TODO: FAQ ball stop on hover
 // TODO: improve equipment page
 // TODO: Highlight active section in sidebars
 // TODO: Contentful webhook

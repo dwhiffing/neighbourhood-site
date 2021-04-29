@@ -4,14 +4,13 @@ import { DottedLine } from '../components/DottedLine'
 import { BasePage } from '../components/BasePage'
 import { motion } from 'framer-motion'
 
-const Studios = () => {
+const Studios = ({ scrollPos }) => {
   const { studios } = useSiteData()
-  const ref = useRef()
 
   return (
     <BasePage
-      ref={ref}
       heading="Studios"
+      scrollPos={scrollPos}
       links={studios?.map((studio, index) => ({
         label: studio.name,
         href: `#studio-${index + 1}`,
@@ -92,7 +91,17 @@ const StudioCarousel = ({ images }) => {
   return (
     <div className="flex flex-col mb-8 overflow-hidden">
       <motion.div
-        onClick={() => setIndex((i) => (i === images.length - 1 ? 0 : i + 1))}
+        onClick={(e) => {
+          resetInterval.current()
+          var rect = e.target.getBoundingClientRect()
+          const isLeft = e.clientX - rect.left <= rect.width / 2
+          if (rect.left > 0)
+            if (isLeft) {
+              setIndex((i) => (i === 0 ? images.length - 1 : i - 1))
+            } else {
+              setIndex((i) => (i === images.length - 1 ? 0 : i + 1))
+            }
+        }}
         animate={{ x: `-${index * 100}%` }}
         className="flex flex-1 mb-5"
       >

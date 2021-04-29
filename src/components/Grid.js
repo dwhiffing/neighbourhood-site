@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from '@reach/router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTE_TILES } from '../constants'
@@ -69,6 +69,8 @@ export const Grid = ({ routePath, children }) => {
 }
 
 const GridItem = ({ children, route, routePath }) => {
+  const ref = useRef()
+  const [scrollPos, setScrollPos] = useState(0)
   const routeIndex = APP_ROUTE_TILES.findIndex((r) => r === routePath)
   const _routeIndex = APP_ROUTE_TILES.findIndex((r) => r === route)
   let size = _routeIndex % 3 === routeIndex % 3 ? '94' : '3'
@@ -94,14 +96,22 @@ const GridItem = ({ children, route, routePath }) => {
         animate={{ opacity: route === '/' || activeRoute ? 1 : 0 }}
         exit={{ opacity: 0 }}
       >
-        {children}
+        {React.cloneElement(children, { scrollPos })}
       </motion.div>
     </AnimatePresence>
   )
 
+  useEffect(() => {
+    const setScroll = () => setScrollPos(ref.current.scrollTop)
+    ref.current.addEventListener('scroll', setScroll)
+    const _ref = ref.current
+    return () => _ref.removeEventListener('scroll', setScroll)
+  }, [ref])
+
   return (
     <>
       <motion.div
+        ref={ref}
         className="grid-item layout-scrollbar"
         animate={{
           width: `${size}vw`,

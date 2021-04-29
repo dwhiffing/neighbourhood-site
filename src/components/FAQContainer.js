@@ -113,6 +113,7 @@ function FAQBall(props) {
 
   return (
     <motion.div
+      initial={{ opacity: 0 }}
       animate={{ opacity: props.showBall ? 1 : 0 }}
       style={{ transformOrigin: 'center center' }}
       onHoverStart={() => base.stop()}
