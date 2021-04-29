@@ -13,7 +13,7 @@ export const Accordion = ({ routePath, children }) =>
 const AccordionItem = ({ children, route, routePath }) => {
   return (
     <>
-      <Link to={route}>
+      <Link to={routePath !== '/' ? '/' : route}>
         <h2
           initial={false}
           className={`p-5 border-green ${
