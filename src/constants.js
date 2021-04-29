@@ -4,7 +4,7 @@ export const APP_ROUTE_TILES = [
   'equipment',
   'about',
   'feed',
-  'shop',
+  'expendables',
 ]
 export const DEFAULT_TRANSITION = {
   type: 'tween',

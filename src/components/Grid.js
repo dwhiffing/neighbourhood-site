@@ -15,7 +15,7 @@ const COMPONENTS = {
   about: About,
   feed: Feed,
   equipment: Equipment,
-  shop: () => null,
+  expendables: () => null,
 }
 
 const capitalize = (route) => route[0].toUpperCase() + route.slice(1)
