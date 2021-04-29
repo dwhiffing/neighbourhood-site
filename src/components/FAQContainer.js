@@ -6,6 +6,7 @@ import { kebabCase } from 'lodash'
 const DURATION = 10
 const SIZE = 222
 
+// TODO: highlight links when active section is scrolled to
 export const FAQContainer = ({ data, showBall }) => {
   const [showModal, setShowModal] = useState(false)
 

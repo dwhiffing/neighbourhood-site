@@ -24,7 +24,11 @@ const Feed = () => {
           ].map((link, index) => (
             <a
               key={link.label}
-              className="link"
+              className={`link${
+                filter === (index === 0 ? 'images' : 'posts')
+                  ? ' link-active'
+                  : ''
+              }`}
               href={link.href}
               onClick={link.onClick}
             >

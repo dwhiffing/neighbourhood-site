@@ -3,10 +3,24 @@ import { useIsMobile } from '../useIsMobile'
 
 export const BasePage = forwardRef(
   (
-    { heading = '', links = [], linkComponent, children, className = '' },
+    {
+      heading = '',
+      links = [],
+      linkComponent,
+      children,
+      className = '',
+      scrollPos,
+    },
     ref,
   ) => {
     const isMobile = useIsMobile()
+
+    let activeSection = 0
+    if (Array.isArray(children))
+      children.slice(1).forEach((c, i) => {
+        const offset = c.ref?.current?.offsetTop || 0
+        if (scrollPos > offset) activeSection = i + 1
+      })
 
     return (
       <div className="flex">
@@ -21,7 +35,9 @@ export const BasePage = forwardRef(
               {links.map((link, index) => (
                 <a
                   key={link.label}
-                  className="link"
+                  className={`link${
+                    index === activeSection ? ' link-active' : ''
+                  }`}
                   href={link.href}
                   onClick={link.onClick}
                 >

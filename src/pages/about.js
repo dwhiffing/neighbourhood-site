@@ -8,7 +8,7 @@ const About = () => {
   const { about } = useSiteData()
 
   return (
-    <BasePage links={[{ href: '#', label: 'About' }]}>
+    <BasePage heading="About" links={[{ href: '#', label: 'Neighbourhood' }]}>
       <div className="about rich-content">
         {about?.map((data, i) => {
           return <AboutItem key={'about' + i} data={data} />

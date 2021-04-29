@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { useSiteData } from 'react-static'
 import { DottedLine } from '../components/DottedLine'
 import { BasePage } from '../components/BasePage'
@@ -6,6 +6,16 @@ import { motion } from 'framer-motion'
 
 const Studios = ({ scrollPos }) => {
   const { studios } = useSiteData()
+
+  const [refs, setRefs] = React.useState([])
+
+  React.useEffect(() => {
+    setRefs((elRefs) =>
+      Array(studios.length)
+        .fill()
+        .map((_, i) => elRefs[i] || React.createRef()),
+    )
+  }, [studios.length])
 
   return (
     <BasePage
@@ -17,15 +27,20 @@ const Studios = ({ scrollPos }) => {
       }))}
     >
       {studios?.map((studio, index) => (
-        <StudioItem key={'studio' + index} studio={studio} index={index} />
+        <StudioItem
+          ref={refs[index]}
+          key={'studio' + index}
+          studio={studio}
+          index={index}
+        />
       ))}
     </BasePage>
   )
 }
 
-const StudioItem = ({ studio, index }) => {
+const StudioItem = forwardRef(({ studio, index }, ref) => {
   return (
-    <div id={`studio-${index + 1}`}>
+    <div ref={ref} id={`studio-${index + 1}`} className="pt-2">
       <h1 className="mt-8 mb-5">{studio.name}</h1>
 
       <div className="flex mb-8">
@@ -62,10 +77,10 @@ const StudioItem = ({ studio, index }) => {
         </div>
       </div>
 
-      <DottedLine className="my-12" />
+      <DottedLine className="mt-12 mb-6" />
     </div>
   )
-}
+})
 
 export default Studios
 
