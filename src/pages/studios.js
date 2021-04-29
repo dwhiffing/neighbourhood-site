@@ -125,7 +125,7 @@ const StudioCarousel = ({ images }) => {
             key={'image' + i}
             alt="Studio"
             src={`http:${image.fields.file.url}`}
-            className="w-full"
+            className="w-full h-full"
           />
         ))}
       </motion.div>

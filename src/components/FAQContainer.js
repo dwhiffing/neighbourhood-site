@@ -41,7 +41,7 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
         animate={{ opacity: showModal ? 1 : 0, y: showModal ? 0 : 150 }}
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-full flex mx-5 py-9 px-7 pr-4 relative rounded-xl"
-        style={{ minHeight: '90vh', maxHeight: '90vh', maxWidth: 1100 }}
+        style={{ minHeight: '80vh', maxHeight: '80vh', maxWidth: 1100 }}
       >
         <button
           className="absolute top-0 right-0 mr-3 mt-3 bg-white"
