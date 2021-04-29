@@ -70,7 +70,7 @@ export const Grid = ({ routePath, children }) => {
   )
 }
 
-const DIRECT_ROUTE_NAVIGATION = window.location.search === '?ab'
+const DIRECT_ROUTE_NAVIGATION = window ? window.location.search === '?ab' : null
 
 const GridItem = ({ children, route, routePath }) => {
   const ref = useRef()
