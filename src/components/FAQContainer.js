@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react'
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import { RichTextItem } from '../components/RichTextItem'
 import { kebabCase } from 'lodash'
+
+const DURATION = 10
+const SIZE = 222
 
 export const FAQContainer = ({ data, showBall }) => {
   const [showModal, setShowModal] = useState(false)
@@ -90,29 +93,52 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
 }
 
 function FAQBall(props) {
+  const [direction, setDirection] = useState(1)
+  const base = useMotionValue(0)
+  const x = useTransform(base, (v) => `calc(${100 * v}vw - ${SIZE * v}px)`)
+  const y = useTransform(base, (v) => {
+    let value = v <= 0.5 ? 200 * v : 200 * (1 - v)
+    let offset = v <= 0.5 ? SIZE * 2 * v : SIZE * 2 * (1 - v)
+    return `calc(${value}vh - ${offset}px)`
+  })
+
+  useEffect(() => {
+    animate(base, direction, {
+      duration: DURATION,
+      type: 'tween',
+      ease: 'linear',
+      onComplete: () => setDirection((i) => (i === 1 ? 0 : 1)),
+    })
+  }, [base, direction])
+
   return (
     <motion.div
-      animate={{
-        opacity: props.showBall ? 1 : 0,
+      animate={{ opacity: props.showBall ? 1 : 0 }}
+      style={{ transformOrigin: 'center center' }}
+      onHoverStart={() => base.stop()}
+      onHoverEnd={() => {
+        const duration =
+          direction === 1
+            ? DURATION - DURATION * base.get()
+            : DURATION * base.get()
+        animate(base, direction, {
+          duration,
+          type: 'tween',
+          ease: 'linear',
+          onComplete: () => setDirection((i) => (i === 1 ? 0 : 1)),
+        })
       }}
     >
       <motion.div
         onClick={() => props.setShowModal(true)}
-        animate={{
-          x: COORDS.map((c) => c.x),
-          y: COORDS.map((c) => c.y),
-        }}
-        transition={{
-          repeat: Infinity,
-          repeatType: 'reverse',
-          duration: 10,
-          type: 'tween',
-          ease: 'linear',
-        }}
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.2 }}
         style={{
+          x,
+          y,
           pointerEvents: props.showBall ? 'auto' : 'none',
-          width: 222,
-          height: 222,
+          width: SIZE,
+          height: SIZE,
         }}
         className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto"
       >
@@ -121,14 +147,3 @@ function FAQBall(props) {
     </motion.div>
   )
 }
-
-// const COORDS = [
-//   { x: '0vw', y: '0vh' },
-//   { x: '50vw', y: '100vh' },
-//   { x: '100vw', y: '0vh' },
-// ]
-const COORDS = [
-  { x: 'calc(0vw - 0px)', y: 'calc(0vh - 0px)' },
-  { x: 'calc(50vw - 111px)', y: 'calc(100vh - 222px)' },
-  { x: 'calc(100vw - 222px)', y: 'calc(0vh - 0px)' },
-]
