@@ -43,7 +43,9 @@ export const Grid = ({ routePath, children }) => {
           style={{ width: 300 }}
         />
       ) : (
-        <h2>{capitalize(route)}</h2>
+        <h2 style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+          {capitalize(route)}
+        </h2>
       )}
     </GridItem>
   )
@@ -68,6 +70,8 @@ export const Grid = ({ routePath, children }) => {
   )
 }
 
+const DIRECT_ROUTE_NAVIGATION = window.location.search === '?ab'
+
 const GridItem = ({ children, route, routePath }) => {
   const ref = useRef()
   const [scrollPos, setScrollPos] = useState(0)
@@ -91,9 +95,20 @@ const GridItem = ({ children, route, routePath }) => {
       <motion.div
         className="absolute"
         key={renderChildren ? 'children' : 'h2'}
-        style={{ minWidth: renderChildren ? '80vw' : '' }}
+        style={{
+          minWidth: renderChildren ? '80vw' : '',
+          top: 10,
+          left: 16,
+          right: 16,
+        }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: route === '/' || activeRoute ? 1 : 0 }}
+        animate={{
+          opacity: DIRECT_ROUTE_NAVIGATION
+            ? 1
+            : route === '/' || activeRoute
+            ? 1
+            : 0,
+        }}
         exit={{ opacity: 0 }}
       >
         {React.cloneElement(children, { scrollPos })}
@@ -117,17 +132,16 @@ const GridItem = ({ children, route, routePath }) => {
           width: `${size}vw`,
           minWidth: 90,
           minHeight: 90,
-          overflowY: STATIC_ROUTES.includes(route)
-            ? 'visible'
-            : route === routePath
-            ? 'scroll'
-            : 'hidden',
-          overflowX: STATIC_ROUTES.includes(route) ? 'visible' : 'hidden',
+          overflowY: route === routePath ? 'scroll' : 'hidden',
+          overflowX: 'hidden',
         }}
         initial={false}
       >
         {result}
-        <Link style={linkStyle} to={routePath === '/' ? route : '/'} />
+        <Link
+          style={linkStyle}
+          to={routePath === '/' ? route : DIRECT_ROUTE_NAVIGATION ? route : '/'}
+        />
       </motion.div>
     </>
   )
