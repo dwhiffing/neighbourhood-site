@@ -93,7 +93,7 @@ a.link.link-active {
 }
 
 .grid-item {
-  padding: 14px 25px;
+  padding: 25px 25px;
   box-sizing: border-box;
   border-right: 1px solid #004225;
   border-bottom: 1px solid #004225;
@@ -132,6 +132,10 @@ p.font-serif {
   line-height: 22px;
   letter-spacing: -0.01em;
   color: #004225;
+}
+
+button.font-sans {
+  font-family: GT America;
 }
 
 h1 {
@@ -242,11 +246,43 @@ ul {
   word-break: keep-all;
 }
 
+p.small {
+  font-size: 12px;
+}
+
 form label {
   color: white;
   margin-top: 12px;
+  margin-bottom: 5px;
+  font-size: 12px;
 }
 
-p.small {
+form input,
+form textarea {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  width: 100%;
+  outline: 0;
+  color: white;
+  font-family: GT America;
   font-size: 12px;
+  padding: 4px;
+}
+form ::placeholder {
+  font-family: GT America;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  position: relative;
+
+  color: rgba(255, 255, 255, 0.33);
+}
+
+form textarea {
+  min-height: 100px;
+  overflow-x: hidden;
+}
+
+.muted {
+  opacity: 0.7;
 }
