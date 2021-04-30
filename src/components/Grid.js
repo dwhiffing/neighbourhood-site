@@ -39,7 +39,7 @@ export const Grid = ({ routePath, children }) => {
       ) : route === '/' ? (
         <Logo
           showName={false}
-          className="mt-2 max-w-none"
+          className="mt-3 ml-1 max-w-none"
           style={{ width: 300 }}
         />
       ) : (
@@ -129,16 +129,17 @@ const GridItem = ({ children, route, routePath }) => {
       <motion.div
         ref={ref}
         className="grid-item layout-scrollbar"
+        initial={false}
         animate={{
           width: `${size}vw`,
-          minWidth: 90,
+          minWidth: 85,
           minHeight: 90,
           overflowY: route === routePath ? 'scroll' : 'hidden',
           overflowX: 'hidden',
         }}
-        initial={false}
       >
         {result}
+
         <Link
           style={linkStyle}
           to={routePath === '/' ? route : DIRECT_ROUTE_NAVIGATION ? route : '/'}

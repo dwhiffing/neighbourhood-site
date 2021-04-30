@@ -11,6 +11,7 @@ export const DottedLine = ({ style = {}, ...props }) => (
       backgroundPosition: 'top',
       backgroundSize: '6px 1px',
       backgroundRepeat: 'repeat-x',
+      ...style,
     }}
   />
 )
