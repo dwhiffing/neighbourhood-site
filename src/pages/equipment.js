@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
-import { useSiteData } from 'react-static'
+import React, { useEffect, useState } from 'react'
 import { BasePage } from '../components/BasePage'
 import { motion } from 'framer-motion'
 import uniq from 'lodash/uniq'
 import { DottedLine } from '../components/DottedLine'
 import { CloseIcon } from '../components/FAQContainer'
+import Airtable from 'airtable'
 
+const apiKey = process.env.REACT_APP_AIRTABLE_KEY
+const baseName = process.env.REACT_APP_AIRTABLE_BASE
 const Equipment = () => {
-  const { equipment } = useSiteData()
   const [category, setCategory] = useState('')
+  const [equipment, setEquipment] = useState([])
   const [brand, setBrand] = useState('')
   const [query, setQuery] = useState('')
   const [cart, setCart] = useState([])
@@ -29,7 +31,18 @@ const Equipment = () => {
     setQuery,
   }
 
-  if (!equipment) return null
+  useEffect(() => {
+    var base = new Airtable({ apiKey }).base(baseName)
+    base('Equipment')
+      .select({ maxRecords: 100, view: 'Grid view' })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          setEquipment((e) => [...e, ...records.map((r) => r._rawJson.fields)])
+          fetchNextPage()
+        },
+        function done(err) {},
+      )
+  }, [])
 
   return (
     <>
@@ -70,7 +83,7 @@ const Equipment = () => {
         <div className="pt-16 flex flex-wrap justify-center">
           {equipment?.map((item, index) => (
             <EquipmentItem
-              key={item.id + index}
+              key={item.name + index}
               item={item}
               index={index}
               isInCart={cart.find((i) => i.id === item.id)}
@@ -97,7 +110,14 @@ const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
       className={`${index % 2 === 0 ? 'mr-4' : ''} mb-12`}
       style={{ flex: '48% 0 1' }}
     >
-      <img src={item.image} alt={item.name} />
+      {item.image && (
+        <img
+          src={item.image[0].url}
+          alt={item.name}
+          style={{ padding: 30, objectFit: 'contain', width: 300, height: 300 }}
+        />
+      )}
+
       <h2 className="mt-2" style={{ fontSize: 12 }}>
         {item.brand}
       </h2>
@@ -278,7 +298,7 @@ const CartModal = ({
                 style={{ height: 41, color: '#004225' }}
                 onClick={onSubmit}
               >
-                Send Rental Request
+                Send Quote Request
               </button>
 
               <p
