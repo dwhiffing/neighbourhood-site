@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { BasePage } from '../components/BasePage'
 import { motion } from 'framer-motion'
 import uniq from 'lodash/uniq'
@@ -6,7 +6,10 @@ import { DottedLine } from '../components/DottedLine'
 import { CloseIcon } from '../components/FAQContainer'
 import Airtable from 'airtable'
 import uniqid from 'uniqid'
+import Fuse from 'fuse.js'
+import { startCase } from 'lodash'
 
+const sortAlpha = (a, b) => a.localeCompare(b)
 const apiKey = process.env.REACT_APP_AIRTABLE_KEY
 const baseName = process.env.REACT_APP_AIRTABLE_BASE
 const Equipment = () => {
@@ -18,13 +21,41 @@ const Equipment = () => {
   const [cartOpen, setCartOpen] = useState(false)
   const [formState, setFormState] = useState({})
 
-  const categories = uniq(equipment?.map((d) => d.category) || [])
-  const brands = uniq(equipment?.map((d) => d.brand) || [])
-
+  const categories = useMemo(
+    () => uniq(equipment?.map((d) => d.category) || []).sort(sortAlpha),
+    [equipment],
+  )
+  const subCategories = useMemo(
+    () => uniq(equipment?.map((d) => d.sub_category) || []).sort(sortAlpha),
+    [equipment],
+  )
+  const subSubCategories = useMemo(
+    () => uniq(equipment?.map((d) => d.sub_sub_category) || []).sort(sortAlpha),
+    [equipment],
+  )
+  const brands = useMemo(
+    () => uniq(equipment?.map((d) => d.brand) || []).sort(sortAlpha),
+    [equipment],
+  )
+  const fuse = useMemo(
+    () =>
+      new Fuse(equipment, {
+        keys: ['name'],
+        threshold: 0.2,
+        minMatchCharLength: 2,
+      }),
+    [equipment],
+  )
+  const results = useMemo(() => fuse.search(query).map((r) => r.item), [
+    fuse,
+    query,
+  ])
   const sidebarProps = {
     categories,
     brands,
     category,
+    subCategories,
+    subSubCategories,
     setCategory,
     brand,
     setBrand,
@@ -35,13 +66,15 @@ const Equipment = () => {
   useEffect(() => {
     var base = new Airtable({ apiKey }).base(baseName)
     base('Equipment')
-      .select({ maxRecords: 100, view: 'Grid view' })
+      .select({ pageSize: 100, view: 'Grid view' })
       .eachPage(
         function page(records, fetchNextPage) {
-          setEquipment((e) => [
-            ...e,
-            ...records.map((r) => ({ id: uniqid(), ...r._rawJson.fields })),
-          ])
+          const newEquipment = records.map((r) => ({
+            ...r._rawJson.fields,
+            id: uniqid(),
+            category: startCase(r._rawJson.fields.category.toLowerCase()),
+          }))
+          setEquipment((e) => [...e, ...newEquipment])
           fetchNextPage()
         },
         function done(err) {},
@@ -85,21 +118,32 @@ const Equipment = () => {
         />
 
         <div className="pt-16 flex flex-wrap justify-center">
-          {equipment?.map((item, index) => (
-            <EquipmentItem
-              key={item.name + index}
-              item={item}
-              index={index}
-              isInCart={cart.find((i) => i.id === item.id)}
-              onAdd={() =>
-                setCart((c) =>
-                  c.find((i) => i.id === item.id)
-                    ? c.filter((i) => i.id !== item.id)
-                    : [...c, { ...item, quantity: 1 }],
-                )
-              }
-            />
-          ))}
+          {equipment
+            ?.filter((e) => {
+              let valid = true
+              if (category && e.category !== category) valid = false
+              if (brand && e.brand !== brand) valid = false
+              if (query && !results.some((r) => r.name === e.name))
+                valid = false
+
+              return valid
+            })
+            .slice(0, 100)
+            .map((item, index) => (
+              <EquipmentItem
+                key={item.name + index}
+                item={item}
+                index={index}
+                isInCart={cart.find((i) => i.id === item.id)}
+                onAdd={() =>
+                  setCart((c) =>
+                    c.find((i) => i.id === item.id)
+                      ? c.filter((i) => i.id !== item.id)
+                      : [...c, { ...item, quantity: 1 }],
+                  )
+                }
+              />
+            ))}
         </div>
       </BasePage>
     </>
@@ -136,7 +180,10 @@ const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
   )
 }
 
+// TODO: need to handle sub/subcategories
 function EquipmentSidebar({
+  subCategories,
+  subSubCategories,
   categories,
   brands,
   category,
@@ -153,44 +200,78 @@ function EquipmentSidebar({
       <div className="flex flex-col items-start">
         <p style={{ fontSize: 12, marginTop: 20 }}>Category</p>
 
-        {categories.map((c) => (
-          <a
-            key={c}
-            href="#/"
-            onClick={() => setCategory(c)}
-            className={`link ${category === c ? 'border-b border-green' : ''}`}
-          >
-            {c}
-          </a>
-        ))}
+        <div
+          className="layout-scrollbar overflow-y-scroll flex flex-col"
+          style={{ maxHeight: 200, width: 220 }}
+        >
+          {categories.map((c) => (
+            <a
+              key={c}
+              href="#/"
+              onClick={() => {
+                setCategory(c)
+                setBrand('')
+              }}
+              className={`link ${category === c ? 'link-active' : ''}`}
+            >
+              {c}
+            </a>
+          ))}
+        </div>
 
         <p style={{ fontSize: 12, marginTop: 30 }}>Brands</p>
 
-        {brands.map((b) => (
-          <a
-            href="#/"
-            key={b}
-            onClick={() => setBrand(b)}
-            className={`link ${brand === b ? 'border-b border-green' : ''}`}
-          >
-            {b}
-          </a>
-        ))}
+        <div
+          className="layout-scrollbar overflow-y-scroll flex flex-col"
+          style={{ maxHeight: 200, width: 220 }}
+        >
+          {brands.map((b) => (
+            <a
+              href="#/"
+              key={b}
+              onClick={() => {
+                setCategory('')
+                setBrand(b)
+              }}
+              className={`link ${brand === b ? 'link-active' : ''}`}
+            >
+              {b}
+            </a>
+          ))}
+        </div>
 
         <p style={{ fontSize: 12, marginTop: 30, marginBottom: 4 }}>Search</p>
 
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{
-            width: 164,
-            height: 35,
-            border: '1px solid #004225',
-            padding: 6,
-            outline: 0,
-          }}
-        />
+        <div
+          className="layout-scrollbar overflow-y-scroll flex flex-col mb-3"
+          style={{ maxHeight: 200, width: 220 }}
+        >
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{
+              width: 164,
+              height: 35,
+              border: '1px solid #004225',
+              padding: 6,
+              outline: 0,
+            }}
+          />
+        </div>
       </div>
+
+      <a
+        className="link"
+        href="#/"
+        style={{ fontSize: 12 }}
+        onClick={() => {
+          setBrand('')
+          setCategory('')
+          setQuery('')
+        }}
+      >
+        Reset Filters
+      </a>
     </div>
   )
 }
