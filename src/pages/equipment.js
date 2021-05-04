@@ -52,7 +52,7 @@ const Equipment = () => {
     <>
       <div className="relative">
         <button
-          className="font-sans absolute top-0 right-0 mt-3 px-6 mb-3"
+          className="font-sans fixed top-0 right-0 mt-3 mr-3 px-6 mb-3"
           onClick={() => setCartOpen(true)}
           style={{
             borderRadius: 12,
@@ -147,7 +147,7 @@ function EquipmentSidebar({
   setQuery,
 }) {
   return (
-    <div style={{ marginLeft: 4, position: 'absolute' }}>
+    <div className="fixed" style={{ marginLeft: 4 }}>
       <h2 className="mb-4">Equipment</h2>
 
       <div className="flex flex-col items-start">
@@ -223,7 +223,7 @@ const CartModal = ({
         <motion.div
           animate={{ opacity: showModal ? 1 : 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-green flex mx-4 my-5 rounded-xl flex-col py-4 px-7"
+          className="bg-green flex mx-3 my-3 rounded-xl flex-col py-4 px-7"
           style={{ maxHeight: '90vh', maxWidth: 372 }}
         >
           <p
@@ -234,7 +234,10 @@ const CartModal = ({
             Close
           </p>
 
-          <div>
+          <div
+            className="layout-scrollbar"
+            style={{ overflowY: 'scroll', maxHeight: 250 }}
+          >
             <form>
               {items.map((item) => (
                 <CartItem
