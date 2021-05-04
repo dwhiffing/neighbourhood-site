@@ -5,6 +5,7 @@ import uniq from 'lodash/uniq'
 import { DottedLine } from '../components/DottedLine'
 import { CloseIcon } from '../components/FAQContainer'
 import Airtable from 'airtable'
+import uniqid from 'uniqid'
 
 const apiKey = process.env.REACT_APP_AIRTABLE_KEY
 const baseName = process.env.REACT_APP_AIRTABLE_BASE
@@ -37,7 +38,10 @@ const Equipment = () => {
       .select({ maxRecords: 100, view: 'Grid view' })
       .eachPage(
         function page(records, fetchNextPage) {
-          setEquipment((e) => [...e, ...records.map((r) => r._rawJson.fields)])
+          setEquipment((e) => [
+            ...e,
+            ...records.map((r) => ({ id: uniqid(), ...r._rawJson.fields })),
+          ])
           fetchNextPage()
         },
         function done(err) {},
