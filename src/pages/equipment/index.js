@@ -27,7 +27,6 @@ const Equipment = () => {
     query,
     setQuery,
   }
-  console.log(sidebarProps)
 
   const getOnAddItem = (item) => () =>
     setCart((c) =>

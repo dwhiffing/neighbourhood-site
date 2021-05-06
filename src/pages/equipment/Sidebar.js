@@ -22,7 +22,7 @@ export function Sidebar({
 
         <div
           className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ maxHeight: 350, width: 200 }}
+          style={{ maxHeight: 370, width: 200 }}
         >
           {categories.map((c) => (
             <a
@@ -43,7 +43,7 @@ export function Sidebar({
 
         <div
           className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ maxHeight: 350, width: 200 }}
+          style={{ maxHeight: 370, width: 200 }}
         >
           {brands.map((b) => (
             <a
