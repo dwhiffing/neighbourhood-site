@@ -6,6 +6,8 @@ import { CartModal } from './Cart'
 
 const Equipment = () => {
   const [category, setCategory] = useState('')
+  const [subCategory, setSubCategory] = useState('')
+  const [subSubCategory, setSubSubCategory] = useState('')
   const [brand, setBrand] = useState('')
   const [query, setQuery] = useState('')
   const [cart, setCart] = useState([])
@@ -22,6 +24,10 @@ const Equipment = () => {
     ...traits,
     category,
     setCategory,
+    subCategory,
+    setSubCategory,
+    subSubCategory,
+    setSubSubCategory,
     brand,
     setBrand,
     query,
@@ -57,7 +63,11 @@ const Equipment = () => {
         </button>
       </div>
 
-      <BasePage linkComponent={<Sidebar {...sidebarProps} />}>
+      <BasePage
+        pageSize="max-w-2xl"
+        className="pl-3"
+        linkComponent={<Sidebar {...sidebarProps} />}
+      >
         <CartModal
           items={cart}
           showModal={cartOpen}
@@ -69,9 +79,18 @@ const Equipment = () => {
           onUpdateQuantity={onUpdateQuantity}
         />
 
-        <div className="pt-16 flex flex-wrap justify-center">
+        <div className="pt-16 flex flex-wrap justify-start">
           {equipment
-            ?.filter(getEquipmentFilter(category, brand, query, results))
+            ?.filter(
+              getEquipmentFilter(
+                category,
+                subCategory,
+                subSubCategory,
+                brand,
+                query,
+                results,
+              ),
+            )
             .slice(0, 100)
             .map((item, index) => (
               <EquipmentItem
@@ -89,6 +108,12 @@ const Equipment = () => {
 }
 
 export default Equipment
+const randomColor = require('randomcolor')
+const colors = randomColor({
+  count: 100,
+  hue: 'random',
+  luminosity: 'light',
+})
 
 const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
   return (
@@ -96,12 +121,21 @@ const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
       className={`${index % 2 === 0 ? 'mr-4' : ''} mb-12`}
       style={{ flex: '48% 0 1' }}
     >
-      {item.image && (
+      {item.image ? (
         <img
           src={item.image[0].url}
           alt={item.name}
           style={{ padding: 30, objectFit: 'contain', width: 300, height: 300 }}
         />
+      ) : (
+        <div
+          style={{
+            padding: 30,
+            background: colors[index],
+            width: 300,
+            height: 300,
+          }}
+        ></div>
       )}
 
       <h2 className="mt-2" style={{ fontSize: 12 }}>
@@ -118,9 +152,18 @@ const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
   )
 }
 
-const getEquipmentFilter = (category, brand, query, results) => (e) => {
+const getEquipmentFilter = (
+  category,
+  subCategory,
+  subSubCategory,
+  brand,
+  query,
+  results,
+) => (e) => {
   let valid = true
   if (category && e.category !== category) valid = false
+  if (subCategory && e.sub_category !== subCategory) valid = false
+  if (subSubCategory && e.sub_sub_category !== subSubCategory) valid = false
   if (brand && e.brand !== brand) valid = false
   if (query && !results.some((r) => r.name === e.name)) valid = false
 

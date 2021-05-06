@@ -2,17 +2,30 @@ import React from 'react'
 
 // TODO: need to handle sub/subcategories
 export function Sidebar({
-  subCategories,
-  subSubCategories,
-  categories = [],
+  categories = {},
   brands = [],
   category,
   setCategory,
+  subCategory,
+  setSubCategory,
+  subSubCategory,
+  setSubSubCategory,
   brand,
   setBrand,
   query,
   setQuery,
 }) {
+  const categoryNames = Object.keys(categories)
+  let subCategories = []
+  let subSubCategories = []
+
+  if (category) {
+    subCategories = Object.keys(categories[category])
+    if (categories[category] && subCategory) {
+      subSubCategories = Object.keys(categories[category][subCategory] || {})
+    }
+  }
+
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
       <h2 className="mb-4">Equipment</h2>
@@ -24,18 +37,54 @@ export function Sidebar({
           className="layout-scrollbar overflow-y-scroll flex flex-col"
           style={{ maxHeight: 370, width: 200 }}
         >
-          {categories.map((c) => (
-            <a
-              key={c}
-              href="#/"
-              onClick={() => {
-                setCategory(c)
-                setBrand('')
-              }}
-              className={`link ${category === c ? 'link-active' : ''}`}
-            >
-              {c}
-            </a>
+          {categoryNames.map((c) => (
+            <>
+              <Link
+                label={c}
+                key={c}
+                active={category === c}
+                onClick={() => {
+                  setCategory(c)
+                  setBrand('')
+                  setSubCategory('')
+                  setSubSubCategory('')
+                }}
+              />
+
+              {c === category &&
+                subCategories.map((s) => (
+                  <>
+                    <Link
+                      label={s}
+                      key={s}
+                      active={subCategory === s}
+                      onClick={() => {
+                        setCategory(c)
+                        setSubCategory(s)
+                        setSubSubCategory('')
+                      }}
+                      style={{ marginLeft: 12 }}
+                    />
+                    {s === subCategory && (
+                      <>
+                        {subSubCategories.map((ss) => (
+                          <Link
+                            label={ss}
+                            key={ss}
+                            style={{ marginLeft: 24 }}
+                            active={subSubCategory === ss}
+                            onClick={() => {
+                              setCategory(c)
+                              setSubCategory(s)
+                              setSubSubCategory(ss)
+                            }}
+                          />
+                        ))}
+                      </>
+                    )}
+                  </>
+                ))}
+            </>
           ))}
         </div>
 
@@ -46,17 +95,17 @@ export function Sidebar({
           style={{ maxHeight: 370, width: 200 }}
         >
           {brands.map((b) => (
-            <a
-              href="#/"
+            <Link
+              label={b}
               key={b}
+              active={brand === b}
               onClick={() => {
                 setCategory('')
+                setSubCategory('')
+                setSubSubCategory('')
                 setBrand(b)
               }}
-              className={`link ${brand === b ? 'link-active' : ''}`}
-            >
-              {b}
-            </a>
+            />
           ))}
         </div>
 
@@ -80,18 +129,28 @@ export function Sidebar({
         </div>
       </div>
 
-      <a
-        className="link"
-        href="#/"
+      <Link
+        label="Reset Filters"
         style={{ fontSize: 12 }}
         onClick={() => {
           setBrand('')
           setCategory('')
+          setSubCategory('')
+          setSubSubCategory('')
           setQuery('')
         }}
-      >
-        Reset Filters
-      </a>
+      />
     </div>
   )
 }
+
+const Link = ({ onClick, href = '#/', active, label, style }) => (
+  <a
+    href={href}
+    onClick={onClick}
+    className={`link ${active ? 'link-active' : ''}`}
+    style={style}
+  >
+    {label}
+  </a>
+)

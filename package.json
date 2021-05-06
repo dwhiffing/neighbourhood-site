@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
     "postcss": "^7.0.35",
+    "randomcolor": "^0.6.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-hot-loader": "^4.13.0",

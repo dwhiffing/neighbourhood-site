@@ -10,6 +10,7 @@ export const BasePage = forwardRef(
       children,
       className = '',
       scrollPos,
+      pageSize = 'max-w-3xl',
     },
     ref,
   ) => {
@@ -50,7 +51,7 @@ export const BasePage = forwardRef(
         <div className="flex flex-1 justify-center">
           <div
             ref={ref}
-            className={`layout-scrollbar max-w-3xl lg:ml-40 xl:ml-0 ${className}`}
+            className={`layout-scrollbar ${pageSize} lg:ml-40 xl:ml-0 ${className}`}
           >
             {children}
           </div>
