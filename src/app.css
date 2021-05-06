@@ -287,3 +287,10 @@ form textarea {
 .muted {
   opacity: 0.7;
 }
+
+.cart-modal-button {
+  border-radius: 12px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 300;
+}

@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
-import { useSiteData } from 'react-static'
+import React, { useEffect, useState } from 'react'
 import { BasePage } from '../components/BasePage'
 import { format } from 'date-fns'
+import fetch from 'node-fetch'
 
 const Feed = () => {
-  const { feed } = useSiteData()
   const [filter, setFilter] = useState('images')
+  const [feed, setFeed] = useState([])
+
+  useEffect(() => {
+    getFeed().then(setFeed)
+  }, [])
 
   const images = feed?.filter((i) => i.class === 'Image') || []
   const texts = feed?.filter((i) => i.class === 'Text') || []
@@ -94,3 +98,16 @@ const Feed = () => {
 }
 
 export default Feed
+
+const getFeed = async () => {
+  const _images = await fetch(
+    'https://api.are.na/v2/channels/heat-iq9mikkaxpm?per=24',
+  )
+  const _posts = await fetch(
+    'https://api.are.na/v2/channels/memory-dkh65nqsv8i?per=24',
+  )
+  const images = await _images.json()
+  const posts = await _posts.json()
+
+  return [...images.contents, ...posts.contents]
+}

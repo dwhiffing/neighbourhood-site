@@ -1,20 +1,12 @@
 import path from 'path'
-import {
-  getStudios,
-  getAbout,
-  getFeed,
-  getEquipment,
-  getFaq,
-} from './src/contentful'
+import { getStudios, getAbout, getFaq } from './src/contentful'
 
 const config = {
   getSiteData: async () => {
     const studios = await getStudios()
     const about = await getAbout()
-    const feed = await getFeed()
-    const equipment = await getEquipment()
     const faq = await getFaq()
-    return { studios, about, feed, equipment, faq }
+    return { studios, about, faq }
   },
   plugins: [
     [
