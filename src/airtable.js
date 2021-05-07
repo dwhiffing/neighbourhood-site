@@ -72,7 +72,9 @@ const setDefault = (obj, key, value) => {
 }
 
 export const useEquipment = () => {
-  const [loading, setLoading] = useState(!localStorage.getItem('last-fetch'))
+  const [loading, setLoading] = useState(
+    typeof document === 'undefined' || !localStorage.getItem('last-fetch'),
+  )
   const [equipment, setEquipment] = useState([])
 
   const traits = useMemo(() => {
