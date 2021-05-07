@@ -1,4 +1,5 @@
 module.exports = {
+  purge: ['./src/**/*.js'],
   theme: {
     colors: {
       green: '#004225',
