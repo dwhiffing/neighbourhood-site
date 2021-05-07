@@ -101,6 +101,7 @@ const GridItem = ({ children, route, routePath }) => {
           top: 10,
           left: 16,
           right: 16,
+          bottom: 16,
         }}
         initial={{ opacity: 0 }}
         animate={{

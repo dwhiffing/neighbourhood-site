@@ -28,14 +28,49 @@ export function Sidebar({
 
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
-      <h2 className="mb-4">Equipment</h2>
+      <div
+        className="flex flex-col items-start overflow-hidden"
+        style={{ height: 'calc(100vh - 100px)' }}
+      >
+        <div>
+          <h2 className="mb-4">Equipment</h2>
 
-      <div className="flex flex-col items-start">
-        <p style={{ fontSize: 12, marginTop: 20 }}>Category</p>
+          <p style={{ fontSize: 12, marginTop: 16, marginBottom: 4 }}>Search</p>
+
+          <div
+            className="layout-scrollbar overflow-y-scroll flex flex-col mb-3"
+            style={{ width: 200 }}
+          >
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{
+                width: 164,
+                height: 35,
+                border: '1px solid #004225',
+                padding: 6,
+                outline: 0,
+              }}
+            />
+          </div>
+
+          <Link
+            label="Reset Filters"
+            style={{ fontSize: 12 }}
+            onClick={() => {
+              setBrand('')
+              setCategory('')
+              setSubCategory('')
+              setSubSubCategory('')
+              setQuery('')
+            }}
+          />
+        </div>
+        <p style={{ fontSize: 12, marginTop: 16 }}>Category</p>
 
         <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ maxHeight: 370, width: 200 }}
+          className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
+          style={{ width: 200, minHeight: 100 }}
         >
           {categoryNames.map((c) => (
             <>
@@ -88,11 +123,11 @@ export function Sidebar({
           ))}
         </div>
 
-        <p style={{ fontSize: 12, marginTop: 30 }}>Brands</p>
+        <p style={{ fontSize: 12, marginTop: 20 }}>Brands</p>
 
         <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ maxHeight: 370, width: 200 }}
+          className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
+          style={{ width: 200, minHeight: 100 }}
         >
           {brands.map((b) => (
             <Link
@@ -108,38 +143,7 @@ export function Sidebar({
             />
           ))}
         </div>
-
-        <p style={{ fontSize: 12, marginTop: 30, marginBottom: 4 }}>Search</p>
-
-        <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col mb-3"
-          style={{ maxHeight: 200, width: 200 }}
-        >
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{
-              width: 164,
-              height: 35,
-              border: '1px solid #004225',
-              padding: 6,
-              outline: 0,
-            }}
-          />
-        </div>
       </div>
-
-      <Link
-        label="Reset Filters"
-        style={{ fontSize: 12 }}
-        onClick={() => {
-          setBrand('')
-          setCategory('')
-          setSubCategory('')
-          setSubSubCategory('')
-          setQuery('')
-        }}
-      />
     </div>
   )
 }

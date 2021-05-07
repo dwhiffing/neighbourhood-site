@@ -67,6 +67,7 @@ const setDefault = (obj, key, value) => {
 }
 
 export const useEquipment = () => {
+  const [loading, setLoading] = useState(!localStorage.getItem('last-fetch'))
   const [equipment, setEquipment] = useState([])
 
   const traits = useMemo(() => {
@@ -99,12 +100,16 @@ export const useEquipment = () => {
 
     if (msPassed > ONE_DAY) {
       localStorage.removeItem('equipment')
+      setLoading(true)
     }
 
-    getEquipment().then(setEquipment)
+    getEquipment().then((result) => {
+      setEquipment(result)
+      setLoading(false)
+    })
   }, [])
 
-  return { traits, fuse: fuse, equipment }
+  return { loading, traits, fuse: fuse, equipment }
 }
 
 const sortAlpha = (a, b) => a.localeCompare(b)
