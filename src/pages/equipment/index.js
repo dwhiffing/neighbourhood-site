@@ -17,6 +17,17 @@ const Equipment = () => {
   const [formState, setFormState] = useState({})
   let { loading, traits, equipment, fuse } = useEquipment()
   const isMobile = useIsMobile()
+  const width = useContainerWidth()
+  let numPerRow = 2
+  let flex = '46% 0 1'
+  if (width > 1000) {
+    numPerRow = 3
+    flex = '30% 0 1'
+  }
+  if (width > 1400) {
+    numPerRow = 4
+    flex = '22% 0 1'
+  }
 
   const results = useMemo(() => fuse.search(query).map((r) => r.item), [
     fuse,
@@ -55,6 +66,23 @@ const Equipment = () => {
     console.log({ cart, ...formState })
   }
 
+  const items = padArray(
+    equipment
+      ?.filter(
+        getEquipmentFilter(
+          category,
+          subCategory,
+          subSubCategory,
+          brand,
+          query,
+          results,
+        ),
+      )
+      .slice(0, 108),
+    numPerRow,
+    '',
+  )
+
   return (
     <>
       <>
@@ -83,7 +111,7 @@ const Equipment = () => {
         </div>
 
         <BasePage
-          pageSize="max-w-6xl"
+          pageSize="max-w-6xl w-full"
           className="pl-3"
           linkComponent={<Sidebar {...sidebarProps} />}
         >
@@ -99,27 +127,16 @@ const Equipment = () => {
           />
 
           <div className="pt-16 flex flex-wrap justify-center">
-            {equipment
-              ?.filter(
-                getEquipmentFilter(
-                  category,
-                  subCategory,
-                  subSubCategory,
-                  brand,
-                  query,
-                  results,
-                ),
-              )
-              .slice(0, 100)
-              .map((item, index) => (
-                <EquipmentItem
-                  key={item.name + index}
-                  item={item}
-                  index={index}
-                  isInCart={cart.find((i) => i.id === item.id)}
-                  onAdd={getOnAddItem(item)}
-                />
-              ))}
+            {items.map((item, index) => (
+              <EquipmentItem
+                key={index}
+                item={item}
+                flex={flex}
+                index={index}
+                isInCart={cart.find((i) => i.id === item.id)}
+                onAdd={getOnAddItem(item)}
+              />
+            ))}
           </div>
         </BasePage>
       </>
@@ -135,15 +152,8 @@ const colors = randomColor({
   luminosity: 'light',
 })
 
-const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
-  const width = useContainerWidth()
-  let flex = '46% 0 1'
-  if (width > 1000) {
-    flex = '30% 0 1'
-  }
-  if (width > 1400) {
-    flex = '22% 0 1'
-  }
+const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
+  if (item === '') return <div className="m-2" style={{ flex }} />
   return (
     <div className="m-2" style={{ flex }}>
       <div
@@ -223,4 +233,9 @@ function Loader() {
       </path>
     </svg>
   )
+}
+
+const padArray = (array, size = 1, value = '') => {
+  const extra = size - (array.length % size)
+  return [...array, ...new Array(extra === size ? 0 : extra).fill(value)]
 }
