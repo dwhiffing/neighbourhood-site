@@ -4,15 +4,21 @@ import { format } from 'date-fns'
 import fetch from 'node-fetch'
 
 const Feed = () => {
-  const [filter, setFilter] = useState('images')
+  const [filter, setFilter] = useState()
   const [feed, setFeed] = useState([])
 
   useEffect(() => {
     getFeed().then(setFeed)
   }, [])
 
-  const images = feed?.filter((i) => i.class === 'Image') || []
-  const texts = feed?.filter((i) => i.class === 'Text') || []
+  const items =
+    feed?.filter((item) =>
+      filter
+        ? filter === 'images'
+          ? item.class === 'Image'
+          : item.class === 'Text'
+        : true,
+    ) || []
 
   return (
     <BasePage
@@ -23,13 +29,14 @@ const Feed = () => {
           <h2 className="mb-4">Feed</h2>
 
           {[
+            { label: 'Everything', onClick: () => setFilter() },
             { label: 'Images', onClick: () => setFilter('images') },
             { label: 'Posts', onClick: () => setFilter('posts') },
           ].map((link, index) => (
             <a
               key={link.label}
               className={`link${
-                filter === (index === 0 ? 'images' : 'posts')
+                (index === 0 ? !filter : filter === link.label.toLowerCase())
                   ? ' link-active'
                   : ''
               }`}
@@ -58,41 +65,47 @@ const Feed = () => {
         </div>
       }
     >
-      {filter === 'images' ? (
-        <div className="flex flex-wrap">
-          {images.map((i) => (
-            <a
-              key={i.id}
-              target="_blank"
-              rel="noreferrer"
-              className="flex justify-center items-center mb-40"
-              style={{ width: '33%' }}
-              href={`https://www.are.na/block/${i.id}`}
-            >
-              <img className="pl-4" alt={i.title} src={i.image.display.url} />
-            </a>
-          ))}
-        </div>
-      ) : filter === 'posts' ? (
-        <div className="flex flex-1 flex-col" style={{ minWidth: 640 }}>
-          {texts
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-            .map((i) => (
-              <div key={i.id} className="mb-12">
-                <span className="small">
-                  {format(new Date(i.created_at), 'MMMM d yyyy')}
-                </span>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href={`https://www.are.na/block/${i.id}`}
-                >
-                  <h1 dangerouslySetInnerHTML={{ __html: i.content }} />
-                </a>
+      <div className="flex flex-wrap">
+        {items
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .map((item) => {
+            return item.class === 'Image' ? (
+              <a
+                key={item.id}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-center items-center mb-40"
+                style={{ width: '33%' }}
+                href={`https://www.are.na/block/${item.id}`}
+              >
+                <img
+                  className="pl-4"
+                  alt={item.title}
+                  src={item.image.display.url}
+                />
+              </a>
+            ) : item.class === 'Text' ? (
+              <div
+                key={item.id}
+                className="flex flex-1 flex-col"
+                style={{ minWidth: 640 }}
+              >
+                <div className="mb-12">
+                  <span className="small">
+                    {format(new Date(item.created_at), 'MMMM d yyyy')}
+                  </span>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`https://www.are.na/block/${item.id}`}
+                  >
+                    <h1 dangerouslySetInnerHTML={{ __html: item.content }} />
+                  </a>
+                </div>
               </div>
-            ))}
-        </div>
-      ) : null}
+            ) : null
+          })}
+      </div>
     </BasePage>
   )
 }
