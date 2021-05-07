@@ -24,7 +24,7 @@ export const BasePage = forwardRef(
       })
 
     return (
-      <div className="flex">
+      <div className="flex pb-20">
         {!isMobile &&
           (linkComponent || (
             <div
