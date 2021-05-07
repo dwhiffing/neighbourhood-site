@@ -35,7 +35,12 @@ const apiKey = process.env.REACT_APP_AIRTABLE_KEY
 const baseName = process.env.REACT_APP_AIRTABLE_BASE
 const getEquipment = () => {
   return new Promise((resolve) => {
-    let equipment = JSON.parse(localStorage.getItem('equipment')) || []
+    let equipment =
+      JSON.parse(
+        typeof document !== 'undefined'
+          ? localStorage.getItem('equipment')
+          : '[]',
+      ) || []
 
     if (equipment.length > 0) return resolve(equipment)
 
