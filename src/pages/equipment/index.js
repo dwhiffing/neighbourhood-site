@@ -161,7 +161,7 @@ const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
       <h2 className="mt-2" style={{ fontSize: 12 }}>
         {item.brand}
       </h2>
-      <h2 className="font-serif mb-2">{item.name}</h2>
+      <p className="font-serif mb-2">{item.name}</p>
       <button
         onClick={onAdd}
         style={{ backgroundColor: isInCart ? '#B01818' : '' }}

@@ -35,10 +35,10 @@ export function Sidebar({
         <div>
           <h2 className="mb-4">Equipment</h2>
 
-          <p style={{ fontSize: 12, marginTop: 16, marginBottom: 4 }}>Search</p>
+          <p className="mt-4 mb-2">Search</p>
 
           <div
-            className="layout-scrollbar overflow-y-scroll flex flex-col mb-3"
+            className="layout-scrollbar overflow-y-scroll flex flex-col mb-2"
             style={{ width: 200 }}
           >
             <input
@@ -54,7 +54,7 @@ export function Sidebar({
             />
           </div>
 
-          <Link
+          {/* <Link
             label="Reset Filters"
             style={{ fontSize: 12 }}
             onClick={() => {
@@ -64,12 +64,13 @@ export function Sidebar({
               setSubSubCategory('')
               setQuery('')
             }}
-          />
+          /> */}
         </div>
-        <p style={{ fontSize: 12, marginTop: 16 }}>Category</p>
+
+        <p className="mt-4 mb-2">Category</p>
 
         <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
+          className="layout-scrollbar overflow-y-scroll flex flex-col"
           style={{ width: 200, minHeight: 100 }}
         >
           {categoryNames.map((c) => (
@@ -123,7 +124,7 @@ export function Sidebar({
           ))}
         </div>
 
-        <p style={{ fontSize: 12, marginTop: 20 }}>Brands</p>
+        <p className="mt-4 mb-2">Brands</p>
 
         <div
           className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
@@ -153,7 +154,7 @@ const Link = ({ onClick, href = '#/', active, label, style }) => (
     href={href}
     onClick={onClick}
     className={`link ${active ? 'link-active' : ''}`}
-    style={style}
+    style={{ ...style, fontSize: 12 }}
   >
     {label}
   </a>
