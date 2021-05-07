@@ -71,7 +71,7 @@ export function Sidebar({
 
         <div
           className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ width: 200, minHeight: 100 }}
+          style={{ width: 150, minHeight: 100 }}
         >
           {categoryNames.map((c) => (
             <>
@@ -128,7 +128,7 @@ export function Sidebar({
 
         <div
           className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
-          style={{ width: 200, minHeight: 100 }}
+          style={{ width: 150, minHeight: 100 }}
         >
           {brands.map((b) => (
             <Link

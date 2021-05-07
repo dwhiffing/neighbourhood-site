@@ -17,7 +17,7 @@ const AccordionItem = ({ children, route, routePath }) => {
         <h2
           initial={false}
           className={`p-5 border-green ${
-            route === routePath && route !== '/' ? '' : 'border-b'
+            route === routePath ? '' : 'border-b'
           }`}
         >
           {route !== '/' ? (

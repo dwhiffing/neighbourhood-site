@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { useIsMobile } from '../useIsMobile'
+import { useContainerWidth } from '../useIsMobile'
 
 export const BasePage = forwardRef(
   (
@@ -14,7 +14,7 @@ export const BasePage = forwardRef(
     },
     ref,
   ) => {
-    const isMobile = useIsMobile()
+    const width = useContainerWidth()
 
     let activeSection = 0
     if (Array.isArray(children))
@@ -25,7 +25,7 @@ export const BasePage = forwardRef(
 
     return (
       <div className="flex pb-20">
-        {!isMobile &&
+        {width > 900 &&
           (linkComponent || (
             <div
               className="flex flex-col items-start fixed"
@@ -51,7 +51,9 @@ export const BasePage = forwardRef(
         <div className="flex flex-1 justify-center">
           <div
             ref={ref}
-            className={`layout-scrollbar ${pageSize} lg:ml-40 xl:ml-0 ${className}`}
+            className={`layout-scrollbar ${pageSize} ${
+              width > 900 && width < 1600 ? 'ml-40' : ''
+            } ${className}`}
           >
             {children}
           </div>

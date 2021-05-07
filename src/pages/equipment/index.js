@@ -4,7 +4,7 @@ import { useEquipment } from '../../airtable'
 import { Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
-import { useIsMobile } from '../../useIsMobile'
+import { useContainerWidth, useIsMobile } from '../../useIsMobile'
 
 const Equipment = () => {
   const [category, setCategory] = useState('')
@@ -83,7 +83,7 @@ const Equipment = () => {
         </div>
 
         <BasePage
-          pageSize="max-w-2xl"
+          pageSize="max-w-6xl"
           className="pl-3"
           linkComponent={<Sidebar {...sidebarProps} />}
         >
@@ -98,7 +98,7 @@ const Equipment = () => {
             onUpdateQuantity={onUpdateQuantity}
           />
 
-          <div className="pt-16 flex flex-wrap justify-start">
+          <div className="pt-16 flex flex-wrap justify-center">
             {equipment
               ?.filter(
                 getEquipmentFilter(
@@ -136,27 +136,31 @@ const colors = randomColor({
 })
 
 const EquipmentItem = ({ item, index, onAdd, isInCart }) => {
+  const width = useContainerWidth()
+  let flex = '46% 0 1'
+  if (width > 1000) {
+    flex = '30% 0 1'
+  }
+  if (width > 1400) {
+    flex = '22% 0 1'
+  }
   return (
-    <div
-      className={`${index % 2 === 0 ? 'mr-4' : ''} mb-12`}
-      style={{ flex: '48% 0 1' }}
-    >
-      {item.image ? (
-        <img
-          src={item.image[0].url}
-          alt={item.name}
-          style={{ padding: 30, objectFit: 'contain', width: 300, height: 300 }}
-        />
-      ) : (
-        <div
-          style={{
-            padding: 30,
-            background: colors[index],
-            width: 300,
-            height: 300,
-          }}
-        ></div>
-      )}
+    <div className="m-2" style={{ flex }}>
+      <div
+        className="square"
+        style={{
+          background: item.image ? null : colors[index],
+        }}
+      >
+        {item.image && (
+          <img
+            src={item.image[0].thumbnails.large.url}
+            alt={item.name}
+            className="w-full"
+            style={{ padding: 8, objectFit: 'contain' }}
+          />
+        )}
+      </div>
 
       <h2 className="mt-2" style={{ fontSize: 12 }}>
         {item.brand}
