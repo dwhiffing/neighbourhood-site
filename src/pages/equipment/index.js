@@ -34,20 +34,6 @@ const Equipment = () => {
     query,
   ])
 
-  const sidebarProps = {
-    ...traits,
-    category,
-    setCategory,
-    subCategory,
-    setSubCategory,
-    subSubCategory,
-    setSubSubCategory,
-    brand,
-    setBrand,
-    query,
-    setQuery,
-  }
-
   const getOnAddItem = (item) => () =>
     setCart((c) =>
       c.find((i) => i.id === item.id)
@@ -82,6 +68,21 @@ const Equipment = () => {
     numPerRow,
     '',
   )
+
+  const sidebarProps = {
+    ...traits,
+    items,
+    category,
+    setCategory,
+    subCategory,
+    setSubCategory,
+    subSubCategory,
+    setSubSubCategory,
+    brand,
+    setBrand,
+    query,
+    setQuery,
+  }
 
   return (
     <>

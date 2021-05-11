@@ -1,9 +1,10 @@
+import uniq from 'lodash.uniq'
 import React from 'react'
 
-// TODO: need to handle sub/subcategories
 export function Sidebar({
   categories = {},
   brands = [],
+  items,
   category,
   setCategory,
   subCategory,
@@ -25,6 +26,9 @@ export function Sidebar({
       subSubCategories = Object.keys(categories[category][subCategory] || {})
     }
   }
+
+  const resultBrands = uniq(items.map((r) => r.brand))
+  const resultCategories = uniq(items.map((r) => r.category))
 
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
@@ -53,18 +57,6 @@ export function Sidebar({
               }}
             />
           </div>
-
-          {/* <Link
-            label="Reset Filters"
-            style={{ fontSize: 12 }}
-            onClick={() => {
-              setBrand('')
-              setCategory('')
-              setSubCategory('')
-              setSubSubCategory('')
-              setQuery('')
-            }}
-          /> */}
         </div>
 
         <p className="mt-4 mb-2">Category</p>
@@ -73,55 +65,64 @@ export function Sidebar({
           className="layout-scrollbar overflow-y-scroll flex flex-col"
           style={{ width: 150, minHeight: 100 }}
         >
-          {categoryNames.map((c) => (
-            <>
-              <Link
-                label={c}
-                key={c}
-                active={category === c}
-                onClick={() => {
-                  setCategory(c)
-                  setBrand('')
-                  setSubCategory('')
-                  setSubSubCategory('')
-                }}
-              />
+          {categoryNames
+            .filter((c) =>
+              category
+                ? c === category
+                : brand
+                ? resultCategories.includes(c)
+                : true,
+            )
+            .map((c) => (
+              <>
+                <Link
+                  label={c}
+                  key={c}
+                  active={category === c}
+                  onClick={() => {
+                    setCategory(c)
+                    setSubCategory('')
+                    setSubSubCategory('')
+                  }}
+                />
 
-              {c === category &&
-                subCategories.map((s) => (
-                  <>
-                    <Link
-                      label={s}
-                      key={s}
-                      active={subCategory === s}
-                      onClick={() => {
-                        setCategory(c)
-                        setSubCategory(s)
-                        setSubSubCategory('')
-                      }}
-                      style={{ marginLeft: 12 }}
-                    />
-                    {s === subCategory && (
-                      <>
-                        {subSubCategories.map((ss) => (
-                          <Link
-                            label={ss}
-                            key={ss}
-                            style={{ marginLeft: 24 }}
-                            active={subSubCategory === ss}
-                            onClick={() => {
-                              setCategory(c)
-                              setSubCategory(s)
-                              setSubSubCategory(ss)
-                            }}
-                          />
-                        ))}
-                      </>
-                    )}
-                  </>
-                ))}
-            </>
-          ))}
+                {c === category &&
+                  subCategories.map((s) => (
+                    <>
+                      <Link
+                        label={s}
+                        key={s}
+                        active={subCategory === s}
+                        onClick={() => {
+                          setCategory(c)
+                          setBrand('')
+                          setSubCategory(s)
+                          setSubSubCategory('')
+                        }}
+                        style={{ marginLeft: 12 }}
+                      />
+                      {s === subCategory && (
+                        <>
+                          {subSubCategories.map((ss) => (
+                            <Link
+                              label={ss}
+                              key={ss}
+                              style={{ marginLeft: 24 }}
+                              active={subSubCategory === ss}
+                              onClick={() => {
+                                setBrand('')
+                                setCategory(c)
+                                setSubCategory(s)
+                                setSubSubCategory(ss)
+                              }}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </>
+                  ))}
+              </>
+            ))}
         </div>
 
         <p className="mt-4 mb-2">Brands</p>
@@ -130,20 +131,31 @@ export function Sidebar({
           className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
           style={{ width: 150, minHeight: 100 }}
         >
-          {brands.map((b) => (
-            <Link
-              label={b}
-              key={b}
-              active={brand === b}
-              onClick={() => {
-                setCategory('')
-                setSubCategory('')
-                setSubSubCategory('')
-                setBrand(b)
-              }}
-            />
-          ))}
+          {brands
+            .filter((b) => (category ? resultBrands.includes(b) : true))
+            .map((b) => (
+              <Link
+                label={b}
+                key={b}
+                active={brand === b}
+                onClick={() => {
+                  setBrand(b)
+                }}
+              />
+            ))}
         </div>
+
+        <Link
+          label="Reset Filters"
+          style={{ fontSize: 12, marginTop: 12 }}
+          onClick={() => {
+            setBrand('')
+            setCategory('')
+            setSubCategory('')
+            setSubSubCategory('')
+            setQuery('')
+          }}
+        />
       </div>
     </div>
   )
