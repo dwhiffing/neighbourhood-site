@@ -71,6 +71,7 @@ const Equipment = () => {
 
   const sidebarProps = {
     ...traits,
+    equipment,
     items,
     category,
     setCategory,

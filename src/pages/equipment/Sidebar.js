@@ -4,6 +4,7 @@ import React from 'react'
 export function Sidebar({
   categories = {},
   brands = [],
+  equipment,
   items,
   category,
   setCategory,
@@ -29,6 +30,13 @@ export function Sidebar({
 
   const resultBrands = uniq(items.map((r) => r.brand))
   const resultCategories = uniq(items.map((r) => r.category))
+  const groupItems = equipment.filter((e) => {
+    if (category && e.category !== category) return false
+    if (brand && e.brand !== brand) return false
+    return true
+  })
+  const resultSubCategories = uniq(groupItems.map((r) => r.sub_category))
+  const resultSubSubCategories = uniq(groupItems.map((r) => r.sub_sub_category))
 
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
@@ -86,37 +94,39 @@ export function Sidebar({
                   }}
                 />
 
-                {c === category &&
-                  subCategories.map((s) => (
+                {subCategories
+                  .filter((c) =>
+                    category ? resultSubCategories.includes(c) : true,
+                  )
+                  .map((s) => (
                     <>
                       <Link
                         label={s}
                         key={s}
                         active={subCategory === s}
                         onClick={() => {
-                          setCategory(c)
-                          setBrand('')
                           setSubCategory(s)
                           setSubSubCategory('')
                         }}
                         style={{ marginLeft: 12 }}
                       />
-                      {s === subCategory && (
+                      {subCategory === s && (
                         <>
-                          {subSubCategories.map((ss) => (
-                            <Link
-                              label={ss}
-                              key={ss}
-                              style={{ marginLeft: 24 }}
-                              active={subSubCategory === ss}
-                              onClick={() => {
-                                setBrand('')
-                                setCategory(c)
-                                setSubCategory(s)
-                                setSubSubCategory(ss)
-                              }}
-                            />
-                          ))}
+                          {subSubCategories
+                            .filter((c) =>
+                              subCategory
+                                ? resultSubSubCategories.includes(c)
+                                : true,
+                            )
+                            .map((ss) => (
+                              <Link
+                                label={ss}
+                                key={ss}
+                                style={{ marginLeft: 24 }}
+                                active={subSubCategory === ss}
+                                onClick={() => setSubSubCategory(ss)}
+                              />
+                            ))}
                         </>
                       )}
                     </>
