@@ -23,7 +23,7 @@ const AccordionItem = ({ children, route, routePath }) => {
           {route !== '/' ? (
             route[0].toUpperCase() + route.slice(1)
           ) : (
-            <Logo style={{ marginTop: 10 }} />
+            <Logo style={{ marginTop: 10, height: 50 }} />
           )}
         </h2>
       </Link>

@@ -40,7 +40,7 @@ export const Grid = ({ routePath, children }) => {
         <Logo
           showName={false}
           className="mt-3 ml-1 max-w-none"
-          style={{ width: 300 }}
+          style={{ width: 300, height: 45 }}
         />
       ) : (
         <h2 style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
