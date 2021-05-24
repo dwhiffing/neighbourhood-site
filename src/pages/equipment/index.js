@@ -29,10 +29,10 @@ const Equipment = () => {
     flex = '22% 0 1'
   }
 
-  const results = useMemo(() => fuse.search(query).map((r) => r.item), [
-    fuse,
-    query,
-  ])
+  const results = useMemo(
+    () => fuse.search(query).map((r) => r.item),
+    [fuse, query],
+  )
 
   const getOnAddItem = (item) => () =>
     setCart((c) =>
@@ -117,17 +117,6 @@ const Equipment = () => {
           className="pl-3"
           linkComponent={<Sidebar {...sidebarProps} />}
         >
-          <CartModal
-            items={cart}
-            showModal={cartOpen}
-            setShowModal={setCartOpen}
-            formState={formState}
-            setFormState={setFormState}
-            onSubmit={onSubmit}
-            onRemoveItem={onRemoveItem}
-            onUpdateQuantity={onUpdateQuantity}
-          />
-
           <div className="pt-16 flex flex-wrap justify-center">
             {items.map((item, index) => (
               <EquipmentItem
@@ -140,6 +129,16 @@ const Equipment = () => {
               />
             ))}
           </div>
+          <CartModal
+            items={cart}
+            showModal={cartOpen}
+            setShowModal={setCartOpen}
+            formState={formState}
+            setFormState={setFormState}
+            onSubmit={onSubmit}
+            onRemoveItem={onRemoveItem}
+            onUpdateQuantity={onUpdateQuantity}
+          />
         </BasePage>
       </>
     </>
@@ -157,7 +156,7 @@ const colors = randomColor({
 const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
   if (item === '') return <div className="m-2" style={{ flex }} />
   return (
-    <div className="m-2" style={{ flex }}>
+    <div className="mx-2 my-4" style={{ flex }}>
       <div
         className="square"
         style={{
@@ -173,11 +172,14 @@ const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
           />
         )}
       </div>
-
-      <h2 className="mt-2" style={{ fontSize: 12 }}>
-        {item.brand}
-      </h2>
-      <p className="font-serif mb-2">{item.name}</p>
+      <div style={{ minHeight: 30 }}>
+        <h2 className="mt-2" style={{ fontSize: 12 }}>
+          {item.brand}
+        </h2>
+      </div>
+      <div style={{ minHeight: 65 }}>
+        <p className="mb-2">{item.name}</p>
+      </div>
       <button
         onClick={onAdd}
         style={{ backgroundColor: isInCart ? '#B01818' : '' }}
@@ -188,23 +190,17 @@ const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
   )
 }
 
-const getEquipmentFilter = (
-  category,
-  subCategory,
-  subSubCategory,
-  brand,
-  query,
-  results,
-) => (e) => {
-  let valid = true
-  if (category && e.category !== category) valid = false
-  if (subCategory && e.sub_category !== subCategory) valid = false
-  if (subSubCategory && e.sub_sub_category !== subSubCategory) valid = false
-  if (brand && e.brand !== brand) valid = false
-  if (query && !results.some((r) => r.name === e.name)) valid = false
+const getEquipmentFilter =
+  (category, subCategory, subSubCategory, brand, query, results) => (e) => {
+    let valid = true
+    if (category && e.category !== category) valid = false
+    if (subCategory && e.sub_category !== subCategory) valid = false
+    if (subSubCategory && e.sub_sub_category !== subSubCategory) valid = false
+    if (brand && e.brand !== brand) valid = false
+    if (query && !results.some((r) => r.name === e.name)) valid = false
 
-  return valid
-}
+    return valid
+  }
 
 function Loader() {
   return (

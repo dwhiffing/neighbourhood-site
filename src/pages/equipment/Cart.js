@@ -21,7 +21,7 @@ export const CartModal = ({
     >
       <motion.div
         animate={{ opacity: showModal ? 1 : 0 }}
-        className="flex fixed justify-center items-center z-20"
+        className="flex fixed justify-center items-center z-30"
         style={{
           pointerEvents: showModal ? 'auto' : 'none',
           opacity: showModal ? 1 : 0,

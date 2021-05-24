@@ -81,6 +81,7 @@ export function Sidebar({
                 ? resultCategories.includes(c)
                 : true,
             )
+            .sort((a, b) => a.localeCompare(b))
             .map((c) => (
               <>
                 <Link
@@ -143,6 +144,7 @@ export function Sidebar({
         >
           {brands
             .filter((b) => (category ? resultBrands.includes(b) : true))
+            .sort((a, b) => a.localeCompare(b))
             .map((b) => (
               <Link
                 label={b}

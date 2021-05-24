@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import { RichTextItem } from '../components/RichTextItem'
 import { kebabCase } from 'lodash'
+import { useContainerWidth } from '../useIsMobile'
 
 const DURATION = 10
 const SIZE = 222
@@ -96,10 +97,12 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
 function FAQBall(props) {
   const [direction, setDirection] = useState(1)
   const base = useMotionValue(0)
-  const x = useTransform(base, (v) => `calc(${100 * v}vw - ${SIZE * v}px)`)
+  const width = useContainerWidth()
+  const finalSize = width > 900 ? SIZE : SIZE / 1.5
+  const x = useTransform(base, (v) => `calc(${100 * v}vw - ${finalSize * v}px)`)
   const y = useTransform(base, (v) => {
     let value = v <= 0.5 ? 200 * v : 200 * (1 - v)
-    let offset = v <= 0.5 ? SIZE * 2 * v : SIZE * 2 * (1 - v)
+    let offset = v <= 0.5 ? finalSize * 2 * v : finalSize * 2 * (1 - v)
     return `calc(${value}vh - ${offset}px)`
   })
 
@@ -139,12 +142,21 @@ function FAQBall(props) {
           x,
           y,
           pointerEvents: props.showBall ? 'auto' : 'none',
-          width: SIZE,
-          height: SIZE,
+          width: finalSize,
+          height: finalSize,
         }}
         className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto"
       >
-        <h1 className="text-white text-center">COVID-19 Protocols</h1>
+        {width > 900 ? (
+          <h1 className="text-white text-center">COVID-19 Protocols</h1>
+        ) : (
+          <h2
+            className="text-white font-serif text-center"
+            style={{ color: 'white' }}
+          >
+            COVID-19 Protocols
+          </h2>
+        )}
       </motion.div>
     </motion.div>
   )
