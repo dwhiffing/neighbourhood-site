@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { DottedLine } from '../../components/DottedLine'
 import { Input, Textarea } from '../../components/Input'
 import { CloseIcon } from '../../components/FAQContainer'
+import { defer } from 'lodash'
 
 export const CartModal = ({
   showModal,
@@ -15,12 +16,27 @@ export const CartModal = ({
   onUpdateQuantity,
 }) => {
   const invalid = items.length === 0 || !formState.name || !formState.email
+  const node = useRef()
+  const handleClick = useCallback(
+    (e) => {
+      if (!showModal || node.current.contains(e.target)) return
+      e.preventDefault()
+      e.stopPropagation()
+      defer(() => setShowModal(false))
+    },
+    [showModal, setShowModal],
+  )
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick)
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+    }
+  }, [handleClick])
   return (
-    <div
-      className={`fixed inset-0 pointer-events-${showModal ? 'auto' : 'none'}`}
-      onClick={() => setShowModal(false)}
-    >
+    <div className={`fixed inset-0 pointer-events-none`}>
       <motion.div
+        ref={node}
         animate={{ opacity: showModal ? 1 : 0 }}
         className="flex fixed justify-center items-center z-30"
         style={{

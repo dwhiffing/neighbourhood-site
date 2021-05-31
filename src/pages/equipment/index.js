@@ -34,12 +34,14 @@ const Equipment = () => {
     [fuse, query],
   )
 
-  const getOnAddItem = (item) => () =>
+  const getOnAddItem = (item) => (e) => {
+    if (cartOpen) return
     setCart((c) =>
       c.find((i) => i.id === item.id)
         ? c.filter((i) => i.id !== item.id)
         : [...c, { ...item, quantity: 1 }],
     )
+  }
 
   const onRemoveItem = (item) => setCart((c) => c.filter((i) => i !== item))
 
