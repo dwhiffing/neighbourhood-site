@@ -51,7 +51,7 @@ export function Sidebar({
 
           <div
             className="layout-scrollbar overflow-y-scroll flex flex-col mb-2"
-            style={{ width: 200 }}
+            style={{ width: 230 }}
           >
             <input
               value={query}
@@ -67,107 +67,118 @@ export function Sidebar({
           </div>
         </div>
 
-        <p className="mt-4 mb-2">Category</p>
+        {(brand || category) && (
+          <button
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setBrand('')
+              setCategory('')
+              setSubCategory('')
+              setSubSubCategory('')
+              setQuery('')
+            }}
+          >
+            Back
+          </button>
+        )}
 
-        <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col"
-          style={{ width: 150, minHeight: 100 }}
-        >
-          {categoryNames
-            .filter((c) =>
-              category
-                ? c === category
-                : brand
-                ? resultCategories.includes(c)
-                : true,
-            )
-            .sort((a, b) => a.localeCompare(b))
-            .map((c) => (
-              <>
-                <Link
-                  label={c}
-                  key={c}
-                  active={category === c}
-                  onClick={() => {
-                    setCategory(c)
-                    setSubCategory('')
-                    setSubSubCategory('')
-                  }}
-                />
+        {!brand && (
+          <>
+            <p className="mt-4 mb-2">Category</p>
 
-                {subCategories
-                  .filter((c) =>
-                    category ? resultSubCategories.includes(c) : true,
-                  )
-                  .map((s) => (
-                    <>
-                      <Link
-                        label={s}
-                        key={s}
-                        active={subCategory === s}
-                        onClick={() => {
-                          setSubCategory(s)
-                          setSubSubCategory('')
-                        }}
-                        style={{ marginLeft: 12 }}
-                      />
-                      {subCategory === s && (
+            <div
+              className="layout-scrollbar overflow-y-scroll flex flex-col"
+              style={{ width: 150, minHeight: 100 }}
+            >
+              {categoryNames
+                .filter((c) =>
+                  category
+                    ? c === category
+                    : brand
+                    ? resultCategories.includes(c)
+                    : true,
+                )
+                .sort((a, b) => a.localeCompare(b))
+                .map((c) => (
+                  <>
+                    <Link
+                      label={c}
+                      key={c}
+                      active={category === c}
+                      onClick={() => {
+                        setCategory(c)
+                        setSubCategory('')
+                        setSubSubCategory('')
+                      }}
+                    />
+
+                    {subCategories
+                      .filter((c) =>
+                        category ? resultSubCategories.includes(c) : true,
+                      )
+                      .map((s) => (
                         <>
-                          {subSubCategories
-                            .filter((c) =>
-                              subCategory
-                                ? resultSubSubCategories.includes(c)
-                                : true,
-                            )
-                            .map((ss) => (
-                              <Link
-                                label={ss}
-                                key={ss}
-                                style={{ marginLeft: 24 }}
-                                active={subSubCategory === ss}
-                                onClick={() => setSubSubCategory(ss)}
-                              />
-                            ))}
+                          <Link
+                            label={s}
+                            key={s}
+                            active={subCategory === s}
+                            onClick={() => {
+                              setSubCategory(s)
+                              setSubSubCategory('')
+                            }}
+                            style={{ marginLeft: 12 }}
+                          />
+                          {subCategory === s && (
+                            <>
+                              {subSubCategories
+                                .filter((c) =>
+                                  subCategory
+                                    ? resultSubSubCategories.includes(c)
+                                    : true,
+                                )
+                                .map((ss) => (
+                                  <Link
+                                    label={ss}
+                                    key={ss}
+                                    style={{ marginLeft: 24 }}
+                                    active={subSubCategory === ss}
+                                    onClick={() => setSubSubCategory(ss)}
+                                  />
+                                ))}
+                            </>
+                          )}
                         </>
-                      )}
-                    </>
-                  ))}
-              </>
-            ))}
-        </div>
+                      ))}
+                  </>
+                ))}
+            </div>
+          </>
+        )}
 
-        <p className="mt-4 mb-2">Brands</p>
+        {!category && (
+          <>
+            <p className="mt-4 mb-2">Brands</p>
 
-        <div
-          className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
-          style={{ width: 150, minHeight: 100 }}
-        >
-          {brands
-            .filter((b) => (category ? resultBrands.includes(b) : true))
-            .sort((a, b) => a.localeCompare(b))
-            .map((b) => (
-              <Link
-                label={b}
-                key={b}
-                active={brand === b}
-                onClick={() => {
-                  setBrand(b)
-                }}
-              />
-            ))}
-        </div>
-
-        <Link
-          label="Reset Filters"
-          style={{ fontSize: 12, marginTop: 12 }}
-          onClick={() => {
-            setBrand('')
-            setCategory('')
-            setSubCategory('')
-            setSubSubCategory('')
-            setQuery('')
-          }}
-        />
+            <div
+              className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
+              style={{ width: 150, minHeight: 100 }}
+            >
+              {brands
+                .filter((b) => (category ? resultBrands.includes(b) : true))
+                .sort((a, b) => a.localeCompare(b))
+                .map((b) => (
+                  <Link
+                    label={b}
+                    key={b}
+                    active={brand === b}
+                    onClick={() => {
+                      setBrand(b)
+                    }}
+                  />
+                ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
@@ -178,7 +189,7 @@ const Link = ({ onClick, href = '#/', active, label, style }) => (
     href={href}
     onClick={onClick}
     className={`link ${active ? 'link-active' : ''}`}
-    style={{ ...style, fontSize: 12 }}
+    style={{ ...style }}
   >
     {label}
   </a>

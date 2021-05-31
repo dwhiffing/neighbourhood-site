@@ -105,10 +105,10 @@ const Equipment = () => {
 
         <div className="relative">
           <button
-            className="font-sans fixed top-0 right-0 mt-3 mr-3 px-6 mb-3 cart-modal-button"
+            className="fixed top-0 right-0 mt-3 mr-3 px-6 mb-3 cart-modal-button"
             onClick={() => setCartOpen(true)}
           >
-            {cart.length} Items
+            My List ({cart.length})
           </button>
         </div>
 
@@ -156,7 +156,11 @@ const colors = randomColor({
 const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
   if (item === '') return <div className="m-2" style={{ flex }} />
   return (
-    <div className="mx-2 my-4" style={{ flex }}>
+    <div
+      onClick={onAdd}
+      className="equipment-item mx-2 mt-4 mb-8"
+      style={{ flex }}
+    >
       <div
         className="square"
         style={{
@@ -172,18 +176,15 @@ const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
           />
         )}
       </div>
-      <div style={{ minHeight: 30 }}>
+      <div>
         <h2 className="mt-2" style={{ fontSize: 12 }}>
           {item.brand}
         </h2>
       </div>
-      <div style={{ minHeight: 65 }}>
+      <div>
         <p className="mb-2">{item.name}</p>
       </div>
-      <button
-        onClick={onAdd}
-        style={{ backgroundColor: isInCart ? '#B01818' : '' }}
-      >
+      <button style={{ backgroundColor: isInCart ? '#B01818' : '' }}>
         {isInCart ? 'Remove from List' : 'Add to List'}
       </button>
     </div>

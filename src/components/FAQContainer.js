@@ -145,7 +145,7 @@ function FAQBall(props) {
           width: finalSize,
           height: finalSize,
         }}
-        className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto"
+        className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto p-5"
       >
         {width > 900 ? (
           <h1 className="text-white text-center">COVID-19 Protocols</h1>

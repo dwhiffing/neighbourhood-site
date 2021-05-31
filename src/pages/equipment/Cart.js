@@ -117,16 +117,10 @@ export const CartModal = ({
                 Send Quote Request
               </button>
 
-              <p
-                className="text-white text-center muted"
-                style={{ fontSize: 12, lineHeight: 1.7 }}
-              >
+              <p className="text-white text-center muted small">
                 We respond to most inquiries within 2 hours
               </p>
-              <p
-                className="text-white text-center muted"
-                style={{ fontSize: 12, lineHeight: 1.7 }}
-              >
+              <p className="text-white text-center muted small">
                 Mandatory fields marked with *
               </p>
             </form>
