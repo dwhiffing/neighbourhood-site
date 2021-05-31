@@ -84,6 +84,10 @@ a.link {
   cursor: pointer;
 }
 
+a.large {
+  font-size: 16px;
+}
+
 a.link:hover,
 a.link.link-active {
   text-decoration: underline;

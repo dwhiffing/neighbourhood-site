@@ -28,16 +28,6 @@ export function Sidebar({
     }
   }
 
-  const resultBrands = uniq(items.map((r) => r.brand))
-  const resultCategories = uniq(items.map((r) => r.category))
-  const groupItems = equipment.filter((e) => {
-    if (category && e.category !== category) return false
-    if (brand && e.brand !== brand) return false
-    return true
-  })
-  const resultSubCategories = uniq(groupItems.map((r) => r.sub_category))
-  const resultSubSubCategories = uniq(groupItems.map((r) => r.sub_sub_category))
-
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
       <div
@@ -63,20 +53,15 @@ export function Sidebar({
 
         {!brand && (
           <>
-            <p className="mt-4 mb-2">Category</p>
+            <a onClick={() => setCategory('')} className="link large mt-4 mb-2">
+              All Categories
+            </a>
 
             <div
               className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
               style={{ width: 150, minHeight: 100 }}
             >
               {categoryNames
-                .filter((c) =>
-                  category
-                    ? c === category
-                    : brand
-                    ? resultCategories.includes(c)
-                    : true,
-                )
                 .sort((a, b) => a.localeCompare(b))
                 .map((c) => (
                   <>
@@ -92,9 +77,7 @@ export function Sidebar({
                     />
 
                     {subCategories
-                      .filter((c) =>
-                        category ? resultSubCategories.includes(c) : true,
-                      )
+                      .filter(() => category === c)
                       .map((s) => (
                         <>
                           <Link
@@ -110,11 +93,8 @@ export function Sidebar({
                           {subCategory === s && (
                             <>
                               {subSubCategories
-                                .filter((c) =>
-                                  subCategory
-                                    ? resultSubSubCategories.includes(c)
-                                    : true,
-                                )
+                                .filter(() => category === c)
+
                                 .map((ss) => (
                                   <Link
                                     label={ss}
@@ -136,14 +116,15 @@ export function Sidebar({
 
         {!category && (
           <>
-            <p className="mt-4 mb-2">Brands</p>
+            <a onClick={() => setBrand('')} className="link large mt-4 mb-2">
+              All Brands
+            </a>
 
             <div
               className="layout-scrollbar overflow-y-scroll flex flex-col"
               style={{ width: 150, minHeight: 100, flex: 2 }}
             >
               {brands
-                .filter((b) => (category ? resultBrands.includes(b) : true))
                 .sort((a, b) => a.localeCompare(b))
                 .map((b) => (
                   <Link
@@ -206,24 +187,6 @@ export function MobileFilters({
     }
   }
 
-  const resultBrands = uniq(items.map((r) => r.brand))
-  const resultCategories = uniq(items.map((r) => r.category))
-  const groupItems = equipment.filter((e) => {
-    if (category && e.category !== category) return false
-    if (brand && e.brand !== brand) return false
-    return true
-  })
-  const resultSubCategories = uniq(groupItems.map((r) => r.sub_category))
-  const resultSubSubCategories = uniq(groupItems.map((r) => r.sub_sub_category))
-
-  const renderedSubCategories = subCategories.filter((c) =>
-    category ? resultSubCategories.includes(c) : true,
-  )
-
-  const renderedSubSubCategories = subSubCategories.filter((c) =>
-    subCategory ? resultSubSubCategories.includes(c) : true,
-  )
-
   return (
     <div>
       {/* <p className="mt-4 mb-2">Search</p>
@@ -251,13 +214,6 @@ export function MobileFilters({
           >
             <option value="">Everything</option>
             {categoryNames
-              .filter((c) =>
-                category
-                  ? c === category
-                  : brand
-                  ? resultCategories.includes(c)
-                  : true,
-              )
               .sort((a, b) => a.localeCompare(b))
               .map((c) => (
                 <>
@@ -268,7 +224,7 @@ export function MobileFilters({
         </>
       )}
 
-      {renderedSubCategories.length > 0 && (
+      {subCategories.length > 0 && (
         <>
           <h2 className="font-serif mt-4">Sub Categories</h2>
           <select
@@ -278,7 +234,7 @@ export function MobileFilters({
             }}
           >
             <option value="">Everything</option>
-            {renderedSubCategories.map((c) => (
+            {subCategories.map((c) => (
               <>
                 <option value={c}>{c}</option>
               </>
@@ -287,7 +243,7 @@ export function MobileFilters({
         </>
       )}
 
-      {renderedSubSubCategories.length > 0 && (
+      {subSubCategories.length > 0 && (
         <>
           <h2 className="font-serif mt-4">Sub Sub Categories</h2>
           <select
@@ -296,7 +252,7 @@ export function MobileFilters({
             }}
           >
             <option value="">Everything</option>
-            {renderedSubSubCategories.map((c) => (
+            {subSubCategories.map((c) => (
               <>
                 <option value={c}>{c}</option>
               </>
@@ -316,7 +272,6 @@ export function MobileFilters({
           >
             <option value="">Everything</option>
             {brands
-              .filter((b) => (category ? resultBrands.includes(b) : true))
               .sort((a, b) => a.localeCompare(b))
               .map((b) => (
                 <>
