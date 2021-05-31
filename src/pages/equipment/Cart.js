@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 import { DottedLine } from '../../components/DottedLine'
 import { Input, Textarea } from '../../components/Input'
 import { CloseIcon } from '../../components/FAQContainer'
-import { defer } from 'lodash'
 
 export const CartModal = ({
   showModal,
@@ -22,7 +21,7 @@ export const CartModal = ({
       if (!showModal || node.current.contains(e.target)) return
       e.preventDefault()
       e.stopPropagation()
-      defer(() => setShowModal(false))
+      setTimeout(() => setShowModal(false), 100)
     },
     [showModal, setShowModal],
   )

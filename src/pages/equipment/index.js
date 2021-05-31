@@ -34,7 +34,7 @@ const Equipment = () => {
     [fuse, query],
   )
 
-  const getOnAddItem = (item) => (e) => {
+  const getOnAddItem = (item) => () => {
     if (cartOpen) return
     setCart((c) =>
       c.find((i) => i.id === item.id)
