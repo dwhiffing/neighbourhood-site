@@ -296,7 +296,7 @@ form textarea {
   height: 50px;
   font-size: 16px;
   font-weight: 300;
-  z-index: 5;
+  z-index: 0;
 }
 
 .square {
@@ -329,6 +329,29 @@ form textarea {
   opacity: 1;
 }
 
+.search-input {
+  width: 164px;
+  height: 35px;
+  border: 1px solid #004225;
+  padding: 6px;
+  outline: 0;
+}
+
+select {
+  width: 100%;
+  color: #004225;
+  border: 1px solid #004425;
+  border-radius: 4px;
+  padding: 4px 8px 4px 8px;
+  font-family: GT America;
+  font-size: 16px;
+}
+
+@media (min-width: 900px) {
+  .cart-modal-button {
+    z-index: 5;
+  }
+}
 @media (min-width: 2000px) {
   li,
   p {

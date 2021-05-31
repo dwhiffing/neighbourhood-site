@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { BasePage } from '../../components/BasePage'
-import { useEquipment } from '../../airtable'
-import { Sidebar } from './Sidebar'
+import { MobileFilters, Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
 import { useContainerWidth, useIsMobile } from '../../useIsMobile'
@@ -105,7 +104,7 @@ const Equipment = () => {
 
         <div className="relative">
           <button
-            className="fixed top-0 right-0 mt-3 mr-3 px-6 mb-3 cart-modal-button"
+            className="absolute -top-16 lg:fixed lg:top-0 right-0 mt-3 mr-3 px-6 mb-3 cart-modal-button"
             onClick={() => setCartOpen(true)}
           >
             My List ({cart.length})
@@ -114,9 +113,10 @@ const Equipment = () => {
 
         <BasePage
           pageSize="max-w-6xl w-full"
-          className="pl-3"
+          className="lg:pl-3"
           linkComponent={<Sidebar {...sidebarProps} />}
         >
+          {width < 900 && <MobileFilters {...sidebarProps} />}
           <div className="pt-16 flex flex-wrap justify-center">
             {items.map((item, index) => (
               <EquipmentItem
