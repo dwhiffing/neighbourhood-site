@@ -14,6 +14,7 @@ export const CartModal = ({
   setFormState,
   onUpdateQuantity,
 }) => {
+  const invalid = items.length === 0 || !formState.name || !formState.email
   return (
     <div
       className={`fixed inset-0 pointer-events-${showModal ? 'auto' : 'none'}`}
@@ -80,20 +81,26 @@ export const CartModal = ({
                 />
               </div>
 
-              <Input label="Email*" placeholder="Email" source="email" />
+              <Input
+                label="Email*"
+                placeholder="Email"
+                source="email"
+                formState={formState}
+                setFormState={setFormState}
+              />
 
               <div className="flex flex-1">
                 <Input
                   className="flex-1 mr-2"
                   label="Pickup Date"
-                  placeholder="DD/MM/YYYY"
+                  placeholder="MM/DD/YYYY"
                   source="pickup_date"
                   formState={formState}
                   setFormState={setFormState}
                 />
                 <Input
                   className="flex-1"
-                  placeholder="DD/MM/YYYY"
+                  placeholder="MM/DD/YYYY"
                   label="Return Date"
                   source="return_date"
                   formState={formState}
@@ -110,8 +117,13 @@ export const CartModal = ({
               />
 
               <button
+                disabled={invalid}
+                style={{
+                  opacity: invalid ? 0.5 : 1,
+                  height: 41,
+                  color: '#004225',
+                }}
                 className="mt-6 justify-center rounded bg-white mb-4"
-                style={{ height: 41, color: '#004225' }}
                 onClick={onSubmit}
               >
                 Send Quote Request
@@ -148,7 +160,7 @@ const CartItem = ({ item, onRemoveItem, onUpdateQuantity }) => (
           {item.name}
         </h2>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center mt-4">
         <input
           value={item.quantity}
           onChange={(e) => {

@@ -5,8 +5,8 @@ export const Input = ({
   source,
   className = '',
   placeholder = '',
-  formState,
-  setFormState,
+  formState = {},
+  setFormState = () => {},
   ...props
 }) => (
   <div className={`flex flex-col ${className}`} {...props}>
@@ -16,7 +16,7 @@ export const Input = ({
         const value = e.target.value
         setFormState((fs) => ({ ...fs, [source]: value }))
       }}
-      value={formState && formState[source]}
+      value={formState[source] ? formState[source] : ''}
       placeholder={placeholder}
       name={source}
     />
@@ -28,8 +28,8 @@ export const Textarea = ({
   source,
   className,
   placeholder = '',
-  formState,
-  setFormState,
+  formState = {},
+  setFormState = () => {},
   ...props
 }) => (
   <div className={`flex flex-col ${className}`} {...props}>
@@ -39,7 +39,7 @@ export const Textarea = ({
         const value = e.target.value
         setFormState((fs) => ({ ...fs, [source]: value }))
       }}
-      value={formState && formState[source]}
+      value={formState[source] ? formState[source] : ''}
       placeholder={placeholder}
       name={source}
     />

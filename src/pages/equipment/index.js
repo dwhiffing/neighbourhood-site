@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { BasePage } from '../../components/BasePage'
+import { useEquipment, submitCart } from '../../airtable'
 import { MobileFilters, Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
@@ -48,7 +49,23 @@ const Equipment = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log({ cart, ...formState })
+    submitCart({
+      items: JSON.stringify(
+        cart.map((p) => ({ quantity: p.quantity, name: p.name })),
+      ),
+      ...formState,
+    })
+      .then(() => {
+        setCart([])
+        setFormState({})
+        setCartOpen(false)
+        alert(
+          'Thanks for your submission.  We will contact you with more details.',
+        )
+      })
+      .catch(() => {
+        alert('Sorry, your submission was invalid.')
+      })
   }
 
   const items = padArray(

@@ -65,6 +65,17 @@ const getEquipment = () => {
       )
   })
 }
+export const submitCart = (fields) => {
+  return new Promise((resolve, reject) => {
+    const base = new Airtable({ apiKey }).base(baseName)
+    base('Cart Submissions').create([{ fields }], function (err, records) {
+      if (err) {
+        return reject(err)
+      }
+      resolve()
+    })
+  })
+}
 
 const setDefault = (obj, key, value) => {
   set(obj, key, get(obj, key, value))
