@@ -162,7 +162,7 @@ export const CartModal = ({
 const CartItem = ({ item, onRemoveItem, onUpdateQuantity }) => (
   <div>
     <div className="flex justify-between">
-      <div>
+      <div className="mr-2">
         <h2
           className="mt-2"
           style={{ fontSize: 12, lineHeight: 1.5, color: 'white' }}
