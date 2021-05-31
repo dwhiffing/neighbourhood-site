@@ -122,7 +122,7 @@ export function Sidebar({
 
             <div
               className="layout-scrollbar overflow-y-scroll flex flex-col"
-              style={{ width: 150, minHeight: 100, flex: 2 }}
+              style={{ width: 150, minHeight: 100, flex: 1.5 }}
             >
               {brands
                 .sort((a, b) => a.localeCompare(b))
@@ -142,7 +142,7 @@ export function Sidebar({
 
         {(brand || category) && (
           <button
-            className="font-sans py-2 px-6"
+            className="font-sans py-2 px-6 stroke"
             style={{ marginBottom: 12, fontSize: 12 }}
             onClick={() => {
               setBrand('')

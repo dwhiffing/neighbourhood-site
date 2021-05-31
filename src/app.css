@@ -78,7 +78,7 @@ body {
 a.link {
   text-decoration: none;
   color: #004225;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   font-size: 12px;
   /* border-bottom: 1px solid transparent; */
   cursor: pointer;
@@ -196,6 +196,12 @@ button {
   color: #fff;
   background: #004225;
   border-radius: 5px;
+}
+
+button.stroke {
+  background: white;
+  border: 1px solid #004225;
+  color: #004225;
 }
 
 span.small {

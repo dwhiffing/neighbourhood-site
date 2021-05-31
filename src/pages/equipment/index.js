@@ -203,7 +203,10 @@ const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
       <div>
         <p className="mb-2">{item.name}</p>
       </div>
-      <button style={{ backgroundColor: isInCart ? '#B01818' : '' }}>
+      <button
+        className={!isInCart ? 'stroke' : ''}
+        style={{ backgroundColor: isInCart ? '#B01818' : '' }}
+      >
         {isInCart ? 'Remove from List' : 'Add to List'}
       </button>
     </div>
