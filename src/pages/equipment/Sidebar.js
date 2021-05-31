@@ -66,7 +66,7 @@ export function Sidebar({
             <p className="mt-4 mb-2">Category</p>
 
             <div
-              className="layout-scrollbar overflow-y-scroll flex flex-col"
+              className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
               style={{ width: 150, minHeight: 100 }}
             >
               {categoryNames
@@ -139,8 +139,8 @@ export function Sidebar({
             <p className="mt-4 mb-2">Brands</p>
 
             <div
-              className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
-              style={{ width: 150, minHeight: 100 }}
+              className="layout-scrollbar overflow-y-scroll flex flex-col"
+              style={{ width: 150, minHeight: 100, flex: 2 }}
             >
               {brands
                 .filter((b) => (category ? resultBrands.includes(b) : true))
