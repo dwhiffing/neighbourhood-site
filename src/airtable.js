@@ -33,7 +33,7 @@ function set(obj, keys, val) {
 }
 const apiKey = process.env.REACT_APP_AIRTABLE_KEY
 const baseName = process.env.REACT_APP_AIRTABLE_BASE
-const getEquipment = () => {
+const getEquipmentBase = () => {
   return new Promise((resolve) => {
     let equipment =
       JSON.parse(
@@ -65,6 +65,21 @@ const getEquipment = () => {
       )
   })
 }
+
+const getEquipment = () => {
+  return new Promise((resolve) => {
+    getBrandOrder().then((brandOrder) => {
+      getCategoryOrder().then((categoryOrder) => {
+        localStorage.setItem('brand-order', JSON.stringify(brandOrder))
+        localStorage.setItem('category-order', JSON.stringify(categoryOrder))
+        getEquipmentBase().then((equipmentBase) => {
+          resolve(equipmentBase)
+        })
+      })
+    })
+  })
+}
+
 export const submitCart = (fields) => {
   return new Promise((resolve, reject) => {
     const base = new Airtable({ apiKey }).base(baseName)
@@ -86,9 +101,22 @@ export const useEquipment = () => {
   const [loading, setLoading] = useState(
     typeof document === 'undefined' || !localStorage.getItem('last-fetch'),
   )
+  const brandOrder = JSON.parse(localStorage.getItem('brand-order') || '[]')
+  const categoryOrder = JSON.parse(
+    localStorage.getItem('category-order') || '[]',
+  )
   const [equipment, setEquipment] = useState([])
 
+  console.log(brandOrder, categoryOrder)
+
   const traits = useMemo(() => {
+    const brands = getKey(equipment, 'brand').sort((a, b) => {
+      const aIndex = brandOrder.indexOf(a)
+      const bIndex = brandOrder.indexOf(b)
+      if (aIndex > bIndex) return -1
+      if (bIndex > aIndex) return 1
+      return 0
+    })
     let categories = {}
 
     equipment.forEach((e) => {
@@ -104,11 +132,16 @@ export const useEquipment = () => {
         }
       }
     })
-    return {
-      categories,
-      brands: getKey(equipment, 'brand'),
-    }
-  }, [equipment])
+    const sortedCategoryNames = Object.keys(categories).sort((a, b) => {
+      const aIndex = categoryOrder.indexOf(a)
+      const bIndex = categoryOrder.indexOf(b)
+      if (aIndex > -1 && bIndex > -1) return aIndex - bIndex
+      if (aIndex > bIndex) return -1
+      if (bIndex > aIndex) return 1
+      return 0
+    })
+    return { sortedCategoryNames, categories, brands }
+  }, [equipment, brandOrder, categoryOrder])
 
   const fuse = useMemo(() => new Fuse(equipment, FUSE_CONFIG), [equipment])
 
@@ -135,3 +168,39 @@ const sortAlpha = (a, b) => a.localeCompare(b)
 const getKey = (arr, key) => uniq(arr?.map((d) => d[key]) || []).sort(sortAlpha)
 const FUSE_CONFIG = { keys: ['name'], threshold: 0.2, minMatchCharLength: 1 }
 const ONE_DAY = 1000 * 60 * 60 * 24
+
+const getBrandOrder = () => {
+  return new Promise((resolve) => {
+    const base = new Airtable({ apiKey }).base(baseName)
+    let order = []
+    base('Brand Order')
+      .select({ pageSize: 100, view: 'Grid view' })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          order = [...order, ...records.map((r) => r._rawJson.fields.Name)]
+          fetchNextPage()
+        },
+        function done(err) {
+          resolve(order)
+        },
+      )
+  })
+}
+
+const getCategoryOrder = () => {
+  return new Promise((resolve) => {
+    const base = new Airtable({ apiKey }).base(baseName)
+    let order = []
+    base('Category Order')
+      .select({ pageSize: 100, view: 'Grid view' })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          order = [...order, ...records.map((r) => r._rawJson.fields.Name)]
+          fetchNextPage()
+        },
+        function done(err) {
+          resolve(order)
+        },
+      )
+  })
+}

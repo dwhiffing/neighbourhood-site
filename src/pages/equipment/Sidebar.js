@@ -1,8 +1,8 @@
-import uniq from 'lodash.uniq'
 import React from 'react'
 
 export function Sidebar({
   categories = {},
+  sortedCategoryNames,
   brands = [],
   equipment,
   items,
@@ -17,7 +17,6 @@ export function Sidebar({
   query,
   setQuery,
 }) {
-  const categoryNames = Object.keys(categories)
   let subCategories = []
   let subSubCategories = []
 
@@ -61,55 +60,53 @@ export function Sidebar({
               className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
               style={{ width: 150, minHeight: 100 }}
             >
-              {categoryNames
-                .sort((a, b) => a.localeCompare(b))
-                .map((c) => (
-                  <>
-                    <Link
-                      label={c}
-                      key={c}
-                      active={category === c}
-                      onClick={() => {
-                        setCategory(c)
-                        setSubCategory('')
-                        setSubSubCategory('')
-                      }}
-                    />
+              {sortedCategoryNames.map((c) => (
+                <>
+                  <Link
+                    label={c}
+                    key={c}
+                    active={category === c}
+                    onClick={() => {
+                      setCategory(c)
+                      setSubCategory('')
+                      setSubSubCategory('')
+                    }}
+                  />
 
-                    {subCategories
-                      .filter(() => category === c)
-                      .map((s) => (
-                        <>
-                          <Link
-                            label={s}
-                            key={s}
-                            active={subCategory === s}
-                            onClick={() => {
-                              setSubCategory(s)
-                              setSubSubCategory('')
-                            }}
-                            style={{ marginLeft: 12 }}
-                          />
-                          {subCategory === s && (
-                            <>
-                              {subSubCategories
-                                .filter(() => category === c)
+                  {subCategories
+                    .filter(() => category === c)
+                    .map((s) => (
+                      <>
+                        <Link
+                          label={s}
+                          key={s}
+                          active={subCategory === s}
+                          onClick={() => {
+                            setSubCategory(s)
+                            setSubSubCategory('')
+                          }}
+                          style={{ marginLeft: 12 }}
+                        />
+                        {subCategory === s && (
+                          <>
+                            {subSubCategories
+                              .filter(() => category === c)
 
-                                .map((ss) => (
-                                  <Link
-                                    label={ss}
-                                    key={ss}
-                                    style={{ marginLeft: 24 }}
-                                    active={subSubCategory === ss}
-                                    onClick={() => setSubSubCategory(ss)}
-                                  />
-                                ))}
-                            </>
-                          )}
-                        </>
-                      ))}
-                  </>
-                ))}
+                              .map((ss) => (
+                                <Link
+                                  label={ss}
+                                  key={ss}
+                                  style={{ marginLeft: 24 }}
+                                  active={subSubCategory === ss}
+                                  onClick={() => setSubSubCategory(ss)}
+                                />
+                              ))}
+                          </>
+                        )}
+                      </>
+                    ))}
+                </>
+              ))}
             </div>
           </>
         )}
@@ -124,18 +121,16 @@ export function Sidebar({
               className="layout-scrollbar overflow-y-scroll flex flex-col"
               style={{ width: 150, minHeight: 100, flex: 1.5 }}
             >
-              {brands
-                .sort((a, b) => a.localeCompare(b))
-                .map((b) => (
-                  <Link
-                    label={b}
-                    key={b}
-                    active={brand === b}
-                    onClick={() => {
-                      setBrand(b)
-                    }}
-                  />
-                ))}
+              {brands.map((b) => (
+                <Link
+                  label={b}
+                  key={b}
+                  active={brand === b}
+                  onClick={() => {
+                    setBrand(b)
+                  }}
+                />
+              ))}
             </div>
           </>
         )}
@@ -161,6 +156,7 @@ export function Sidebar({
 }
 
 export function MobileFilters({
+  sortedCategoryNames,
   categories = {},
   brands = [],
   equipment,
@@ -176,7 +172,6 @@ export function MobileFilters({
   query,
   setQuery,
 }) {
-  const categoryNames = Object.keys(categories)
   let subCategories = []
   let subSubCategories = []
 
@@ -213,13 +208,11 @@ export function MobileFilters({
             }}
           >
             <option value="">Everything</option>
-            {categoryNames
-              .sort((a, b) => a.localeCompare(b))
-              .map((c) => (
-                <>
-                  <option value={c}>{c}</option>
-                </>
-              ))}
+            {sortedCategoryNames.map((c) => (
+              <>
+                <option value={c}>{c}</option>
+              </>
+            ))}
           </select>
         </>
       )}
@@ -271,13 +264,11 @@ export function MobileFilters({
             }}
           >
             <option value="">Everything</option>
-            {brands
-              .sort((a, b) => a.localeCompare(b))
-              .map((b) => (
-                <>
-                  <option value={b}>{b}</option>
-                </>
-              ))}
+            {brands.map((b) => (
+              <>
+                <option value={b}>{b}</option>
+              </>
+            ))}
           </select>
         </>
       )}
