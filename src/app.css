@@ -330,12 +330,12 @@ form textarea {
   cursor: pointer;
 }
 
-.equipment-item button {
+.equipment-item .add-section button {
   opacity: 0;
   transition: opacity 300ms;
 }
 
-.equipment-item:hover button {
+.equipment-item:hover .add-section button {
   opacity: 1;
 }
 

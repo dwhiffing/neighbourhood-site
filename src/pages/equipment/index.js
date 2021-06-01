@@ -34,12 +34,21 @@ const Equipment = () => {
     [fuse, query],
   )
 
-  const getOnAddItem = (item) => () => {
+  const getOnToggleItem = (item) => () => {
     if (cartOpen) return
     setCart((c) =>
       c.find((i) => i.id === item.id)
         ? c.filter((i) => i.id !== item.id)
         : [...c, { ...item, quantity: 1 }],
+    )
+  }
+
+  const getOnChangeQuantity = (item) => (quantity) => {
+    if (cartOpen) return
+    setCart((c) =>
+      c.map((i) =>
+        i.id === item.id ? { ...i, quantity: Math.max(quantity, 1) } : i,
+      ),
     )
   }
 
@@ -143,8 +152,9 @@ const Equipment = () => {
                 item={item}
                 flex={flex}
                 index={index}
-                isInCart={cart.find((i) => i.id === item.id)}
-                onAdd={getOnAddItem(item)}
+                cartItem={cart.find((i) => i.id === item.id)}
+                onToggle={getOnToggleItem(item)}
+                onChangeQuantity={getOnChangeQuantity(item)}
               />
             ))}
           </div>
@@ -172,15 +182,43 @@ const colors = randomColor({
   luminosity: 'light',
 })
 
-const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
+const QuantitySelector = ({ quantity, onChange }) => (
+  <div className="flex border-green overflow-hidden border rounded-md text-green select-none">
+    <div
+      className="flex items-center justify-center w-4 text-white bg-green"
+      onClick={() => onChange(quantity - 1)}
+    >
+      -
+    </div>
+    <div
+      className="flex items-center justify-center w-7"
+      style={{ fontSize: 12 }}
+    >
+      {quantity}
+    </div>
+    <div
+      className="flex items-center justify-center w-4 text-white bg-green"
+      onClick={() => onChange(quantity + 1)}
+    >
+      +
+    </div>
+  </div>
+)
+const EquipmentItem = ({
+  flex,
+  item,
+  index,
+  onToggle,
+  onChangeQuantity,
+  cartItem,
+}) => {
+  const isInCart = !!cartItem
+  const quantity = cartItem?.quantity
   if (item === '') return <div className="m-2" style={{ flex }} />
   return (
-    <div
-      onClick={onAdd}
-      className="equipment-item mx-2 mt-4 mb-8"
-      style={{ flex }}
-    >
+    <div className="equipment-item mx-2 mt-4 mb-8" style={{ flex }}>
       <div
+        onClick={onToggle}
         className="square"
         style={{
           background: item.image ? null : colors[index],
@@ -195,20 +233,30 @@ const EquipmentItem = ({ flex, item, index, onAdd, isInCart }) => {
           />
         )}
       </div>
-      <div>
+      <div onClick={onToggle}>
         <h2 className="mt-2" style={{ fontSize: 12 }}>
           {item.brand}
         </h2>
       </div>
-      <div>
+      <div onClick={onToggle}>
         <p className="mb-2">{item.name}</p>
       </div>
-      <button
-        className={!isInCart ? 'stroke' : ''}
-        style={{ backgroundColor: isInCart ? '#B01818' : '' }}
+      <div
+        className={`add-section flex justify-between ${
+          isInCart ? 'active' : 'inactive'
+        }`}
       >
-        {isInCart ? 'Remove from List' : 'Add to List'}
-      </button>
+        {isInCart && (
+          <QuantitySelector quantity={quantity} onChange={onChangeQuantity} />
+        )}
+        <button
+          onClick={onToggle}
+          className={!isInCart ? 'stroke' : ''}
+          style={{ backgroundColor: isInCart ? '#B01818' : '' }}
+        >
+          {isInCart ? 'Remove from List' : 'Add to List'}
+        </button>
+      </div>
     </div>
   )
 }
