@@ -91,7 +91,7 @@ const Equipment = () => {
           results,
         ),
       )
-      .slice(0, 108),
+      .slice(0, 200),
     numPerRow,
     '',
   )
@@ -114,7 +114,7 @@ const Equipment = () => {
 
   return (
     <>
-      <>
+      <div className="equipment">
         <motion.div
           className="fixed inset-0 flex justify-center items-center bg-white z-10"
           initial={{ opacity: loading ? 1 : 0 }}
@@ -169,7 +169,7 @@ const Equipment = () => {
             onUpdateQuantity={onUpdateQuantity}
           />
         </BasePage>
-      </>
+      </div>
     </>
   )
 }
@@ -234,7 +234,7 @@ const EquipmentItem = ({
         )}
       </div>
       <div onClick={onToggle}>
-        <h2 className="mt-2" style={{ fontSize: 12 }}>
+        <h2 className="mt-2" style={{ fontSize: 12, lineHeight: 1.5 }}>
           {item.brand}
         </h2>
       </div>

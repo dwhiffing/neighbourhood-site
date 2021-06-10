@@ -5,14 +5,14 @@ import { useEffect, useMemo, useState } from 'react'
 import Fuse from 'fuse.js'
 import uniq from 'lodash/uniq'
 function get(obj, key, def, p, undef) {
-  key = key.split ? key.split('.') : key
+  key = key.split ? key.split('^^^') : key
   for (p = 0; p < key.length; p++) {
     obj = obj ? obj[key[p]] : undef
   }
   return obj === undef ? def : obj
 }
 function set(obj, keys, val) {
-  keys.split && (keys = keys.split('.'))
+  keys.split && (keys = keys.split('^^^'))
   var i = 0,
     l = keys.length,
     t = obj,
@@ -26,7 +26,7 @@ function set(obj, keys, val) {
         ? val
         : typeof (x = t[k]) === typeof keys
         ? x
-        : keys[i] * 0 !== 0 || !!~('' + keys[i]).indexOf('.')
+        : keys[i] * 0 !== 0 || !!~('' + keys[i]).indexOf('^^^')
         ? {}
         : []
   }
@@ -130,17 +130,17 @@ export const useEquipment = () => {
     equipment.forEach((e) => {
       setDefault(categories, `${e.category}`, {})
       if (e.sub_category) {
-        const subKey = `${e.category}.${e.sub_category}`
+        const subKey = `${e.category}^^^${e.sub_category}`
         setDefault(categories, subKey, {})
         if (e.sub_sub_category) {
           // TODO: this is failing for sub categories with a dot in the name
-          const subSubKey = `${subKey}.${e.sub_sub_category}`
+          const subSubKey = `${subKey}^^^${e.sub_sub_category}`
           const subSub = setDefault(categories, subSubKey, [])
           set(categories, subSubKey, [...subSub, e])
         }
       }
     })
-    const sortedCategoryNames = Object.keys(categories).sort((a, b) => {
+    const categoryNames = Object.keys(categories).sort((a, b) => {
       const aIndex = categoryOrder.indexOf(a)
       const bIndex = categoryOrder.indexOf(b)
       if (aIndex > -1 && bIndex > -1) return aIndex - bIndex
@@ -148,7 +148,7 @@ export const useEquipment = () => {
       if (bIndex > aIndex) return 1
       return 0
     })
-    return { sortedCategoryNames, categories, brands }
+    return { categoryNames, categories, brands }
   }, [equipment, brandOrder, categoryOrder])
 
   const fuse = useMemo(() => new Fuse(equipment, FUSE_CONFIG), [equipment])

@@ -84,7 +84,15 @@ a.link {
   cursor: pointer;
 }
 
-a.large {
+.equipment a.link {
+  font-size: 11px;
+}
+
+.equipment p {
+  font-size: 12px;
+}
+
+a.link.large {
   font-size: 16px;
 }
 

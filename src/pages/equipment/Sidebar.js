@@ -1,32 +1,8 @@
+import uniq from 'lodash.uniq'
 import React from 'react'
 
-export function Sidebar({
-  categories = {},
-  sortedCategoryNames,
-  brands = [],
-  equipment,
-  items,
-  category,
-  setCategory,
-  subCategory,
-  setSubCategory,
-  subSubCategory,
-  setSubSubCategory,
-  brand,
-  setBrand,
-  query,
-  setQuery,
-}) {
-  let subCategories = []
-  let subSubCategories = []
-
-  if (category) {
-    subCategories = Object.keys(categories[category])
-    if (categories[category] && subCategory) {
-      subSubCategories = Object.keys(categories[category][subCategory] || {})
-    }
-  }
-
+export function Sidebar(props) {
+  const sidebar = useSidebar(props)
   return (
     <div className="fixed" style={{ marginLeft: 4 }}>
       <div
@@ -43,109 +19,92 @@ export function Sidebar({
             style={{ width: 230 }}
           >
             <input
-              value={query}
+              value={props.query}
               className="search-input"
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => props.setQuery(e.target.value)}
             />
           </div>
         </div>
 
-        {!brand && (
-          <>
-            <a onClick={() => setCategory('')} className="link large mt-4 mb-2">
-              All Categories
-            </a>
+        <a
+          href="/#"
+          onClick={sidebar.onResetCategory}
+          className={`mt-4 mb-2 link large`}
+        >
+          All Categories
+        </a>
 
-            <div
-              className="layout-scrollbar overflow-y-scroll flex flex-col flex-1"
-              style={{ width: 150, minHeight: 100 }}
-            >
-              {sortedCategoryNames.map((c) => (
-                <>
-                  <Link
-                    label={c}
-                    key={c}
-                    active={category === c}
-                    onClick={() => {
-                      setCategory(c)
-                      setSubCategory('')
-                      setSubSubCategory('')
-                    }}
-                  />
-
-                  {subCategories
-                    .filter(() => category === c)
-                    .map((s) => (
-                      <>
-                        <Link
-                          label={s}
-                          key={s}
-                          active={subCategory === s}
-                          onClick={() => {
-                            setSubCategory(s)
-                            setSubSubCategory('')
-                          }}
-                          style={{ marginLeft: 12 }}
-                        />
-                        {subCategory === s && (
-                          <>
-                            {subSubCategories
-                              .filter(() => category === c)
-
-                              .map((ss) => (
-                                <Link
-                                  label={ss}
-                                  key={ss}
-                                  style={{ marginLeft: 24 }}
-                                  active={subSubCategory === ss}
-                                  onClick={() => setSubSubCategory(ss)}
-                                />
-                              ))}
-                          </>
-                        )}
-                      </>
-                    ))}
-                </>
-              ))}
-            </div>
-          </>
-        )}
-
-        {!category && (
-          <>
-            <a onClick={() => setBrand('')} className="link large mt-4 mb-2">
-              All Brands
-            </a>
-
-            <div
-              className="layout-scrollbar overflow-y-scroll flex flex-col"
-              style={{ width: 150, minHeight: 100, flex: 1.5 }}
-            >
-              {brands.map((b) => (
-                <Link
-                  label={b}
-                  key={b}
-                  active={brand === b}
-                  onClick={() => {
-                    setBrand(b)
-                  }}
+        <div
+          className="layout-scrollbar overflow-y-scroll flex flex-col"
+          style={{ width: 150, minHeight: 100 }}
+        >
+          {props.categoryNames
+            .filter((c) => sidebar.renderedCategories.includes(c))
+            .map((c) => (
+              <>
+                <SidebarLink
+                  label={c}
+                  key={c}
+                  active={props.category}
+                  onClick={sidebar.getSetCategory(c)}
                 />
-              ))}
-            </div>
-          </>
-        )}
 
-        {(brand || category) && (
+                {sidebar.renderedSubCategories
+                  .filter(() => props.category === c)
+                  .map((s) => (
+                    <>
+                      <SidebarLink
+                        label={s}
+                        key={s}
+                        active={props.subCategory}
+                        onClick={sidebar.getSetSubCategory(s)}
+                        offset={1}
+                      />
+                      {props.subCategory === s &&
+                        sidebar.renderedSubSubCategories
+                          .filter(() => props.category === c)
+                          .map((ss) => (
+                            <SidebarLink
+                              label={ss}
+                              key={ss}
+                              active={props.subSubCategory}
+                              onClick={sidebar.getSetSubSubCategory(ss)}
+                              offset={2}
+                            />
+                          ))}
+                    </>
+                  ))}
+              </>
+            ))}
+        </div>
+
+        <a
+          href="/#"
+          onClick={sidebar.onResetBrand}
+          className={`mt-4 mb-2 link large`}
+        >
+          All Brands
+        </a>
+
+        <div
+          className="layout-scrollbar overflow-y-scroll flex flex-col"
+          style={{ width: 150, minHeight: 200, flex: 1.5 }}
+        >
+          {sidebar.renderedBrands.map((b) => (
+            <SidebarLink
+              label={b}
+              key={b}
+              active={props.brand}
+              onClick={sidebar.getSetBrand(b)}
+            />
+          ))}
+        </div>
+
+        {(props.brand || props.category) && (
           <button
             className="font-sans py-2 px-6 stroke"
             style={{ marginBottom: 12, fontSize: 12 }}
-            onClick={() => {
-              setBrand('')
-              setCategory('')
-              setSubCategory('')
-              setSubSubCategory('')
-              setQuery('')
-            }}
+            onClick={sidebar.onReset}
           >
             Reset
           </button>
@@ -155,79 +114,39 @@ export function Sidebar({
   )
 }
 
-export function MobileFilters({
-  sortedCategoryNames,
-  categories = {},
-  brands = [],
-  equipment,
-  items,
-  category,
-  setCategory,
-  subCategory,
-  setSubCategory,
-  subSubCategory,
-  setSubSubCategory,
-  brand,
-  setBrand,
-  query,
-  setQuery,
-}) {
-  let subCategories = []
-  let subSubCategories = []
-
-  if (category) {
-    subCategories = Object.keys(categories[category])
-    if (categories[category] && subCategory) {
-      subSubCategories = Object.keys(categories[category][subCategory] || {})
-    }
-  }
+export function MobileFilters(props) {
+  const sidebar = useSidebar(props)
 
   return (
     <div>
-      {/* <p className="mt-4 mb-2">Search</p>
+      <h2 className="font-serif">Category</h2>
 
-          <div
-            className="layout-scrollbar overflow-y-scroll flex flex-col mb-2"
-            style={{ width: 230 }}
-          >
-            <input
-              value={query}
-              className="search-input"
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div> */}
-      {!brand && (
-        <>
-          <h2 className="font-serif">Category</h2>
+      <select
+        onChange={(e) => {
+          props.setCategory(e.target.value)
+          props.setSubCategory('')
+          props.setSubSubCategory('')
+        }}
+      >
+        <option value="">Everything</option>
+        {props.categoryNames.map((c) => (
+          <>
+            <option value={c}>{c}</option>
+          </>
+        ))}
+      </select>
 
-          <select
-            onChange={(e) => {
-              setCategory(e.target.value)
-              setSubCategory('')
-              setSubSubCategory('')
-            }}
-          >
-            <option value="">Everything</option>
-            {sortedCategoryNames.map((c) => (
-              <>
-                <option value={c}>{c}</option>
-              </>
-            ))}
-          </select>
-        </>
-      )}
-
-      {subCategories.length > 0 && (
+      {sidebar.renderedSubCategories.length > 0 && (
         <>
           <h2 className="font-serif mt-4">Sub Categories</h2>
           <select
             onChange={(e) => {
-              setSubCategory(e.target.value)
-              setSubSubCategory('')
+              props.setSubCategory(e.target.value)
+              props.setSubSubCategory('')
             }}
           >
             <option value="">Everything</option>
-            {subCategories.map((c) => (
+            {sidebar.renderedSubCategories.map((c) => (
               <>
                 <option value={c}>{c}</option>
               </>
@@ -236,16 +155,16 @@ export function MobileFilters({
         </>
       )}
 
-      {subSubCategories.length > 0 && (
+      {sidebar.renderedSubSubCategories.length > 0 && (
         <>
           <h2 className="font-serif mt-4">Sub Sub Categories</h2>
           <select
             onChange={(e) => {
-              setSubSubCategory(e.target.value)
+              props.setSubSubCategory(e.target.value)
             }}
           >
             <option value="">Everything</option>
-            {subSubCategories.map((c) => (
+            {sidebar.renderedSubSubCategories.map((c) => (
               <>
                 <option value={c}>{c}</option>
               </>
@@ -254,24 +173,20 @@ export function MobileFilters({
         </>
       )}
 
-      {!category && (
-        <>
-          <h2 className="font-serif mt-4">Brands</h2>
+      <h2 className="font-serif mt-4">Brands</h2>
 
-          <select
-            onChange={(e) => {
-              setBrand(e.target.value)
-            }}
-          >
-            <option value="">Everything</option>
-            {brands.map((b) => (
-              <>
-                <option value={b}>{b}</option>
-              </>
-            ))}
-          </select>
-        </>
-      )}
+      <select
+        onChange={(e) => {
+          props.setBrand(e.target.value)
+        }}
+      >
+        <option value="">Everything</option>
+        {sidebar.renderedBrands.map((b) => (
+          <>
+            <option value={b}>{b}</option>
+          </>
+        ))}
+      </select>
     </div>
   )
 }
@@ -286,3 +201,95 @@ const Link = ({ onClick, href = '#/', active, label, style }) => (
     {label}
   </a>
 )
+
+const SidebarLink = ({ label, active, onClick, offset = 0 }) => (
+  <Link
+    label={label}
+    key={label}
+    active={active === label}
+    onClick={onClick}
+    style={{ marginLeft: offset * 12 }}
+  />
+)
+
+const useSidebar = ({
+  equipment,
+  category,
+  setCategory,
+  subCategory,
+  setSubCategory,
+  subSubCategory,
+  setSubSubCategory,
+  brand,
+  setBrand,
+  setQuery,
+}) => {
+  return {
+    getSetCategory: (c) => () => {
+      setCategory(c)
+      setSubCategory('')
+      setSubSubCategory('')
+    },
+    getSetSubCategory: (s) => () => {
+      setSubCategory(s)
+      setSubSubCategory('')
+    },
+    getSetSubSubCategory: (s) => () => setSubSubCategory(s),
+    getSetBrand: (b) => () => setBrand(b),
+
+    renderedCategories: uniq(
+      equipment
+        .filter((i) => (brand ? i.brand === brand : true))
+        .map((i) => i.category),
+    ),
+    renderedSubCategories: uniq(
+      equipment
+        .filter(
+          (i) => i.category === category && (brand ? i.brand === brand : true),
+        )
+        .map((i) => i.sub_category),
+    ),
+
+    renderedSubSubCategories: uniq(
+      equipment
+        .filter(
+          (i) =>
+            i.sub_category === subCategory &&
+            (brand ? i.brand === brand : true),
+        )
+        .map((i) => i.sub_sub_category)
+        .filter((c) => !!c),
+    ),
+    renderedBrands: uniq(
+      equipment
+        .filter((i) =>
+          subSubCategory
+            ? i.sub_sub_category === subSubCategory
+            : subCategory
+            ? i.sub_category === subCategory
+            : category
+            ? i.category === category
+            : true,
+        )
+        .map((i) => i.brand),
+    ),
+    onReset: (e) => {
+      e?.preventDefault?.()
+      setBrand('')
+      setCategory('')
+      setSubCategory('')
+      setSubSubCategory('')
+      setQuery('')
+    },
+    onResetCategory: (e) => {
+      e?.preventDefault?.()
+      setCategory('')
+      setSubCategory('')
+      setSubSubCategory('')
+    },
+    onResetBrand: (e) => {
+      e?.preventDefault?.()
+      setBrand('')
+    },
+  }
+}
