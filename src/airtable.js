@@ -58,8 +58,10 @@ const getEquipmentBase = () => {
           fetchNextPage()
         },
         function done(err) {
-          localStorage.setItem('equipment', JSON.stringify(equipment))
-          localStorage.setItem('last-fetch', JSON.stringify(+new Date()))
+          if (typeof document !== 'undefined') {
+            localStorage.setItem('equipment', JSON.stringify(equipment))
+            localStorage.setItem('last-fetch', JSON.stringify(+new Date()))
+          }
           resolve(equipment)
         },
       )
@@ -70,8 +72,10 @@ const getEquipment = () => {
   return new Promise((resolve) => {
     getBrandOrder().then((brandOrder) => {
       getCategoryOrder().then((categoryOrder) => {
-        localStorage.setItem('brand-order', JSON.stringify(brandOrder))
-        localStorage.setItem('category-order', JSON.stringify(categoryOrder))
+        if (typeof document !== 'undefined') {
+          localStorage.setItem('brand-order', JSON.stringify(brandOrder))
+          localStorage.setItem('category-order', JSON.stringify(categoryOrder))
+        }
         getEquipmentBase().then((equipmentBase) => {
           resolve(equipmentBase)
         })
@@ -101,13 +105,17 @@ export const useEquipment = () => {
   const [loading, setLoading] = useState(
     typeof document === 'undefined' || !localStorage.getItem('last-fetch'),
   )
-  const brandOrder = JSON.parse(localStorage.getItem('brand-order') || '[]')
+  const brandOrder = JSON.parse(
+    typeof document === 'undefined'
+      ? '[]'
+      : localStorage.getItem('brand-order') || '[]',
+  )
   const categoryOrder = JSON.parse(
-    localStorage.getItem('category-order') || '[]',
+    typeof document === 'undefined'
+      ? '[]'
+      : localStorage.getItem('category-order') || '[]',
   )
   const [equipment, setEquipment] = useState([])
-
-  console.log(brandOrder, categoryOrder)
 
   const traits = useMemo(() => {
     const brands = getKey(equipment, 'brand').sort((a, b) => {
@@ -146,12 +154,15 @@ export const useEquipment = () => {
   const fuse = useMemo(() => new Fuse(equipment, FUSE_CONFIG), [equipment])
 
   useEffect(() => {
-    const lastFetch = localStorage.getItem('last-fetch')
+    const lastFetch =
+      typeof document === 'undefined'
+        ? JSON.stringify(new Date())
+        : localStorage.getItem('last-fetch')
 
     const msPassed = +new Date() - (+lastFetch || +new Date())
 
     if (msPassed > ONE_DAY) {
-      localStorage.removeItem('equipment')
+      if (typeof document !== 'undefined') localStorage.removeItem('equipment')
       setLoading(true)
     }
 
