@@ -16,5 +16,6 @@ export const getEntriesByType = async (type) => {
 }
 
 export const getStudios = () => getEntriesByType('studio')
+export const getServices = () => getEntriesByType('service')
 export const getAbout = () => getEntriesByType('about')
 export const getFaq = () => getEntriesByType('faq')

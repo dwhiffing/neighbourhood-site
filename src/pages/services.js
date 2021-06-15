@@ -3,39 +3,38 @@ import { useSiteData } from 'react-static'
 import { BasePage } from '../components/BasePage'
 import { DetailedItem } from '../components/DetailedItem'
 
-// TODO: need to add service content model that duplicates studio content model and use here
 const Services = ({ scrollPos }) => {
-  const { studios } = useSiteData()
+  const { services } = useSiteData()
   const [refs, setRefs] = React.useState([])
 
   React.useEffect(() => {
     setRefs((elRefs) =>
-      Array(studios.length)
+      Array(services.length)
         .fill()
         .map((_, i) => elRefs[i] || React.createRef()),
     )
-  }, [studios.length])
+  }, [services.length])
 
   return (
     <BasePage
       heading="Services"
       scrollPos={scrollPos}
-      links={studios?.map((studio, index) => ({
-        label: studio.name,
-        href: `#studio-${index + 1}`,
+      links={services?.map((service, index) => ({
+        label: service.name,
+        href: `#service-${index + 1}`,
       }))}
     >
-      {studios?.map((studio, index) => (
+      {services?.map((service, index) => (
         <DetailedItem
           ref={refs[index]}
-          key={'studio' + index}
-          name={studio.name}
-          images={studio.images}
+          key={'service' + index}
+          name={service.name}
+          images={service.images}
           index={index}
-          links={studio.links}
+          links={service.links}
           sections={[
-            { label: 'Space', items: studio.space },
-            { label: 'Specs', items: studio.specs },
+            { label: 'Space', items: service.space },
+            { label: 'Specs', items: service.specs },
           ]}
         />
       ))}
