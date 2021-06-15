@@ -20,22 +20,29 @@ const COMPONENTS = {
 
 const capitalize = (route) => route[0].toUpperCase() + route.slice(1)
 export const Grid = ({ routePath, children }) => {
-  const routeIndex = APP_ROUTE_TILES.findIndex((r) => r === routePath)
-  const topSize = STATIC_ROUTES.includes(routePath)
+  let id
+  let basePath = routePath
+  if (routePath.length > 1 && routePath.includes('/')) {
+    const split = routePath.split('/')
+    basePath = split[0]
+    id = split[1]
+  }
+  const routeIndex = APP_ROUTE_TILES.findIndex((r) => r === basePath)
+  const topSize = STATIC_ROUTES.includes(basePath)
     ? '50'
     : routeIndex < 3
     ? '95'
     : '5'
-  const bottomSize = STATIC_ROUTES.includes(routePath)
+  const bottomSize = STATIC_ROUTES.includes(basePath)
     ? '50'
     : routeIndex >= 3
     ? '95'
     : '5'
 
   const renderer = (route) => (
-    <GridItem key={route} routePath={routePath} route={route}>
-      {route === routePath ? (
-        React.createElement(COMPONENTS[route])
+    <GridItem key={route} routePath={basePath} route={route}>
+      {route === basePath ? (
+        React.createElement(COMPONENTS[route], { id })
       ) : route === '/' ? (
         <Logo
           showName={false}
