@@ -61,9 +61,7 @@ const Equipment = () => {
   const onSubmit = (e) => {
     e.preventDefault()
     submitCart({
-      items: JSON.stringify(
-        cart.map((p) => ({ quantity: p.quantity, name: p.name })),
-      ),
+      items: cart.map((p) => `[${p.name} | Qty: ${p.quantity}]\n`).join(''),
       ...formState,
     })
       .then(() => {
