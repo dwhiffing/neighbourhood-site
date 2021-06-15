@@ -2,7 +2,7 @@ export const APP_ROUTE_TILES = [
   '/',
   'studios',
   'equipment',
-  'about',
+  'services',
   'feed',
   'expendables',
 ]

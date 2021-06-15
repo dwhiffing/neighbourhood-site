@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { APP_ROUTE_TILES } from '../constants'
 import Studios from '../pages/studios'
 import Index from '../pages/index'
-import About from '../pages/about'
+import Services from '../pages/services'
 import Equipment from '../pages/equipment'
 import Feed from '../pages/feed'
 import { Logo } from './Logo'
@@ -12,7 +12,7 @@ import { Logo } from './Logo'
 const COMPONENTS = {
   studios: Studios,
   '/': Index,
-  about: About,
+  services: Services,
   feed: Feed,
   equipment: Equipment,
   expendables: () => null,

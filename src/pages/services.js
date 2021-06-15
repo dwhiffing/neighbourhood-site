@@ -2,10 +2,10 @@ import React from 'react'
 import { useSiteData } from 'react-static'
 import { BasePage } from '../components/BasePage'
 import { DetailedItem } from '../components/DetailedItem'
-import { RichTextItem } from '../components/RichTextItem'
 
-const Studios = ({ scrollPos }) => {
-  const { studios, about } = useSiteData()
+// TODO: need to add service content model that duplicates studio content model and use here
+const Services = ({ scrollPos }) => {
+  const { studios } = useSiteData()
   const [refs, setRefs] = React.useState([])
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ const Studios = ({ scrollPos }) => {
 
   return (
     <BasePage
-      heading="Studios"
+      heading="Services"
       scrollPos={scrollPos}
       links={studios?.map((studio, index) => ({
         label: studio.name,
@@ -39,14 +39,8 @@ const Studios = ({ scrollPos }) => {
           ]}
         />
       ))}
-
-      <div className="about rich-content mt-24">
-        {about?.map((data, i) => {
-          return <RichTextItem key={'about' + i} content={data?.content} />
-        })}
-      </div>
     </BasePage>
   )
 }
 
-export default Studios
+export default Services
