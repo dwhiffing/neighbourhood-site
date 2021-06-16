@@ -73,6 +73,9 @@ const SidebarLink = ({ label, index, filter, href, onClick }) => (
 const Post = ({ item }) =>
   item ? (
     <div>
+      <div className="mt-2 mb-3">
+        <span className="small">{item.tag}</span>
+      </div>
       <h1 dangerouslySetInnerHTML={{ __html: item.title }} />
       <RichTextItem content={item.content} />
     </div>

@@ -15,7 +15,7 @@ const dtrOptions = {
       <img
         src={node.data?.target?.fields?.file?.url}
         alt={node.data?.target?.fields?.title}
-        className="my-12"
+        className="my-10"
       />
     ),
     [BLOCKS.HR]: (node) => <DottedLine className="my-20" />,
