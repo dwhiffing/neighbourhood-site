@@ -132,6 +132,10 @@ const GridItem = ({ children, route, routePath }) => {
     return () => _ref.removeEventListener('scroll', setScroll)
   }, [ref])
 
+  useEffect(() => {
+    if (routePath === 'feed') ref.current.scrollTop = 0
+  }, [children, routePath])
+
   return (
     <>
       <motion.div

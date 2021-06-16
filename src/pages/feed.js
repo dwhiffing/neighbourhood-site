@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { BasePage } from '../components/BasePage'
 import { Link } from '@reach/router'
-import { format } from 'date-fns'
 import uniq from 'lodash/uniq'
 import { RichTextItem } from '../components/RichTextItem'
 import { useSiteData } from 'react-static'
@@ -9,7 +8,6 @@ import { useSiteData } from 'react-static'
 const Feed = ({ id }) => {
   const { posts } = useSiteData()
 
-  console.log({ posts })
   const [filter, setFilter] = useState()
   const postTags = uniq(posts.map((i) => i.tag))
     .sort((a, b) => a.localeCompare(b))
