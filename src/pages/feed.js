@@ -93,7 +93,7 @@ const PostList = ({ items, filter }) => (
             className="flex flex-1 flex-col mb-20"
             to={`/feed/${item.id}`}
           >
-            <div className="flex items-end mb-3">
+            <div className="flex items-end mb-1">
               <span className="small mr-16 mb-2">{item.tag}</span>
 
               <h1 dangerouslySetInnerHTML={{ __html: item.title }} />
