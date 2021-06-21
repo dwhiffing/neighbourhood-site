@@ -15,6 +15,8 @@ const Services = ({ scrollPos }) => {
     )
   }, [services.length])
 
+  console.log(services)
+
   return (
     <BasePage
       heading="Services"

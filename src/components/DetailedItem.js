@@ -23,16 +23,21 @@ export const DetailedItem = forwardRef(
         <Carousel images={images} />
 
         <div className="flex">
-          {sections.map((section) => (
-            <div key={section.label} className="flex-1">
-              <h2>{section.label}</h2>
-              <ul>
-                {section.items.map((item, i) => (
-                  <li key={section.label + i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {sections
+            .filter((s) => !!s.items)
+            .map((section, index) => (
+              <div
+                key={section.label}
+                className={`flex-1 ${index === 0 ? 'mr-10' : ''}`}
+              >
+                <h2>{section.label}</h2>
+                <ul>
+                  {section.items?.map((item, i) => (
+                    <li key={section.label + i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
         </div>
 
         <DottedLine className="mt-12 mb-6" />
