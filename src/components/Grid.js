@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from '@reach/router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { APP_ROUTE_TILES } from '../constants'
+import { APP_ROUTE_TILES, EXPENDABLES_LINK } from '../constants'
 import Studios from '../pages/studios'
 import Index from '../pages/index'
 import Services from '../pages/services'
@@ -136,6 +136,8 @@ const GridItem = ({ children, route, routePath }) => {
     if (routePath === 'feed') ref.current.scrollTop = 0
   }, [children, routePath])
 
+  const LinkComponent = route === 'expendables' ? 'div' : Link
+
   return (
     <>
       <motion.div
@@ -152,8 +154,12 @@ const GridItem = ({ children, route, routePath }) => {
       >
         {result}
 
-        <Link
+        <LinkComponent
           style={linkStyle}
+          className="cursor-pointer"
+          onClick={() =>
+            route === 'expendables' && window.open(EXPENDABLES_LINK)
+          }
           to={routePath === '/' ? route : DIRECT_ROUTE_NAVIGATION ? route : '/'}
         />
       </motion.div>

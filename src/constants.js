@@ -11,3 +11,5 @@ export const DEFAULT_TRANSITION = {
   duration: 0.5,
   ease: 'easeOut',
 }
+
+export const EXPENDABLES_LINK = 'https://www.google.ca'

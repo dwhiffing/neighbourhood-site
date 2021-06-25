@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from '@reach/router'
-import { APP_ROUTE_TILES } from '../constants'
+import { APP_ROUTE_TILES, EXPENDABLES_LINK } from '../constants'
 import { Logo } from './Logo'
 
 export const Accordion = ({ routePath, children }) =>
@@ -11,9 +11,14 @@ export const Accordion = ({ routePath, children }) =>
   ))
 
 const AccordionItem = ({ children, route, routePath }) => {
+  const LinkComponent = route === 'expendables' ? 'div' : Link
   return (
     <>
-      <Link to={routePath !== '/' ? '/' : route}>
+      <LinkComponent
+        className="cursor-pointer"
+        onClick={() => route === 'expendables' && window.open(EXPENDABLES_LINK)}
+        to={routePath !== '/' ? '/' : route}
+      >
         <h2
           initial={false}
           className={`p-5 border-green ${
@@ -26,7 +31,7 @@ const AccordionItem = ({ children, route, routePath }) => {
             <Logo style={{ marginTop: 10, height: 50 }} />
           )}
         </h2>
-      </Link>
+      </LinkComponent>
 
       {routePath === route && children && (
         <section
