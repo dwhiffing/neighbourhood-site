@@ -177,7 +177,11 @@ export const useEquipment = () => {
 
 const sortAlpha = (a, b) => a.localeCompare(b)
 const getKey = (arr, key) => uniq(arr?.map((d) => d[key]) || []).sort(sortAlpha)
-const FUSE_CONFIG = { keys: ['name'], threshold: 0.2, minMatchCharLength: 1 }
+const FUSE_CONFIG = {
+  keys: ['name', 'brand', 'category', 'sub-category', 'sub-sub-category'],
+  threshold: 0.2,
+  minMatchCharLength: 1,
+}
 const ONE_DAY = 1000 * 60 * 60 * 24
 
 const getBrandOrder = () => {
