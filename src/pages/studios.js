@@ -20,10 +20,13 @@ const Studios = ({ scrollPos }) => {
     <BasePage
       heading="Studios"
       scrollPos={scrollPos}
-      links={studios?.map((studio, index) => ({
-        label: studio.name,
-        href: `#studio-${index + 1}`,
-      }))}
+      links={[
+        ...studios?.map((studio, index) => ({
+          label: studio.name,
+          href: `#studio-${index + 1}`,
+        })),
+        { label: 'About', href: '#about' },
+      ]}
     >
       {studios?.map((studio, index) => (
         <DetailedItem
@@ -40,7 +43,7 @@ const Studios = ({ scrollPos }) => {
         />
       ))}
 
-      <div className="about rich-content mt-24">
+      <div id="about" className="about rich-content mt-24">
         {about?.map((data, i) => {
           return <RichTextItem key={'about' + i} content={data?.content} />
         })}

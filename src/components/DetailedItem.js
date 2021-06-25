@@ -3,9 +3,9 @@ import { DottedLine } from '../components/DottedLine'
 import { Carousel } from '../components/Carousel'
 
 export const DetailedItem = forwardRef(
-  ({ name, images, index, sections, links }, ref) => {
+  ({ name, images, index, type = 'studio', sections, links }, ref) => {
     return (
-      <div ref={ref} id={`studio-${index + 1}`} className="pt-2">
+      <div ref={ref} id={`${type}-${index + 1}`} className="pt-2">
         <h1 className="mt-8 mb-5">{name}</h1>
 
         <div className="flex mb-8">

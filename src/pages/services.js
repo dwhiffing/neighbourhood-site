@@ -28,6 +28,7 @@ const Services = ({ scrollPos }) => {
         <DetailedItem
           ref={refs[index]}
           key={'service' + index}
+          type="service"
           name={service.name}
           images={service.images}
           index={index}
