@@ -16,7 +16,7 @@ export function Sidebar(props) {
 
           <div
             className="layout-scrollbar overflow-y-scroll flex flex-col mb-2"
-            style={{ width: 230 }}
+            style={{ width: 180 }}
           >
             <input
               value={props.query}
@@ -41,7 +41,7 @@ export function Sidebar(props) {
           {props.categoryNames
             .filter((c) => sidebar.renderedCategories.includes(c))
             .map((c) => (
-              <>
+              <div className="flex flex-col" key={c}>
                 <SidebarLink
                   label={c}
                   key={c}
@@ -74,7 +74,7 @@ export function Sidebar(props) {
                           ))}
                     </>
                   ))}
-              </>
+              </div>
             ))}
         </div>
 
@@ -130,9 +130,9 @@ export function MobileFilters(props) {
       >
         <option value="">Everything</option>
         {props.categoryNames.map((c) => (
-          <>
-            <option value={c}>{c}</option>
-          </>
+          <option key={c} value={c}>
+            {c}
+          </option>
         ))}
       </select>
 
@@ -147,9 +147,9 @@ export function MobileFilters(props) {
           >
             <option value="">Everything</option>
             {sidebar.renderedSubCategories.map((c) => (
-              <>
-                <option value={c}>{c}</option>
-              </>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </>
@@ -165,9 +165,9 @@ export function MobileFilters(props) {
           >
             <option value="">Everything</option>
             {sidebar.renderedSubSubCategories.map((c) => (
-              <>
-                <option value={c}>{c}</option>
-              </>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </>
@@ -182,9 +182,9 @@ export function MobileFilters(props) {
       >
         <option value="">Everything</option>
         {sidebar.renderedBrands.map((b) => (
-          <>
-            <option value={b}>{b}</option>
-          </>
+          <option key={b} value={b}>
+            {b}
+          </option>
         ))}
       </select>
     </div>
