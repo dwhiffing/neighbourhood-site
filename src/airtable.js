@@ -143,11 +143,9 @@ export const useEquipment = () => {
     const categoryNames = Object.keys(categories).sort((a, b) => {
       const aIndex = categoryOrder.indexOf(a)
       const bIndex = categoryOrder.indexOf(b)
-      if (aIndex > -1 && bIndex > -1) return aIndex - bIndex
-      if (aIndex > bIndex) return -1
-      if (bIndex > aIndex) return 1
-      return 0
+      return aIndex - bIndex
     })
+
     return { categoryNames, categories, brands }
   }, [equipment, brandOrder, categoryOrder])
 
@@ -171,6 +169,8 @@ export const useEquipment = () => {
       setLoading(false)
     })
   }, [])
+
+  console.log(traits)
 
   return { loading, traits, fuse: fuse, equipment }
 }

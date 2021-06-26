@@ -24,7 +24,6 @@ const dtrOptions = {
       return <h2 id={kebabCase(label)}>{label}</h2>
     },
     [BLOCKS.QUOTE]: (node) => {
-      console.log(node)
       return (
         <h2 className="font-serif ml-24 my-14 text-xl">
           {node.content[0].content[0].value}
