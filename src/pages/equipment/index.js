@@ -4,7 +4,7 @@ import { useEquipment, submitCart } from '../../airtable'
 import { MobileFilters, Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
-import { useContainerWidth, useIsMobile } from '../../useIsMobile'
+import { useContainerWidth, useIsMobile, useKeypress } from '../../useIsMobile'
 
 const Equipment = () => {
   const [category, setCategory] = useState('')
@@ -28,6 +28,8 @@ const Equipment = () => {
     numPerRow = 4
     flex = '22% 0 1'
   }
+
+  useKeypress('Escape', () => setCartOpen(false))
 
   const results = useMemo(
     () => fuse.search(query).map((r) => r.item),

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import { RichTextItem } from '../components/RichTextItem'
 import { kebabCase } from 'lodash'
-import { useContainerWidth } from '../useIsMobile'
+import { useContainerWidth, useKeypress } from '../useIsMobile'
 
 const DURATION = 10
 const SIZE = 222
@@ -35,6 +35,8 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
     const _ref = ref.current
     return () => _ref.removeEventListener('scroll', setScroll)
   }, [ref])
+
+  useKeypress('Escape', () => setShowModal(false))
 
   return (
     <motion.div

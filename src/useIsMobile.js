@@ -20,3 +20,14 @@ export const useContainerWidth = () => {
 
   return width
 }
+
+export const useKeypress = (key, action) => {
+  useEffect(() => {
+    function onKeyup(e) {
+      console.log(e.key)
+      if (e.key === key) action()
+    }
+    window.addEventListener('keyup', onKeyup)
+    return () => window.removeEventListener('keyup', onKeyup)
+  }, [action, key])
+}
