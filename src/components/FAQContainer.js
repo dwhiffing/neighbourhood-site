@@ -73,15 +73,18 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
             >
               <h1 className="mr-4 font-sans">Our COVID-19 Protocols</h1>
               {links.map((link, i, arr) => {
-                const nextLink = arr[i + 1]
-                const target = document.getElementById(kebabCase(link))
-                const targetOffset = target?.offsetTop - 50
+                let targetOffset = 99999
                 let nextTargetOffset = 99999
-                if (nextLink) {
-                  const nextTarget = document.getElementById(
-                    kebabCase(nextLink),
-                  )
-                  nextTargetOffset = nextTarget?.offsetTop - 50
+                if (typeof document !== 'undefined') {
+                  const nextLink = arr[i + 1]
+                  const target = document.getElementById(kebabCase(link))
+                  targetOffset = target?.offsetTop - 50
+                  if (nextLink) {
+                    const nextTarget = document.getElementById(
+                      kebabCase(nextLink),
+                    )
+                    nextTargetOffset = nextTarget?.offsetTop - 50
+                  }
                 }
                 return (
                   <a
