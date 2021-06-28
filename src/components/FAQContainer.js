@@ -72,18 +72,31 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
               style={{ maxWidth: 260 }}
             >
               <h1 className="mr-4 font-sans">Our COVID-19 Protocols</h1>
-              {links.map((link, i) => (
-                <a
-                  key={link + i}
-                  className={`link${
-                    // TODO: need to find a way to make this work based on content
-                    (scrollPos > 700 ? i === 1 : i === 0) ? ' link-active' : ''
-                  }`}
-                  href={`/#${kebabCase(link)}`}
-                >
-                  {link}
-                </a>
-              ))}
+              {links.map((link, i, arr) => {
+                const nextLink = arr[i + 1]
+                const target = document.getElementById(kebabCase(link))
+                const targetOffset = target?.offsetTop - 50
+                let nextTargetOffset = 99999
+                if (nextLink) {
+                  const nextTarget = document.getElementById(
+                    kebabCase(nextLink),
+                  )
+                  nextTargetOffset = nextTarget?.offsetTop - 50
+                }
+                return (
+                  <a
+                    key={link + i}
+                    className={`link${
+                      scrollPos > targetOffset && scrollPos < nextTargetOffset
+                        ? ' link-active'
+                        : ''
+                    }`}
+                    href={`/#${kebabCase(link)}`}
+                  >
+                    {link}
+                  </a>
+                )
+              })}
             </div>
 
             <div className="flex-1 pl-0 md:pl-60">

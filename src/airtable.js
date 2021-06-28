@@ -133,7 +133,6 @@ export const useEquipment = () => {
         const subKey = `${e.category}^^^${e.sub_category}`
         setDefault(categories, subKey, {})
         if (e.sub_sub_category) {
-          // TODO: this is failing for sub categories with a dot in the name
           const subSubKey = `${subKey}^^^${e.sub_sub_category}`
           const subSub = setDefault(categories, subSubKey, [])
           set(categories, subSubKey, [...subSub, e])
