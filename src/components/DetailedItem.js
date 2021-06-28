@@ -4,6 +4,13 @@ import { Carousel } from '../components/Carousel'
 
 export const DetailedItem = forwardRef(
   ({ name, images, index, type = 'studio', sections, links }, ref) => {
+    const onClickLink = (link) => () => {
+      if (link.fields.pdf?.fields?.file?.url) {
+        window.open(link.fields.pdf.fields.file.url, '_blank')
+      } else if (link.fields.url) {
+        window.open(link.fields.url, '_blank')
+      }
+    }
     return (
       <div ref={ref} id={`${type}-${index + 1}`} className="pt-2">
         <h1 className="mt-8 mb-5">{name}</h1>
@@ -13,7 +20,7 @@ export const DetailedItem = forwardRef(
             <button
               key={'tag' + i}
               className="mr-2"
-              onClick={() => window.open(link.fields.url, '_blank')}
+              onClick={onClickLink(link)}
             >
               {link.fields.label}
             </button>

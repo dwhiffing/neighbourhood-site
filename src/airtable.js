@@ -170,8 +170,6 @@ export const useEquipment = () => {
     })
   }, [])
 
-  console.log(traits)
-
   return { loading, traits, fuse: fuse, equipment }
 }
 
