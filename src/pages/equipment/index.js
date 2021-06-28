@@ -5,6 +5,7 @@ import { MobileFilters, Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
 import { useContainerWidth, useIsMobile, useKeypress } from '../../useIsMobile'
+import { useSiteData } from 'react-static'
 
 const Equipment = () => {
   const [category, setCategory] = useState('')
@@ -18,6 +19,10 @@ const Equipment = () => {
   let { loading, traits, equipment, fuse } = useEquipment()
   const isMobile = useIsMobile()
   const width = useContainerWidth()
+  const { urls } = useSiteData()
+
+  const PDFUrl = urls.find((u) => u.label === 'Equipment Page PDF')
+
   let numPerRow = 2
   let flex = '46% 0 1'
   if (width > 1000) {
@@ -131,12 +136,25 @@ const Equipment = () => {
         </motion.div>
 
         <div className="relative">
-          <button
-            className="absolute -top-16 lg:fixed lg:top-0 right-0 mt-3 mr-3 px-6 mb-3 cart-modal-button"
-            onClick={() => setCartOpen(true)}
-          >
-            My List ({cart.length})
-          </button>
+          <div className="absolute flex -top-16 lg:fixed lg:top-0 right-0 mt-3 mr-3 mb-3">
+            {PDFUrl?.pdf?.fields?.file?.url && (
+              <button
+                className="px-6 mr-2 stroke hidden sm:block equipment-button"
+                onClick={() =>
+                  window.open(PDFUrl.pdf.fields.file.url, '_blank')
+                }
+              >
+                Download PDF
+              </button>
+            )}
+
+            <button
+              className="px-6 equipment-button cart-modal-button"
+              onClick={() => setCartOpen(true)}
+            >
+              My List ({cart.length})
+            </button>
+          </div>
         </div>
 
         <BasePage

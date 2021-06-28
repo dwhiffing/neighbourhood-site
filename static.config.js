@@ -5,6 +5,7 @@ import {
   getFaq,
   getPosts,
   getServices,
+  getURL,
 } from './src/contentful'
 
 const config = {
@@ -14,7 +15,8 @@ const config = {
     const services = await getServices()
     const posts = await getPosts()
     const faq = await getFaq()
-    return { studios, services, posts, about, faq }
+    const urls = await getURL()
+    return { studios, services, posts, about, faq, urls }
   },
   plugins: [
     [
