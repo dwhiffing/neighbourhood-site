@@ -18,10 +18,13 @@ export const BasePage = forwardRef(
 
     let activeSection = 0
     if (Array.isArray(children))
-      children.slice(1).forEach((c, i) => {
-        const offset = c.ref?.current?.offsetTop || 0
-        if (scrollPos > offset) activeSection = i + 1
-      })
+      children
+        .flat()
+        .slice(1)
+        .forEach((c, i) => {
+          const offset = c.ref?.current?.offsetTop || 0
+          if (c.ref?.current && scrollPos > offset) activeSection = i + 1
+        })
 
     return (
       <div className="flex pb-20">

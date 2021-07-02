@@ -10,7 +10,7 @@ const Studios = ({ scrollPos }) => {
 
   React.useEffect(() => {
     setRefs((elRefs) =>
-      Array(studios.length)
+      Array(studios.length + 1)
         .fill()
         .map((_, i) => elRefs[i] || React.createRef()),
     )
@@ -43,7 +43,11 @@ const Studios = ({ scrollPos }) => {
         />
       ))}
 
-      <div id="about" className="about rich-content mt-24">
+      <div
+        ref={refs[studios.length]}
+        id="about"
+        className="about rich-content mt-24"
+      >
         {about?.map((data, i) => {
           return <RichTextItem key={'about' + i} content={data?.content} />
         })}
