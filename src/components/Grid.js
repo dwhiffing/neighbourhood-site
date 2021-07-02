@@ -136,7 +136,8 @@ const GridItem = ({ children, route, routePath }) => {
     if (routePath === 'feed') ref.current.scrollTop = 0
   }, [children, routePath])
 
-  const LinkComponent = route === 'expendables' ? 'div' : Link
+  const LinkComponent =
+    route === 'expendables' && routePath === '/' ? 'div' : Link
 
   return (
     <>
@@ -157,8 +158,10 @@ const GridItem = ({ children, route, routePath }) => {
         <LinkComponent
           style={linkStyle}
           className="cursor-pointer"
-          onClick={() =>
-            route === 'expendables' && window.open(EXPENDABLES_LINK)
+          onClick={
+            routePath === '/'
+              ? () => route === 'expendables' && window.open(EXPENDABLES_LINK)
+              : null
           }
           to={routePath === '/' ? route : DIRECT_ROUTE_NAVIGATION ? route : '/'}
         />
