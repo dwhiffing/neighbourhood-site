@@ -19,7 +19,7 @@ const Index = () => {
           <br />
           +1 647 748 0155
           <br />
-          contact@neighbourhoodstudios.com
+          info@neighbourhoodstudios.com
         </p>
       </div>
     </div>
