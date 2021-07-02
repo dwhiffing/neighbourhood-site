@@ -170,12 +170,12 @@ const CartItem = ({ item, onRemoveItem, onUpdateQuantity }) => (
         </h2>
         <h2
           className="mb-2"
-          style={{ fontSize: 16, lineHeight: 1.5, color: 'white' }}
+          style={{ fontSize: 12, lineHeight: 1.5, color: 'white' }}
         >
           {item.name}
         </h2>
       </div>
-      <div className="flex items-center mt-4">
+      <div className="flex items-center mt-1">
         <input
           value={item.quantity}
           onChange={(e) => {
@@ -200,7 +200,7 @@ const CartItem = ({ item, onRemoveItem, onUpdateQuantity }) => (
       </div>
     </div>
     <DottedLine
-      className="my-3"
+      className="my-1"
       style={{
         backgroundImage:
           'linear-gradient(to right, rgb(255 255 255) 30%, rgba(255, 255, 255, 0) 0%)',
