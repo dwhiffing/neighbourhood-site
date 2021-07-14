@@ -6,6 +6,7 @@ import {
   getPosts,
   getServices,
   getURL,
+  getSeoFields,
 } from './src/contentful'
 
 const config = {
@@ -15,8 +16,9 @@ const config = {
     const services = await getServices()
     const posts = await getPosts()
     const faq = await getFaq()
+    const seoFields = await getSeoFields()
     const urls = await getURL()
-    return { studios, services, posts, about, faq, urls }
+    return { studios, services, posts, about, faq, urls, seoFields }
   },
   plugins: [
     [
