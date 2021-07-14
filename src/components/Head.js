@@ -2,20 +2,27 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { useSiteData } from 'react-static'
 
-export const Head = ({ title = 'Neighbourhood' }) => {
-  const { services } = useSiteData()
+export const Head = ({ route }) => {
+  const { seoFields } = useSiteData()
+  const { description, title } = seoFields.find(
+    (field) => field.route === route,
+  ) || { title: 'Neighbourhood', description: 'Neighbourhood Studios' }
 
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="description" content={services[0].name} />
-      <meta property="og:title" content="" />
-      <meta property="og:description" content="" />
-      <meta property="og:image" content="" />
-      <meta property="og:url" content="" />
-      <meta property="og:site_name" content="" />
-      <meta property="og:locale" content="" />
-      <meta property="og:type" content="" />
+      <meta name="description" cotent={description} />
+      <meta property="og:title" content={title} />
+      <meta property="og:site_name" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="en_US" />
+      <meta
+        property="og:image"
+        content={'https://neighbourhoodstudios.com/socialshare.jpeg'}
+      />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
     </Helmet>
   )
 }

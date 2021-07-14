@@ -22,6 +22,7 @@ const Feed = ({ id }) => {
 
   return (
     <BasePage
+      route="/feed"
       className="flex-1"
       heading="Feed"
       linkComponent={

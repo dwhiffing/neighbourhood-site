@@ -18,6 +18,7 @@ const Services = ({ scrollPos }) => {
   return (
     <BasePage
       heading="Services"
+      route="/services"
       scrollPos={scrollPos}
       links={services?.map((service, index) => ({
         label: service.name,

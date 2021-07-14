@@ -159,9 +159,9 @@ const Equipment = () => {
 
         <BasePage
           pageSize="max-w-6xl w-full"
+          route="/equipment"
           className="lg:pl-3"
           linkComponent={<Sidebar {...sidebarProps} />}
-          title="Equipment"
         >
           {width < 900 && <MobileFilters {...sidebarProps} />}
           <div className="pt-16 flex flex-wrap justify-center">

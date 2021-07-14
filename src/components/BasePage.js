@@ -6,8 +6,8 @@ export const BasePage = forwardRef(
   (
     {
       heading = '',
-      title = '',
       links = [],
+      route = '/',
       linkComponent,
       children,
       className = '',
@@ -30,7 +30,7 @@ export const BasePage = forwardRef(
 
     return (
       <div className="flex pb-20">
-        <Head title={title || heading} />
+        <Head route={route} />
 
         {width > 900 &&
           (linkComponent || (

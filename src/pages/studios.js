@@ -19,6 +19,7 @@ const Studios = ({ scrollPos }) => {
   return (
     <BasePage
       heading="Studios"
+      route="/studios"
       scrollPos={scrollPos}
       links={[
         ...studios?.map((studio, index) => ({

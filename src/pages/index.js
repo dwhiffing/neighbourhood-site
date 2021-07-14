@@ -8,7 +8,7 @@ const Index = () => {
   return (
     <React.Suspense fallback={<div>Loading... </div>}>
       <div className="overflow-hidden">
-        <Head />
+        <Head route="/" />
 
         <div className="py-1">
           {!mobile && <Logo className="mt-1 ml-1" style={{ height: 52 }} />}
