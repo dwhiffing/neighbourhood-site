@@ -1,10 +1,12 @@
 import React, { forwardRef } from 'react'
 import { useContainerWidth } from '../useIsMobile'
+import { Head } from './Head'
 
 export const BasePage = forwardRef(
   (
     {
       heading = '',
+      title = '',
       links = [],
       linkComponent,
       children,
@@ -28,6 +30,8 @@ export const BasePage = forwardRef(
 
     return (
       <div className="flex pb-20">
+        <Head title={title || heading} />
+
         {width > 900 &&
           (linkComponent || (
             <div
