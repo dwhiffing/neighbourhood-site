@@ -259,6 +259,10 @@ ul {
   margin-left: 20px;
 }
 
+p a {
+  text-decoration: underline;
+}
+
 .rich-content h5 {
   margin-top: 40px;
   line-height: 1.5;
