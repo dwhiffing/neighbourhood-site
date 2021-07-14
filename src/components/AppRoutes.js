@@ -6,6 +6,8 @@ import { Accordion } from './Accordion'
 import { useIsMobile } from '../useIsMobile'
 import Index from '../pages/index'
 import { FAQContainer } from './FAQContainer'
+import { Head } from "./Head"
+
 
 export const AppRoutes = () => {
   const isMobile = useIsMobile()

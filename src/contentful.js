@@ -15,6 +15,7 @@ export const getEntriesByType = async (type) => {
     .sort(({ index: aIndex = 99 }, { index: bIndex = 99 }) => aIndex - bIndex)
 }
 
+export const getSeoFields = () => getEntriesByType('seoFields')
 export const getStudios = () => getEntriesByType('studio')
 export const getServices = () => getEntriesByType('service')
 export const getPosts = () => getEntriesByType('post')
