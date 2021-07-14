@@ -33,7 +33,7 @@ export const CartModal = ({
     }
   }, [handleClick])
   return (
-    <div className={`fixed inset-0 pointer-events-none`}>
+    <div className={`fixed z-30 inset-0 pointer-events-none`}>
       <motion.div
         ref={node}
         animate={{ opacity: showModal ? 1 : 0 }}

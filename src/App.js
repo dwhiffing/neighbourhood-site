@@ -7,7 +7,9 @@ import './app.css'
 
 const App = () => (
   <Root>
-    <React.Suspense fallback={<Loading />}>
+    {/* <React.Suspense fallback={<Loading />}> */}
+    {/* Temporarily removing Loading fallback, since there are Suspense Issues on <Grid /> for the index. Since the site will be statically compiled, perhaps this won't be an issue?  */}
+    <React.Suspense fallback={<div></div>}>
       <MotionConfig transition={DEFAULT_TRANSITION}>
         <AppRoutes />
       </MotionConfig>

@@ -5,7 +5,7 @@ import { DetailedItem } from '../components/DetailedItem'
 import { RichTextItem } from '../components/RichTextItem'
 
 const Studios = ({ scrollPos }) => {
-  const { studios, about } = useSiteData()
+  const { studios, about, seoFields } = useSiteData()
   const [refs, setRefs] = React.useState([])
 
   React.useEffect(() => {
@@ -18,6 +18,7 @@ const Studios = ({ scrollPos }) => {
 
   return (
     <BasePage
+      {...seoFields.find(fields => fields.route == "/studios")}
       heading="Studios"
       scrollPos={scrollPos}
       links={[

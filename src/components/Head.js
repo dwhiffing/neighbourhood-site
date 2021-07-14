@@ -1,21 +1,27 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useSiteData } from 'react-static'
+import { useLocation } from "@reach/router"
 
-export const Head = ({ title = 'Neighbourhood' }) => {
-  const { services } = useSiteData()
+export const Head = ({ title = 'Neighbourhood Studios', description = '' }) => {
+	return (
+		<Helmet>
+			<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+			<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
 
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={services[0].name} />
-      <meta property="og:title" content="" />
-      <meta property="og:description" content="" />
-      <meta property="og:image" content="" />
-      <meta property="og:url" content="" />
-      <meta property="og:site_name" content="" />
-      <meta property="og:locale" content="" />
-      <meta property="og:type" content="" />
-    </Helmet>
-  )
+			<title>{title}</title>
+			<meta property="og:title" content={title} />
+			<meta name="twitter:title" content={title} />
+			<meta property="og:site_name" content={title} />
+			<meta name="description" cotent={description} />
+			<meta name="twitter:description" content={description} />
+			<meta property="og:description" content={description} />
+
+			<meta property="og:image" content={"https://neighbourhoodstudios.com/socialshare.jpeg"} />
+
+			<meta property="og:type" content="website" />
+			<meta property="og:locale" content="en_US" />
+
+		</Helmet>
+	)
 }

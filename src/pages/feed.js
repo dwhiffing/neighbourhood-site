@@ -6,7 +6,7 @@ import { RichTextItem } from '../components/RichTextItem'
 import { useSiteData } from 'react-static'
 
 const Feed = ({ id }) => {
-  const { posts } = useSiteData()
+  const { posts, seoFields } = useSiteData()
 
   const [filter, setFilter] = useState()
   const postTags = uniq(posts.map((i) => i.tag))
@@ -22,6 +22,7 @@ const Feed = ({ id }) => {
 
   return (
     <BasePage
+      {...seoFields.find(fields => fields.route == "/feed")}
       className="flex-1"
       heading="Feed"
       linkComponent={
@@ -33,14 +34,14 @@ const Feed = ({ id }) => {
           {id
             ? null
             : tags.map((link, index) => (
-                <SidebarLink
-                  key={link.label}
-                  filter={filter}
-                  index={index}
-                  label={link.label}
-                  onClick={link.onClick}
-                />
-              ))}
+              <SidebarLink
+                key={link.label}
+                filter={filter}
+                index={index}
+                label={link.label}
+                onClick={link.onClick}
+              />
+            ))}
         </div>
       }
     >
@@ -58,11 +59,10 @@ export default Feed
 const SidebarLink = ({ label, index, filter, href, onClick }) => (
   <a
     key={label}
-    className={`link${
-      (index === 0 ? !filter : filter === label.toLowerCase())
-        ? ' link-active'
-        : ''
-    }`}
+    className={`link${(index === 0 ? !filter : filter === label.toLowerCase())
+      ? ' link-active'
+      : ''
+      }`}
     href={href}
     onClick={onClick}
   >

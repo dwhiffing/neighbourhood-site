@@ -4,7 +4,7 @@ import { BasePage } from '../components/BasePage'
 import { DetailedItem } from '../components/DetailedItem'
 
 const Services = ({ scrollPos }) => {
-  const { services } = useSiteData()
+  const { services, seoFields } = useSiteData()
   const [refs, setRefs] = React.useState([])
 
   React.useEffect(() => {
@@ -17,6 +17,7 @@ const Services = ({ scrollPos }) => {
 
   return (
     <BasePage
+      {...seoFields.find(fields => fields.route == "/services")}
       heading="Services"
       scrollPos={scrollPos}
       links={services?.map((service, index) => ({
