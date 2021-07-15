@@ -35,13 +35,13 @@ export const Carousel = ({ images }) => {
             }
         }}
         animate={{ x: `-${index * 100}%` }}
-        className="flex flex-1 mb-5"
+        className="flex items-center flex-1 mb-5"
       >
         {images.map((image, i) => (
           <img
             key={'image' + i}
             alt="Studio"
-            src={`http:${image.fields.file.url}`}
+            src={`http:${image.fields.file.url}?w=1024`}
             className="w-full h-full"
           />
         ))}

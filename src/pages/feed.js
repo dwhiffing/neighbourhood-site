@@ -100,7 +100,10 @@ const PostList = ({ items, filter }) => (
               <h1 dangerouslySetInnerHTML={{ __html: item.title }} />
             </div>
 
-            <img alt="blog_image" src={item.previewImage.fields.file.url} />
+            <img
+              alt="blog_image"
+              src={`${item.previewImage.fields.file.url}?w=1024`}
+            />
           </Link>
         )
       })}
