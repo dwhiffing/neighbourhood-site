@@ -19,8 +19,12 @@ const Equipment = () => {
   const isMobile = useIsMobile()
   const width = useContainerWidth()
 
-  let numPerRow = 2
-  let flex = '46% 0 1'
+  let numPerRow = 1
+  let flex = '100% 0 1'
+  if (width > 500) {
+    numPerRow = 2
+    flex = '46% 0 1'
+  }
   if (width > 1000) {
     numPerRow = 3
     flex = '30% 0 1'
@@ -131,6 +135,17 @@ const Equipment = () => {
           </div>
         </motion.div>
 
+        <div className="relative z-10">
+          <div className="absolute flex -top-16 lg:fixed lg:top-0 right-0 mt-3 mr-3 mb-3">
+            <button
+              className="px-6 equipment-button cart-modal-button"
+              onClick={() => setCartOpen(true)}
+            >
+              My List ({cart.length})
+            </button>
+          </div>
+        </div>
+
         <BasePage
           pageSize="max-w-6xl w-full"
           route="/equipment"
@@ -161,17 +176,6 @@ const Equipment = () => {
             onRemoveItem={onRemoveItem}
             onUpdateQuantity={onUpdateQuantity}
           />
-
-          <div className="relative">
-            <div className="absolute flex -top-16 lg:fixed lg:top-0 right-0 mt-3 mr-3 mb-3">
-              <button
-                className="px-6 equipment-button cart-modal-button"
-                onClick={() => setCartOpen(true)}
-              >
-                My List ({cart.length})
-              </button>
-            </div>
-          </div>
         </BasePage>
       </div>
     </>
