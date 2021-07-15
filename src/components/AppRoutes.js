@@ -15,20 +15,16 @@ export const AppRoutes = () => {
     <Router>
       <Routes
         path="*"
-        render={({ routePath, getComponentForPath }) => {
-          const element = getComponentForPath(routePath)
-
-          return (
-            <div>
-              {isMobile ? (
-                <Accordion routePath={routePath}>{element}</Accordion>
-              ) : (
-                <Grid routePath={routePath}>{element}</Grid>
-              )}
-              <FAQContainer data={data.faq} showBall={routePath === '/'} />
-            </div>
-          )
-        }}
+        render={({ routePath }) => (
+          <div>
+            {isMobile ? (
+              <Accordion routePath={routePath} />
+            ) : (
+              <Grid routePath={routePath} />
+            )}
+            <FAQContainer data={data.faq} showBall={routePath === '/'} />
+          </div>
+        )}
       />
     </Router>
   )

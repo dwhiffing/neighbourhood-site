@@ -29,13 +29,13 @@ export const DetailedItem = forwardRef(
 
         <Carousel images={images} />
 
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           {sections
             .filter((s) => !!s.items)
             .map((section, index) => (
               <div
                 key={section.label}
-                className={`flex-1 ${index === 0 ? 'mr-10' : ''}`}
+                className={`flex-1 ${index === 0 ? 'mr-10' : 'mt-3 md:mt-0'}`}
               >
                 <h2>{section.label}</h2>
                 <ul>

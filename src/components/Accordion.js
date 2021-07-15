@@ -2,13 +2,15 @@ import React from 'react'
 import { Link } from '@reach/router'
 import { APP_ROUTE_TILES, EXPENDABLES_LINK } from '../constants'
 import { Logo } from './Logo'
+import { getComponentForPath } from './Grid'
 
-export const Accordion = ({ routePath, children }) =>
-  APP_ROUTE_TILES.map((route, index) => (
+export const Accordion = ({ routePath }) => {
+  return APP_ROUTE_TILES.map((route, index) => (
     <AccordionItem key={`route-${index}`} routePath={routePath} route={route}>
-      {children}
+      {getComponentForPath(route, routePath)}
     </AccordionItem>
   ))
+}
 
 const AccordionItem = ({ children, route, routePath }) => {
   const LinkComponent = route === 'expendables' ? 'div' : Link
@@ -33,7 +35,7 @@ const AccordionItem = ({ children, route, routePath }) => {
         </h2>
       </LinkComponent>
 
-      {routePath === route && children && (
+      {routePath.includes(route) && children && (
         <section
           key="content"
           className="px-5"
