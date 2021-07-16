@@ -65,10 +65,10 @@ const Equipment = () => {
     setCart((c) => c.map((i) => (i.id === item.id ? { ...item, quantity } : i)))
   }
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
     submitCart({
       items: cart.map((p) => `[${p.name} | Qty: ${p.quantity}]\n`).join(''),
+      phone: formState.phone.replace(/-/g, ''),
       ...formState,
     })
       .then(() => {

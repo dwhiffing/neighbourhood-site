@@ -7,6 +7,8 @@ export const Input = ({
   placeholder = '',
   formState = {},
   setFormState = () => {},
+  type,
+  min,
   ...props
 }) => (
   <div className={`flex flex-col ${className}`} {...props}>
@@ -16,6 +18,8 @@ export const Input = ({
         const value = e.target.value
         setFormState((fs) => ({ ...fs, [source]: value }))
       }}
+      type={type}
+      min={min}
       value={formState[source] ? formState[source] : ''}
       placeholder={placeholder}
       name={source}

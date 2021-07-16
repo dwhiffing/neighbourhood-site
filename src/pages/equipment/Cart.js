@@ -26,12 +26,36 @@ export const CartModal = ({
     [showModal, setShowModal],
   )
 
+  const onFormSubmit = (e) => {
+    e.preventDefault()
+    if (
+      !/^\d{3}-\d{3}-\d{4}$/.test(formState.phone) &&
+      !/^\d{10}$/.test(formState.phone)
+    ) {
+      return alert('Your phone number is invalid')
+    }
+    if (!/^\S+@\S+$/.test(formState.email)) {
+      return alert('Your email address is invalid')
+    }
+    if (+new Date(formState.pickup_date) < Date.now()) {
+      return alert('Your pickup date is invalid')
+    }
+    if (
+      +new Date(formState.return_date) < Date.now() ||
+      +new Date(formState.return_date) < +new Date(formState.pickup_date)
+    ) {
+      return alert('Your return date is invalid')
+    }
+    onSubmit()
+  }
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClick)
     return () => {
       document.removeEventListener('mousedown', handleClick)
     }
   }, [handleClick])
+
   return (
     <div className={`fixed z-30 inset-0 pointer-events-none`}>
       <motion.div
@@ -110,6 +134,8 @@ export const CartModal = ({
                   label="Pickup Date"
                   placeholder="MM/DD/YYYY"
                   source="pickup_date"
+                  min={new Date().toISOString().split('T')[0]}
+                  type="date"
                   formState={formState}
                   setFormState={setFormState}
                 />
@@ -118,6 +144,15 @@ export const CartModal = ({
                   placeholder="MM/DD/YYYY"
                   label="Return Date"
                   source="return_date"
+                  type="date"
+                  min={
+                    (formState.pickup_date
+                      ? new Date(formState.pickup_date)
+                      : new Date()
+                    )
+                      .toISOString()
+                      .split('T')[0]
+                  }
                   formState={formState}
                   setFormState={setFormState}
                 />
@@ -139,7 +174,7 @@ export const CartModal = ({
                   color: '#004225',
                 }}
                 className="mt-6 justify-center rounded bg-white mb-4"
-                onClick={onSubmit}
+                onClick={onFormSubmit}
               >
                 Send Quote Request
               </button>
