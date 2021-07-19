@@ -1,51 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react'
+import { Carousel as ResponsiveCarousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+// import { useIsMobile } from '../useIsMobile'
 
 export const Carousel = ({ images }) => {
-  const resetInterval = useRef()
   const [index, setIndex] = useState(0)
+  const [width, setWidth] = useState(
+    typeof document !== 'undefined' ? window.innerWidth : 0,
+  )
 
   useEffect(() => {
-    let interval
-
-    resetInterval.current = () => {
-      interval && clearInterval(interval)
-      interval = setInterval(() => {
-        setIndex((i) => (i >= images.length - 1 ? 0 : i + 1))
-      }, 6000)
+    if (typeof document !== 'undefined') {
+      const handleResize = () => setWidth(window.innerWidth)
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
     }
-
-    resetInterval.current()
-
-    return () => clearInterval(interval)
-  }, [images])
+  }, [])
 
   return (
-    <div className="flex flex-col mb-8 overflow-hidden">
-      <motion.div
-        onClick={(e) => {
-          resetInterval.current()
-          var rect = e.target.getBoundingClientRect()
-          const isLeft = e.clientX - rect.left <= rect.width / 2
-          if (rect.left > 0)
-            if (isLeft) {
-              setIndex((i) => (i === 0 ? images.length - 1 : i - 1))
-            } else {
-              setIndex((i) => (i === images.length - 1 ? 0 : i + 1))
-            }
-        }}
-        animate={{ x: `-${index * 100}%` }}
-        className="flex items-center flex-1 mb-5"
+    <div className="mb-5">
+      <ResponsiveCarousel
+        showThumbs={false}
+        showIndicators={false}
+        showArrows={width > 900}
+        showStatus={false}
+        onChange={setIndex}
+        infiniteLoop
+        interval={6000}
+        autoPlay
+        emulateTouch
+        className="carousel flex flex-1 mb-5"
       >
         {images.map((image, i) => (
-          <img
-            key={'image' + i}
-            alt="Studio"
-            src={`http:${image.fields.file.url}?w=1024`}
-            className="w-full h-full"
-          />
+          <div className="flex flex-1 items-center" key={'image' + i}>
+            <img
+              alt="Studio"
+              src={`http:${image.fields.file.url}?w=1024`}
+              className="w-full h-full"
+            />
+          </div>
         ))}
-      </motion.div>
+      </ResponsiveCarousel>
 
       <div className="flex">
         {images.map((image, i) => (

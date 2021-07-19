@@ -255,6 +255,12 @@ li {
   margin-bottom: 5px;
 }
 
+.carousel li {
+  list-style-type: none;
+  flex: 1;
+  display: flex;
+}
+
 ul {
   margin-left: 20px;
 }
@@ -425,4 +431,9 @@ select {
 #about h6 {
   margin: 0;
   line-height: 1.5;
+}
+
+.carousel.carousel-slider .control-arrow {
+  width: 50%;
+  opacity: 0;
 }
