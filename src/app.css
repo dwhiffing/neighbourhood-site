@@ -437,3 +437,7 @@ select {
   width: 50%;
   opacity: 0;
 }
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
