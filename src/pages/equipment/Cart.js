@@ -146,7 +146,8 @@ export const CartModal = ({
                   source="return_date"
                   type="date"
                   min={
-                    (formState.pickup_date
+                    (formState.pickup_date &&
+                    !Number.isNaN(Date.parse(formState.pickup_date))
                       ? new Date(formState.pickup_date)
                       : new Date()
                     )

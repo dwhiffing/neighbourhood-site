@@ -15,7 +15,10 @@ export const Input = ({
     <label>{label}</label>
     <input
       onChange={(e) => {
-        const value = e.target.value
+        let value = e.target.value
+        if (type === 'date') {
+          value = value.replace(/[^\d/-]/g, '')
+        }
         setFormState((fs) => ({ ...fs, [source]: value }))
       }}
       type={type}
