@@ -300,6 +300,7 @@ form textarea {
   font-family: GT America;
   font-size: 12px;
   padding: 4px;
+  min-height: 28px;
 }
 form ::placeholder {
   font-family: GT America;
