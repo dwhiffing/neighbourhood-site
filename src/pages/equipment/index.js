@@ -5,6 +5,7 @@ import { MobileFilters, Sidebar } from './Sidebar'
 import { CartModal } from './Cart'
 import { motion } from 'framer-motion'
 import { useContainerWidth, useIsMobile, useKeypress } from '../../useIsMobile'
+import { parse } from 'date-fns'
 
 const Equipment = () => {
   const [category, setCategory] = useState('')
@@ -67,6 +68,7 @@ const Equipment = () => {
 
   const onSubmit = () => {
     const s = formState
+
     submitCart({
       name: s.name,
       email: s.email,
@@ -76,11 +78,19 @@ const Equipment = () => {
       shoot_date: s.shoot_date,
       return_date:
         s.return_date && s.return_time
-          ? new Date(`${s.return_date.replace(/\//g, '-')} ${s.return_time}`)
+          ? parse(
+              `${s.return_date.replace(/\//g, '-')} ${s.return_time}`,
+              'yyyy-MM-dd HH:mm',
+              new Date(),
+            )
           : null,
       pickup_date:
         s.pickup_date && s.pickup_time
-          ? new Date(`${s.pickup_date.replace(/\//g, '-')} ${s.pickup_time}`)
+          ? parse(
+              `${s.pickup_date.replace(/\//g, '-')} ${s.pickup_time}`,
+              'yyyy-MM-dd HH:mm',
+              new Date(),
+            )
           : null,
     })
       .then(() => {

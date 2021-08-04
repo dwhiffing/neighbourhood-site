@@ -149,7 +149,7 @@ export const CartModal = ({
                 <Input
                   className="flex-1 mr-2"
                   label="Pickup Date"
-                  placeholder="MM/DD/YYYY"
+                  placeholder="YYYY/MM/DD"
                   source="pickup_date"
                   min={new Date().toISOString().split('T')[0]}
                   type="date"
@@ -170,7 +170,7 @@ export const CartModal = ({
               <div className="flex flex-1">
                 <Input
                   className="flex-1 mr-2"
-                  placeholder="MM/DD/YYYY"
+                  placeholder="YYYY/MM/DD"
                   label="Return Date"
                   source="return_date"
                   type="date"
@@ -191,7 +191,7 @@ export const CartModal = ({
 
               <Input
                 className="flex-1"
-                placeholder="MM/DD/YYYY"
+                placeholder="YYYY/MM/DD"
                 label="Shoot Date"
                 source="shoot_date"
                 type="date"
