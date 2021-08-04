@@ -311,7 +311,7 @@ form ::placeholder {
 }
 
 form textarea {
-  min-height: 100px;
+  min-height: 70px;
   overflow-x: hidden;
 }
 

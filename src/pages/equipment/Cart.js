@@ -37,14 +37,23 @@ export const CartModal = ({
     if (!/^\S+@\S+$/.test(formState.email)) {
       return alert('Your email address is invalid')
     }
+    if (+new Date(formState.shoot_date) < Date.now()) {
+      return alert('Your shoot date is invalid')
+    }
     if (+new Date(formState.pickup_date) < Date.now()) {
       return alert('Your pickup date is invalid')
+    }
+    if (formState.pickup_date && !formState.pickup_time) {
+      return alert('Your pickup time is invalid')
     }
     if (
       +new Date(formState.return_date) < Date.now() ||
       +new Date(formState.return_date) < +new Date(formState.pickup_date)
     ) {
       return alert('Your return date is invalid')
+    }
+    if (formState.return_date && !formState.return_time) {
+      return alert('Your return time is invalid')
     }
     onSubmit()
   }
@@ -55,6 +64,14 @@ export const CartModal = ({
       document.removeEventListener('mousedown', handleClick)
     }
   }, [handleClick])
+
+  const minDate = (
+    formState.pickup_date && !Number.isNaN(Date.parse(formState.pickup_date))
+      ? new Date(formState.pickup_date)
+      : new Date()
+  )
+    .toISOString()
+    .split('T')[0]
 
   return (
     <div className={`fixed z-30 inset-0 pointer-events-none`}>
@@ -113,7 +130,7 @@ export const CartModal = ({
                 <Input
                   placeholder="555-555-5555"
                   className="flex-1"
-                  label="Phone"
+                  label="Phone*"
                   source="phone"
                   formState={formState}
                   setFormState={setFormState}
@@ -141,23 +158,47 @@ export const CartModal = ({
                 />
                 <Input
                   className="flex-1"
-                  placeholder="MM/DD/YYYY"
-                  label="Return Date"
-                  source="return_date"
-                  type="date"
-                  min={
-                    (formState.pickup_date &&
-                    !Number.isNaN(Date.parse(formState.pickup_date))
-                      ? new Date(formState.pickup_date)
-                      : new Date()
-                    )
-                      .toISOString()
-                      .split('T')[0]
-                  }
+                  label="Pickup Time"
+                  placeholder="HH:MM am"
+                  source="pickup_time"
+                  type="time"
                   formState={formState}
                   setFormState={setFormState}
                 />
               </div>
+
+              <div className="flex flex-1">
+                <Input
+                  className="flex-1 mr-2"
+                  placeholder="MM/DD/YYYY"
+                  label="Return Date"
+                  source="return_date"
+                  type="date"
+                  min={minDate}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <Input
+                  className="flex-1"
+                  placeholder="HH:MM am"
+                  label="Return Time"
+                  source="return_time"
+                  type="time"
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+              </div>
+
+              <Input
+                className="flex-1"
+                placeholder="MM/DD/YYYY"
+                label="Shoot Date"
+                source="shoot_date"
+                type="date"
+                min={minDate}
+                formState={formState}
+                setFormState={setFormState}
+              />
 
               <Textarea
                 placeholder="Please share any PO Numbers, job names, etc"

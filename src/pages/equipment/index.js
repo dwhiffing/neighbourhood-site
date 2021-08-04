@@ -66,10 +66,22 @@ const Equipment = () => {
   }
 
   const onSubmit = () => {
+    const s = formState
     submitCart({
+      name: s.name,
+      email: s.email,
+      details: s.details,
       items: cart.map((p) => `[${p.name} | Qty: ${p.quantity}]\n`).join(''),
-      phone: formState.phone.replace(/-/g, ''),
-      ...formState,
+      phone: s.phone.replace(/-/g, ''),
+      shoot_date: s.shoot_date,
+      return_date:
+        s.return_date && s.return_time
+          ? new Date(`${s.return_date}T${s.return_time}`)
+          : null,
+      pickup_date:
+        s.pickup_date && s.pickup_time
+          ? new Date(`${s.pickup_date}T${s.pickup_time}`)
+          : null,
     })
       .then(() => {
         setCart([])
