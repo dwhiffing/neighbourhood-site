@@ -159,7 +159,7 @@ export const CartModal = ({
                 <Input
                   className="flex-1"
                   label="Pickup Time"
-                  placeholder="HH:MM am"
+                  placeholder="HH:MM (24 hours)"
                   source="pickup_time"
                   type="time"
                   formState={formState}
@@ -180,7 +180,7 @@ export const CartModal = ({
                 />
                 <Input
                   className="flex-1"
-                  placeholder="HH:MM am"
+                  placeholder="HH:MM (24 hours)"
                   label="Return Time"
                   source="return_time"
                   type="time"

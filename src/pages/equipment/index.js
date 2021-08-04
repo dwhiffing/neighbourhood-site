@@ -76,11 +76,11 @@ const Equipment = () => {
       shoot_date: s.shoot_date,
       return_date:
         s.return_date && s.return_time
-          ? new Date(`${s.return_date}T${s.return_time}`)
+          ? new Date(`${s.return_date.replace(/\//g, '-')} ${s.return_time}`)
           : null,
       pickup_date:
         s.pickup_date && s.pickup_time
-          ? new Date(`${s.pickup_date}T${s.pickup_time}`)
+          ? new Date(`${s.pickup_date.replace(/\//g, '-')} ${s.pickup_time}`)
           : null,
     })
       .then(() => {
