@@ -75,7 +75,8 @@ const Equipment = () => {
       details: s.details,
       items: cart.map((p) => `[${p.name} | Qty: ${p.quantity}]\n`).join(''),
       phone: s.phone.replace(/-/g, ''),
-      shoot_date: s.shoot_date,
+      shoot_start_date: s.shoot_start_date,
+      shoot_end_date: s.shoot_end_date,
       return_date:
         s.return_date && s.return_time
           ? parse(

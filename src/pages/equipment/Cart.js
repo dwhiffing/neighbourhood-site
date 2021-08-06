@@ -37,8 +37,15 @@ export const CartModal = ({
     if (!/^\S+@\S+$/.test(formState.email)) {
       return alert('Your email address is invalid')
     }
-    if (+new Date(formState.shoot_date) < Date.now()) {
+    if (+new Date(formState.shoot_start_date) < Date.now()) {
       return alert('Your shoot date is invalid')
+    }
+    if (
+      +new Date(formState.shoot_end_date) < Date.now() ||
+      +new Date(formState.shoot_end_date) <
+        +new Date(formState.shoot_start_date)
+    ) {
+      return alert('Your shoot end date is invalid')
     }
     if (+new Date(formState.pickup_date) < Date.now()) {
       return alert('Your pickup date is invalid')
@@ -68,6 +75,15 @@ export const CartModal = ({
   const minDate = (
     formState.pickup_date && !Number.isNaN(Date.parse(formState.pickup_date))
       ? new Date(formState.pickup_date)
+      : new Date()
+  )
+    .toISOString()
+    .split('T')[0]
+
+  const shootMinDate = (
+    formState.shoot_start_date &&
+    !Number.isNaN(Date.parse(formState.shoot_start_date))
+      ? new Date(formState.shoot_start_date)
       : new Date()
   )
     .toISOString()
@@ -189,16 +205,29 @@ export const CartModal = ({
                 />
               </div>
 
-              <Input
-                className="flex-1"
-                placeholder="YYYY/MM/DD"
-                label="Shoot Date"
-                source="shoot_date"
-                type="date"
-                min={minDate}
-                formState={formState}
-                setFormState={setFormState}
-              />
+              <div className="flex flex-1">
+                <Input
+                  className="flex-1 mr-2"
+                  placeholder="YYYY/MM/DD"
+                  label="Shoot Start Date"
+                  source="shoot_start_date"
+                  type="date"
+                  min={minDate}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+
+                <Input
+                  className="flex-1"
+                  placeholder="YYYY/MM/DD"
+                  label="Shoot End Date"
+                  source="shoot_end_date"
+                  type="date"
+                  min={shootMinDate}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+              </div>
 
               <Textarea
                 placeholder="Please share any PO Numbers, job names, etc"
@@ -207,7 +236,6 @@ export const CartModal = ({
                 formState={formState}
                 setFormState={setFormState}
               />
-
               <button
                 disabled={invalid}
                 style={{
