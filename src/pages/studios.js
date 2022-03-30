@@ -49,9 +49,7 @@ const Studios = ({ scrollPos }) => {
         id="about"
         className="about rich-content mt-24"
       >
-        {about?.map((data, i) => {
-          return <RichTextItem key={'about' + i} content={data?.content} />
-        })}
+        <RichTextItem content={about[0].content} />
       </div>
     </BasePage>
   )
