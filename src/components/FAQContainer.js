@@ -9,10 +9,13 @@ const SIZE = 222
 
 export const FAQContainer = ({ data, showBall }) => {
   const [showModal, setShowModal] = useState(false)
-
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <FAQBall setShowModal={setShowModal} showBall={showBall} />
+      <FAQBall
+        heading={data[0].ctaLabel}
+        setShowModal={setShowModal}
+        showBall={showBall}
+      />
       <FAQModal
         showModal={showModal}
         setShowModal={setShowModal}
@@ -166,13 +169,13 @@ function FAQBall(props) {
         className="absolute bg-green flex justify-center items-center cursor-pointer rounded-full z-10 pointer-events-auto p-5"
       >
         {width > 900 ? (
-          <h1 className="text-white text-center">COVID-19 Protocols</h1>
+          <h1 className="text-white text-center">{props.heading}</h1>
         ) : (
           <h2
             className="text-white font-serif text-center"
             style={{ color: 'white' }}
           >
-            COVID-19 Protocols
+            {props.heading}
           </h2>
         )}
       </motion.div>
