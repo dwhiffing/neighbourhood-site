@@ -17,6 +17,7 @@ export const FAQContainer = ({ data, showBall }) => {
         showBall={showBall}
       />
       <FAQModal
+        heading={data ? data[0]?.heading : null}
         showModal={showModal}
         setShowModal={setShowModal}
         content={data ? data[0]?.content : null}
@@ -25,7 +26,7 @@ export const FAQContainer = ({ data, showBall }) => {
   )
 }
 
-const FAQModal = ({ showModal, setShowModal, content }) => {
+const FAQModal = ({ showModal, setShowModal, heading, content }) => {
   const ref = useRef()
   const [scrollPos, setScrollPos] = useState(0)
   const links = content.content
@@ -74,7 +75,7 @@ const FAQModal = ({ showModal, setShowModal, content }) => {
               className="hidden flex-col items-start fixed md:flex"
               style={{ maxWidth: 260 }}
             >
-              <h1 className="mr-4 font-sans">Our COVID-19 Protocols</h1>
+              <h1 className="mr-4 font-sans">{heading}</h1>
               {links.map((link, i, arr) => {
                 let targetOffset = 99999
                 let nextTargetOffset = 99999
