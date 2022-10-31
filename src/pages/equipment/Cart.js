@@ -4,6 +4,8 @@ import { DottedLine } from '../../components/DottedLine'
 import { Input, Textarea } from '../../components/Input'
 import { CloseIcon } from '../../components/FAQContainer'
 
+const ONE_DAY = 1000 * 60 * 60 * 24
+
 export const CartModal = ({
   showModal,
   setShowModal,
@@ -28,6 +30,7 @@ export const CartModal = ({
 
   const onFormSubmit = (e) => {
     e.preventDefault()
+    console.log(+new Date(formState.shoot_start_date), Date.now() - ONE_DAY)
     if (
       !/^\d{3}-\d{3}-\d{4}$/.test(formState.phone) &&
       !/^\d{10}$/.test(formState.phone)
@@ -37,24 +40,24 @@ export const CartModal = ({
     if (!/^\S+@\S+$/.test(formState.email)) {
       return alert('Your email address is invalid')
     }
-    if (+new Date(formState.shoot_start_date) < Date.now()) {
+    if (+new Date(formState.shoot_start_date) < Date.now() - ONE_DAY) {
       return alert('Your shoot date is invalid')
     }
     if (
-      +new Date(formState.shoot_end_date) < Date.now() ||
+      +new Date(formState.shoot_end_date) < Date.now() - ONE_DAY ||
       +new Date(formState.shoot_end_date) <
         +new Date(formState.shoot_start_date)
     ) {
       return alert('Your shoot end date is invalid')
     }
-    if (+new Date(formState.pickup_date) < Date.now()) {
+    if (+new Date(formState.pickup_date) < Date.now() - ONE_DAY) {
       return alert('Your pickup date is invalid')
     }
     if (formState.pickup_date && !formState.pickup_time) {
       return alert('Your pickup time is invalid')
     }
     if (
-      +new Date(formState.return_date) < Date.now() ||
+      +new Date(formState.return_date) < Date.now() - ONE_DAY ||
       +new Date(formState.return_date) < +new Date(formState.pickup_date)
     ) {
       return alert('Your return date is invalid')
