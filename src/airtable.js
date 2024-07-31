@@ -18,20 +18,20 @@ function set(obj, keys, val) {
     t = obj,
     x,
     k
-  for (; i < l; ) {
+  for (; i < l;) {
     k = keys[i++]
     if (k === '__proto__' || k === 'constructor' || k === 'prototype') break
     t = t[k] =
       i === l
         ? val
         : typeof (x = t[k]) === typeof keys
-        ? x
-        : keys[i] * 0 !== 0 || !!~('' + keys[i]).indexOf('^^^')
-        ? {}
-        : []
+          ? x
+          : keys[i] * 0 !== 0 || !!~('' + keys[i]).indexOf('^^^')
+            ? {}
+            : []
   }
 }
-const apiKey = process.env.REACT_APP_AIRTABLE_KEY
+const apiKey = process.env.REACT_APP_AIRTABLE_KEY2
 const baseName = process.env.REACT_APP_AIRTABLE_BASE
 const getEquipmentBase = () => {
   return new Promise((resolve) => {
